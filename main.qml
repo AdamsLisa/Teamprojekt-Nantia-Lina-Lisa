@@ -1,4 +1,4 @@
-//leeres Fenster, das später für Programmierung genutzt werden kann
+//leeres Fenster, vgl. Wochenplan 2, Aufgabe 2
 
 import QtQuick 2.9
 import QtQuick.Window 2.2
