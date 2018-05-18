@@ -15,6 +15,8 @@ TEMPLATE = app
 SOURCES += main.cpp\
         table.cpp
 
+FORMS    += table.ui
+
 HEADERS  += table.h
 
-FORMS    += table.ui
+
