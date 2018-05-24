@@ -6,10 +6,13 @@ table::table(QWidget *parent) :
     ui(new Ui::table)
 {
     ui->setupUi(this);
+        
+    //Model wird erstellt mit Reihen und Spaltenzahl
     model = new QStandardItemModel(20,12,this);
 
     ui->tableView->setModel(model);
 
+    //Spaltennamen
     model->setHorizontalHeaderItem(0, new QStandardItem(QString ("")));
     model->setHorizontalHeaderItem(1, new QStandardItem(QString ("Pl")));
     model->setHorizontalHeaderItem(2, new QStandardItem(QString ("Accession")));
