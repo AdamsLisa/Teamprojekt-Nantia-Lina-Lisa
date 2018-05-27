@@ -24,6 +24,7 @@ table::table(QWidget *parent) :
     model->setHorizontalHeaderItem(8, new QStandardItem(QString ("MS2 Quant")));
     model->setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
     model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
+    model->setHorizontalHeaderItem(11, new QStandardItem(QString ("Checkbox")));
 
      for(int row = 0; row < 20; row++)
         {
