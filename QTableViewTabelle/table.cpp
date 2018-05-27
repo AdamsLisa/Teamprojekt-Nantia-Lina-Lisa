@@ -1,5 +1,6 @@
 #include "table.h"
 #include "ui_table.h"
+#include <QAbstractItemDelegate>
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
@@ -26,8 +27,31 @@ table::table(QWidget *parent) :
     model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
 
 
+/*    if(index.column()==3)
+           {
+       QProgressBar* item;
+       item->setMinimum(0);
+       item->setMaximum(100);
+       item->setRange(0,100);
 
 }
+*/
+}
+void table::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+    {
+        if (index.column() == 2) { //for the third column
+
+            QStyleOptionProgressBar progressBarOption;
+            progressBarOption.rect = option.rect; //orientation
+            progressBarOption.minimum = 0; //set minimum
+            progressBarOption.maximum = 100; //set maximum
+            QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, painter); //draw the bars
+        } else
+            QStyledItemDelegate::paint(painter, option, index);
+     }
+
+
+
 
 table::~table()
 {
