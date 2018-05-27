@@ -25,6 +25,15 @@ table::table(QWidget *parent) :
     model->setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
     model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
 
+     for(int row = 0; row < 20; row++)
+        {
+    QStandardItem* item;
+    item = new QStandardItem(true);
+    item->setCheckable(true);
+    item->setCheckState(Qt::Unchecked);
+
+           model->setItem(row,11, item);
+            }
 
 
 }
