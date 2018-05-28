@@ -1,5 +1,6 @@
 #include "table.h"
 #include "ui_table.h"
+#include "qpainter.h"
 #include <QAbstractItemDelegate>
 
 table::table(QWidget *parent) :
@@ -26,6 +27,23 @@ table::table(QWidget *parent) :
     model->setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
     model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
 
+    QModelIndex index;
+    if (index.column() == 2)
+    {
+        //for the third column
+        QStyleOptionProgressBar progressBarOption;
+        //progressBarOption.rect = option.rect; //orientation
+        progressBarOption.minimum = 0; //set minimum
+        progressBarOption.maximum = 100; //set maximum
+        //Set the color green
+        QPainter painter(this);
+        QPen pen1(Qt::green);
+        painter.setPen(pen1);
+        //draw the bars
+        QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, painter,QWidget::DrawWindowBackground);
+    }
+
+
 
 /*    if(index.column()==3)
            {
@@ -36,22 +54,22 @@ table::table(QWidget *parent) :
 
 }
 */
-}
-void table::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+
+/*void table::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
         if (index.column() == 2) { //for the third column
 
             QStyleOptionProgressBar progressBarOption;
-            progressBarOption.rect = option.rect; //orientation
+         //   progressBarOption.rect = option.rect; //orientation
             progressBarOption.minimum = 0; //set minimum
             progressBarOption.maximum = 100; //set maximum
-            QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, painter); //draw the bars
+            QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, Qt::blue); //draw the bars
         } else
             QStyledItemDelegate::paint(painter, option, index);
      }
 
-
-
+*/
+}
 
 table::~table()
 {
