@@ -17,7 +17,7 @@ table::table(QWidget *parent) :
 
         //Model wird erstellt mit Reihen und Spaltenzahl
         model = new QStandardItemModel(tableRow,tableColumn,this);
-        item = new QStandardItem(QString (""));
+        //item = new QStandardItem(QString (""));
 
 
 
