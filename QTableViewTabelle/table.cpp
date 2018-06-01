@@ -19,8 +19,6 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
         //item = new QStandardItem(QString (""));
 
-
-
         ui->tableView->setModel(model);
 
         //Sets the horizontal header item for each column
