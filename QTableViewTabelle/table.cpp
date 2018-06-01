@@ -1,75 +1,70 @@
-#include "table.h"
+﻿#include "table.h"
 #include "ui_table.h"
 #include "qpainter.h"
-#include <QAbstractItemDelegate>
+#include "myclass.h"
+
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::table)
 {
-    ui->setupUi(this);
-        
-    //Model wird erstellt mit Reihen und Spaltenzahl
-    model = new QStandardItemModel(20,12,this);
+        ui->setupUi(this);
 
-    ui->tableView->setModel(model);
+        //number of rows+columns of table
+        int tableRow=20;
+        int tableColumn=12;
 
-    //Spaltennamen
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString ("")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString ("Pl")));
-    model->setHorizontalHeaderItem(2, new QStandardItem(QString ("Accession")));
-    model->setHorizontalHeaderItem(3, new QStandardItem(QString ("Description")));
-    model->setHorizontalHeaderItem(4, new QStandardItem(QString ("Chr.")));
-    model->setHorizontalHeaderItem(5, new QStandardItem(QString ("Coverage")));
-    model->setHorizontalHeaderItem(6, new QStandardItem(QString ("#Peptides")));
-    model->setHorizontalHeaderItem(7, new QStandardItem(QString ("#Spectra")));
-    model->setHorizontalHeaderItem(8, new QStandardItem(QString ("MS2 Quant")));
-    model->setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
-    model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
 
-    QModelIndex index;
-    if (index.column() == 2)
-    {
-        //for the third column
-        QStyleOptionProgressBar progressBarOption;
-        //progressBarOption.rect = option.rect; //orientation
-        progressBarOption.minimum = 0; //set minimum
-        progressBarOption.maximum = 100; //set maximum
-        //Set the color green
-        QPainter painter(this);
-        QPen pen1(Qt::green);
-        painter.setPen(pen1);
-        //draw the bars
-        QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, painter,QWidget::DrawWindowBackground);
-    }
+        //Model wird erstellt mit Reihen und Spaltenzahl
+        model = new QStandardItemModel(tableRow,tableColumn,this);
+        item = new QStandardItem(QString (""));
 
 
 
-/*    if(index.column()==3)
-           {
-       QProgressBar* item;
-       item->setMinimum(0);
-       item->setMaximum(100);
-       item->setRange(0,100);
+        ui->tableView->setModel(model);
 
-}
-*/
+        //Sets the horizontal header item for each column
+        model.setHorizontalHeaderItem(0, new QStandardItem(QString ("")));
+        model.setHorizontalHeaderItem(1, new QStandardItem(QString ("Pl")));
+        model.setHorizontalHeaderItem(2, new QStandardItem(QString ("Accession")));
+        model.setHorizontalHeaderItem(3, new QStandardItem(QString ("Description")));
+        model.setHorizontalHeaderItem(4, new QStandardItem(QString ("Chr.")));
+        model.setHorizontalHeaderItem(5, new QStandardItem(QString ("Coverage")));
+        model.setHorizontalHeaderItem(6, new QStandardItem(QString ("#Peptides")));
+        model.setHorizontalHeaderItem(7, new QStandardItem(QString ("#Spectra")));
+        model.setHorizontalHeaderItem(8, new QStandardItem(QString ("MS2 Quant")));
+        model.setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
+        model.setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
+        model.setHorizontalHeaderItem(11, new QStandardItem(QString ("Checkbox")));
 
-/*void table::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
-    {
-        if (index.column() == 2) { //for the third column
+         //column in which to display checkboxes
+         int checkboxColumn=11;
 
-            QStyleOptionProgressBar progressBarOption;
-         //   progressBarOption.rect = option.rect; //orientation
-            progressBarOption.minimum = 0; //set minimum
-            progressBarOption.maximum = 100; //set maximum
-            QApplication::style()->drawControl(QStyle::CE_ProgressBar,&progressBarOption, Qt::blue); //draw the bars
-        } else
-            QStyledItemDelegate::paint(painter, option, index);
-     }
+         for(int row = 0; row < tableRow; row++)
+            {
+                //instance of item
+                QStandardItem* item;
+                item = new QStandardItem(true);
+                //set the box checkable
+                item->setCheckable(true);
+                //Sets the checkbox's check state to unchecked
+                item->setCheckState(Qt::Unchecked);
+                //put checkbox into each row of checkboxcolumn
+                model->setItem(row,checkboxColumn, item);
+             }
 
-*/
-}
+         //for SpinBox(feature/Bars)
+         int maxRow=4;
+         int minC0l=2;
+         for (int row = 0; row < maxRow; ++row) {
+                 for (int column = 0; column < maxCol; ++column) {
+                     QModelIndex index = model.index(row, column, QModelIndex());
+                     model.setData(index, QVariant((row + 1) * (column + 1)));
+                 }
+             }
+
+
+ }
 
 table::~table()
 {
