@@ -8,8 +8,8 @@ table::table(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::table)
 {
-        ui->setupUi(this);
 
+        ui->setupUi(this);
         //number of rows+columns of table
         int tableRow=20;
         int tableColumn=12;
