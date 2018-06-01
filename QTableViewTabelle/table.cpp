@@ -7,8 +7,12 @@ table::table(QWidget *parent) :
 {
     ui->setupUi(this);
         
+    //number of rows+columns of table    
+    int tablerow=20;
+    int tablecolumn=12;
+        
     //Model wird erstellt mit Reihen und Spaltenzahl
-    model = new QStandardItemModel(20,12,this);
+    model = new QStandardItemModel(tablerow,tablecolumn,this);
 
     ui->tableView->setModel(model);
 
@@ -26,14 +30,18 @@ table::table(QWidget *parent) :
     model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
     model->setHorizontalHeaderItem(11, new QStandardItem(QString ("Checkbox")));
 
-     for(int row = 0; row < 20; row++)
+     //column in which to display checkboxes
+     int checkboxcolumn=11;
+        
+     for(int row = 0; row < tablerow; row++)
         {
     QStandardItem* item;
     item = new QStandardItem(true);
     item->setCheckable(true);
     item->setCheckState(Qt::Unchecked);
 
-           model->setItem(row,11, item);
+         //put checkbox into each row of checkboxcolumn
+           model->setItem(row,checkboxcolumn, item);
             }
 
 
