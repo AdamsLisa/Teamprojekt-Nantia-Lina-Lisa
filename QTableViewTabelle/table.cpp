@@ -35,10 +35,10 @@ table::table(QWidget *parent) :
         model.setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
         model.setHorizontalHeaderItem(11, new QStandardItem(QString ("Checkbox")));
 
-         //column in which to display checkboxes
-         int checkboxColumn=11;
+        //column in which to display checkboxes
+        int checkboxColumn=11;
 
-         for(int row = 0; row < tableRow; row++)
+        for(int row = 0; row < tableRow; row++)
             {
                 //instance of item
                 QStandardItem* item;
@@ -52,10 +52,10 @@ table::table(QWidget *parent) :
              }
 
          //for SpinBox(feature/Bars)
-         int minC0l=2;
-         int maxRow=4;
-         for (int row = 0; row < maxRow; ++row) {
-                 for (int column = 0; column < maxCol; ++column) {
+        int minC0l=2;
+        int maxRow=4;
+        for (int row = 0; row < maxRow; ++row) {
+                for (int column = 0; column < maxCol; ++column) {
                      QModelIndex index = model.index(row, column, QModelIndex());
                      model.setData(index, QVariant((row + 1) * (column + 1)));
                  }
