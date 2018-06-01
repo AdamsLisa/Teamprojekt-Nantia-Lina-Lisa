@@ -1,8 +1,6 @@
 ﻿#include "table.h"
 #include "ui_table.h"
-#include "qpainter.h"
 #include "myclass.h"
-
 
 table::table(QWidget *parent) :
     QMainWindow(parent),

@@ -1,9 +1,13 @@
 #include "progressdelegate.h"
-#include <QtWidgets>
+
 #include "progresseditor.h"
 #include "progressrating.h"
 
-void ProgressDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+#include <QtWidgets>
+#include <cmath>
+
+
+void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
     if (index.data().canConvert<ProgressRating>()) {
@@ -19,7 +23,7 @@ void ProgressDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     }
 }
 
-QSize ProgressDelegate::sizeHint(const QStyleOptionViewItem &option,
+QSize BarDelegate::sizeHint(const QStyleOptionViewItem &option,
                              const QModelIndex &index) const
 {
     if (index.data().canConvert<ProgressRating>()) {
@@ -30,23 +34,23 @@ QSize ProgressDelegate::sizeHint(const QStyleOptionViewItem &option,
     }
 }
 
-QWidget *ProgressDelegate::createEditor(QWidget *parent,
-                                    const QStyleOptionViewItem &option,
-                                    const QModelIndex &index) const
 
-{
-    if (index.data().canConvert<ProgressRating>()) {
-        ProgressEditor *editor = new ProgressEditor(parent);
-        connect(editor, &ProgressEditor::editingFinished,
-                this, &ProgressDelegate::commitAndCloseEditor);
-        return editor;
-    } else {
-        return QStyledItemDelegate::createEditor(parent, option, index);
+QWidget *BarDelegate::createEditor(QWidget *parent,
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const
+
+    {
+        if (index.data().canConvert<ProgressRating>()) {
+            ProgressEditor *editor = new ProgressEditor(parent);
+            return editor;
+        } else {
+            return QStyledItemDelegate::createEditor(parent, option, index);
+        }
     }
-}
 
-void ProgressDelegate::setEditorData(QWidget *editor,
-                                 const QModelIndex &index) const
+
+void BarDelegate::setEditorData(QWidget *editor,
+                                    const QModelIndex &index) const
 {
     if (index.data().canConvert<ProgressRating>()) {
         ProgressRating progressRating = qvariant_cast<ProgressRating>(index.data());
@@ -57,8 +61,8 @@ void ProgressDelegate::setEditorData(QWidget *editor,
     }
 }
 
-void ProgressDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                const QModelIndex &index) const
+void BarDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                   const QModelIndex &index) const
 {
     if (index.data().canConvert<ProgressRating>()) {
         ProgressEditor *progressEditor = qobject_cast<ProgressEditor *>(editor);
@@ -66,11 +70,4 @@ void ProgressDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     } else {
         QStyledItemDelegate::setModelData(editor, model, index);
     }
-}
-
-void ProgressDelegate::commitAndCloseEditor()
-{
-    ProgressEditor *editor = qobject_cast<ProgressEditor *>(sender());
-    emit commitData(editor);
-    emit closeEditor(editor);
 }

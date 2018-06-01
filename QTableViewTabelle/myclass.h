@@ -6,6 +6,7 @@ class myClass
 {
 public:
     myClass();
+
 };
 
 #endif // MYCLASS_H
