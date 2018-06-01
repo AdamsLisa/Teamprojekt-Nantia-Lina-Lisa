@@ -52,8 +52,8 @@ table::table(QWidget *parent) :
              }
 
          //for SpinBox(feature/Bars)
-         int maxRow=4;
          int minC0l=2;
+         int maxRow=4;
          for (int row = 0; row < maxRow; ++row) {
                  for (int column = 0; column < maxCol; ++column) {
                      QModelIndex index = model.index(row, column, QModelIndex());
