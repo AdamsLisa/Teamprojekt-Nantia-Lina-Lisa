@@ -8,32 +8,29 @@ table::table(QWidget *parent) :
 {
         ui->setupUi(this);
         //number of rows+columns of table
-        int tableRow=20;
-        int tableColumn=12;
+        const int tableRow=20;
+        const int tableColumn=12;
+        //column in which to display checkboxes
+        const int checkboxColumn=11;
+        //column and row for green bars
+        const int maxCol=2;
+        const int maxRow=20;
+
+        //create a list with all the needed strings
+        QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
+                           "MS Quant", "MW","Confidence","Checkbox"};
 
 
         //Model wird erstellt mit Reihen und Spaltenzahl
         model = new QStandardItemModel(tableRow,tableColumn,this);
-        //item = new QStandardItem(QString (""));
 
         ui->tableView->setModel(model);
 
         //Sets the horizontal header item for each column
-        model->setHorizontalHeaderItem(0, new QStandardItem(QString ("")));
-        model->setHorizontalHeaderItem(1, new QStandardItem(QString ("Pl")));
-        model->setHorizontalHeaderItem(2, new QStandardItem(QString ("Accession")));
-        model->setHorizontalHeaderItem(3, new QStandardItem(QString ("Description")));
-        model->setHorizontalHeaderItem(4, new QStandardItem(QString ("Chr.")));
-        model->setHorizontalHeaderItem(5, new QStandardItem(QString ("Coverage")));
-        model->setHorizontalHeaderItem(6, new QStandardItem(QString ("#Peptides")));
-        model->setHorizontalHeaderItem(7, new QStandardItem(QString ("#Spectra")));
-        model->setHorizontalHeaderItem(8, new QStandardItem(QString ("MS2 Quant")));
-        model->setHorizontalHeaderItem(9, new QStandardItem(QString ("MW")));
-        model->setHorizontalHeaderItem(10, new QStandardItem(QString ("Confidence")));
-        model->setHorizontalHeaderItem(11, new QStandardItem(QString ("Checkbox")));
+        for (int i=0; i<=11; i++){
+            model->setHorizontalHeaderItem(i, new QStandardItem(QString (list.at(i))));
+        }
 
-        //column in which to display checkboxes
-        int checkboxColumn=11;
 
         for(int row = 0; row < tableRow; row++)
             {
@@ -48,18 +45,17 @@ table::table(QWidget *parent) :
                 model->setItem(row,checkboxColumn, item);
              }
 
-         //for SpinBox(feature/Bars)
-        int maxCol=2;
-        int maxRow=4;
-        for (int row = 0; row < maxRow; ++row) {
-                for (int column = 0; column < maxCol; ++column) {
-                     QModelIndex index = model->index(row, column, QModelIndex());
-                     model->setData(index, QVariant((row + 1) * (column + 1)));
-                 }
+        //for SpinBox(feature/Bars)
+        for (int row = 0; row < maxRow; ++row)
+            {
+                    for (int column = 1; column < maxCol; ++column)
+                    {
+                         QModelIndex index = model->index(row, column, QModelIndex());
+                         model->setData(index, QVariant((row + 1) * (column + 1)));
+                     }
              }
 
-
- }
+}
 
 table::~table()
 {
