@@ -4,12 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = QTableViewTabelle
 TEMPLATE = app
+CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -25,10 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        table.cpp
+        table.cpp \
+    Bardelegate.cpp
 
 HEADERS += \
-        table.h
+        table.h \
+    Bardelegate.h
 
 FORMS += \
         table.ui

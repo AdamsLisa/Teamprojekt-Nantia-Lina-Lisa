@@ -1,6 +1,7 @@
 #include "Bardelegate.h"
 #include <QtWidgets>
 #include <QSpinBox>
+#include <iostream>
 
 BarDelegate::BarDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -44,34 +45,14 @@ QWidget *BarDelegate::createEditor(QWidget *parent,
 }
 */
 const int PaintingScaleFactor = 20;
-void BarDelegate::paint(QPainter *painter, const QRect &rect,
-                       const QPalette &palette, EditMode mode) const
+void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
-
     painter->save();
-
     painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->setPen(Qt::NoPen);
+    painter->setBrush(QBrush(Qt::green));
 
-    if (mode == Editable) {
-        painter->setBrush(palette.highlight());
-    } else {
-        painter->setBrush(palette.foreground());
-    }
-
-    int yOffset = (rect.height() - PaintingScaleFactor) / 2;
-    painter->translate(rect.x(), rect.y() + yOffset);
-    painter->scale(PaintingScaleFactor, PaintingScaleFactor);
-
-    for (int i = 0; i < myMaxStarCount; ++i) {
-        if (i < myStarCount) {
-            painter->drawPolygon(starPolygon, Qt::WindingFill);
-        } else if (mode == Editable) {
-            painter->drawPolygon(diamondPolygon, Qt::WindingFill);
-        }
-        painter->translate(1.0, 0.0);
-    }
-
+    QRect rect = option.rect;
+    painter->drawRect(rect);
     painter->restore();
 }
 /*

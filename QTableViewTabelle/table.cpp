@@ -1,6 +1,6 @@
 #include "table.h"
 #include "ui_table.h"
-
+#include "Bardelegate.h"
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +25,10 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
         ui->tableView->setModel(model);
+
+        BarDelegate* bardelegate = new BarDelegate();
+        ui->tableView->setItemDelegate(bardelegate);
+
 
         //Sets the horizontal header item for each column
         for (int i=0; i<tableColumn; i++){
