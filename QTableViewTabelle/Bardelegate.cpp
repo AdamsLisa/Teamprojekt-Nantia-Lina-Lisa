@@ -1,15 +1,24 @@
+<<<<<<< HEAD
 #include "bardelegate.h"
 #include <QtWidgets>
 #include <QSpinBox>
+=======
+#include "Bardelegate.h"
+#include <QtWidgets>
+#include <QSpinBox>
+#include <iostream>
+>>>>>>> master
 
 BarDelegate::BarDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
 }
 
+/*
 QWidget *BarDelegate::createEditor(QWidget *parent,
-    const QStyleOptionViewItem &/* option */,
-    const QModelIndex &/* index */) const
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const
+>>>>>>> master
 {
     QSpinBox *editor = new QSpinBox(parent);
     editor->setFrame(false);
@@ -18,10 +27,18 @@ QWidget *BarDelegate::createEditor(QWidget *parent,
 
     return editor;
 }
+<<<<<<< HEAD
 
 void BarDelegate::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+=======
+*/
+
+/*void BarDelegate::paintEvent(QPaintEvent *event) const
+{
+    QPainter painter;
+>>>>>>> master
     QRect r1 = rect().adjusted(10,10,-10,-10);
     painter.setPen(QColor("#33B5E5"));
     painter.drawRect(r1);
@@ -34,6 +51,19 @@ void BarDelegate::paintEvent(QPaintEvent *event)
     }
     painter.fillRect(r2, QColor("#FFBB33"));
 }
+*/
+const int PaintingScaleFactor = 20;
+void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setBrush(QBrush(Qt::green));
+
+    QRect rect = option.rect;
+    painter->drawRect(rect);
+    painter->restore();
+}
+/*
 void BarDelegate::setEditorData(QWidget *editor,
                                     const QModelIndex &index) const
 {
@@ -52,6 +82,7 @@ void BarDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
 
     model->setData(index, value, Qt::EditRole);
 }
+*/
 
 void BarDelegate::updateEditorGeometry(QWidget *editor,
     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
