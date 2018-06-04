@@ -20,8 +20,6 @@ table::table(QWidget *parent) :
         QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
                            "MS Quant", "MW","Confidence","Checkbox"};
 
-        ui->tableView->setModel(model);
-
         //Model wird erstellt mit Reihen und Spaltenzahl
         model = new QStandardItemModel(tableRow,tableColumn,this);
 

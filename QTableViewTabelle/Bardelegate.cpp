@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-#include "bardelegate.h"
-#include <QtWidgets>
-#include <QSpinBox>
-=======
 #include "Bardelegate.h"
 #include <QtWidgets>
 #include <QSpinBox>
 #include <iostream>
->>>>>>> master
 
 BarDelegate::BarDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
