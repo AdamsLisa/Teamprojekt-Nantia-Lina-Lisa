@@ -5,11 +5,18 @@
 BarDelegate::BarDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-}
+    starPolygon << QPointF(1.0, 0.5);
+    for (int i = 1; i < 5; ++i)
+    {
+      starPolygon << QPointF(0.5 + 0.5 * std::cos(0.8 * i * 3.14), 0.5 + 0.5 * std::sin(0.8 * i * 3.14));
 
+      diamondPolygon << QPointF(0.4, 0.5) << QPointF(0.5, 0.4) << QPointF(0.6, 0.5) << QPointF(0.5, 0.6) << QPointF(0.4, 0.5);
+    }
+}
+/*
 QWidget *BarDelegate::createEditor(QWidget *parent,
-    const QStyleOptionViewItem &/* option */,
-    const QModelIndex &/* index */) const
+    const QStyleOptionViewItem &option,
+    const QModelIndex &index) const
 {
     QSpinBox *editor = new QSpinBox(parent);
     editor->setFrame(false);
@@ -18,7 +25,7 @@ QWidget *BarDelegate::createEditor(QWidget *parent,
 
     return editor;
 }
-
+*/
 
 /*void BarDelegate::paintEvent(QPaintEvent *event) const
 {
@@ -40,6 +47,7 @@ const int PaintingScaleFactor = 20;
 void BarDelegate::paint(QPainter *painter, const QRect &rect,
                        const QPalette &palette, EditMode mode) const
 {
+
     painter->save();
 
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -66,7 +74,7 @@ void BarDelegate::paint(QPainter *painter, const QRect &rect,
 
     painter->restore();
 }
-
+/*
 void BarDelegate::setEditorData(QWidget *editor,
                                     const QModelIndex &index) const
 {
@@ -84,8 +92,9 @@ void BarDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     int value = spinBox->value();
 
     model->setData(index, value, Qt::EditRole);
-}
 
+}
+*/
 void BarDelegate::updateEditorGeometry(QWidget *editor,
     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
 {
