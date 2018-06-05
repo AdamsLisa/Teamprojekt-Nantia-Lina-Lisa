@@ -1,6 +1,6 @@
 #include "table.h"
 #include "ui_table.h"
-#include "Bardelegate.h"
+#include "BarDelegate.h"
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
