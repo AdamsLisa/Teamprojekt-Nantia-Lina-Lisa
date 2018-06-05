@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QTableView>
 #include <QStandardItemModel>
-//#include> <QItemDelegate>
+#include <QWidget>
+
 
 namespace Ui {
 class table;
@@ -21,6 +22,9 @@ public:
 private:
     Ui::table *ui;
     QStandardItemModel *model;
+    QStandardItem *item;
+
+
 };
 
 #endif // TABLE_H
