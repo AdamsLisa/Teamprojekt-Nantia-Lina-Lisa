@@ -30,11 +30,11 @@ DEFINES += "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1"
 SOURCES += \
         main.cpp \
         table.cpp \
-        Bardelegate.cpp
+    BarDelegate.cpp
 
 HEADERS += \
         table.h \
-        Bardelegate.h
+    BarDelegate.h
 
 FORMS += \
         table.ui
