@@ -47,16 +47,74 @@ table::table(QWidget *parent) :
                 model->setItem(row,checkboxColumn, item);
              }
 
- /*       //for SpinBox(feature/Bars)
-        for (int row = 0; row < maxRow; ++row)
+ //Testdaten für Spalte #Peptides
+        int anzpeptidescolumn = 6;
+
+        for(int row = 0; row <= tableRow; row++)
             {
-                    for (int column = 1; column < maxCol; ++column)
-                    {
-                         QModelIndex index = model->index(row, column, QModelIndex());
-                         model->setData(index, QVariant((row + 1) * (column + 1)));
-                     }
+
+                    QModelIndex index
+                            = model->index(row,anzpeptidescolumn,QModelIndex());
+                    //Zahlen zwischen 20 und 40
+                    int r = rand() % 20 +20;
+                    model->setData(index,r);
+
             }
- */
+        //Testdaten für Spalte Coverage
+        int coveragercolumn = 5;
+
+        for(int row = 0; row <= tableRow; row++)
+            {
+
+                    QModelIndex index
+                            = model->index(row,coveragercolumn,QModelIndex());
+                    //Zahlen zwischen 1000 und 6000
+                    int r = rand() % 60 *10;
+                    model->setData(index,r);
+
+            }
+
+        //Testdaten für #Spectra
+        int anzspectracolumn = 7;
+
+        for(int row = 0; row <= tableRow; row++)
+            {
+
+                    QModelIndex index
+                            = model->index(row,anzspectracolumn,QModelIndex());
+                    //Zahlen zwischen 40 und 200
+                    int r = rand() % 160 +40;
+                    model->setData(index,r);
+
+            }
+
+        //Testdaten für MS2Quant
+        int ms2quantcolumn = 8;
+
+        for(int row = 0; row <= tableRow; row++)
+            {
+
+                    QModelIndex index
+                            = model->index(row,ms2quantcolumn,QModelIndex());
+                    //Zahlen zwischen 0 und 0.02
+                    float r = rand() % 3 * 0.01;
+                    model->setData(index,r);
+
+            }
+
+        //Testdaten für MW
+        int mwquantcolumn = 9;
+
+        for(int row = 0; row <= tableRow; row++)
+            {
+
+                    QModelIndex index
+                            = model->index(row,mwquantcolumn,QModelIndex());
+                    //Zahlen zwischen 40 und 600
+                    int r = rand() % 560 +40;
+                    model->setData(index,r);
+
+            }
 
 }
 
