@@ -8,20 +8,7 @@ BarDelegate::BarDelegate(QObject *parent)
 {
 }
 
-/*
-QWidget *BarDelegate::createEditor(QWidget *parent,
-    const QStyleOptionViewItem &option,
-    const QModelIndex &index) const
->>>>>>> master
-{
-    QSpinBox *editor = new QSpinBox(parent);
-    editor->setFrame(false);
-    editor->setMinimum(0);
-    editor->setMaximum(100);
 
-    return editor;
-}
-*/
 
 //paint function from QItemDelegate
 void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
@@ -34,10 +21,60 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     painter->setBrush(QBrush(Qt::green));
 
     //sets in which columns the green bars should be drawn
-    if (index.column() == 1 || index.column() == 5 || index.column() == 6 || index.column() == 7
-                            || index.column() == 8 || index.column() == 9 || index.column() == 10)
+    //column #Peptides
+    if (index.column() == 6)
     {
+    float v=index.data().toFloat();
     QRect rect = option.rect;
+    rect.setWidth(rect.width()*(0.01*v));
+    painter->drawRect(rect);
+    }
+
+    //sets in which columns the green bars should be drawn
+    //Column Coverage
+    if (index.column() == 5)
+    {
+    float v=index.data().toFloat();
+    QRect rect = option.rect;
+    rect.setWidth(rect.width()*(0.001*v));
+    painter->drawRect(rect);
+    }
+
+    //sets in which columns the green bars should be drawn
+    //Column #Spectra
+    if (index.column() == 7)
+    {
+    float v=index.data().toFloat();
+    QRect rect = option.rect;
+    rect.setWidth(rect.width()*(0.005*v));
+    painter->drawRect(rect);
+    }
+
+    //sets in which columns the green bars should be drawn
+    //Column MS2Quant
+    if (index.column() == 8)
+    {
+    float v=index.data().toFloat();
+    QRect rect = option.rect;
+    rect.setWidth(rect.width()*(v*10));
+    painter->drawRect(rect);
+    }
+
+    //sets in which columns the green bars should be drawn
+    //Column MWQuant
+    if (index.column() == 9)
+    {
+    float v=index.data().toFloat();
+    QRect rect = option.rect;
+    rect.setWidth(rect.width()*(v*0.001));
+    painter->drawRect(rect);
+    }
+
+    if (index.column() == 1 || index.column() == 10)
+    {
+
+    QRect rect = option.rect;
+
     painter->drawRect(rect);
     }
 
@@ -50,26 +87,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     painter->restore();
 }
 
-/*
-void BarDelegate::setEditorData(QWidget *editor,
-                                    const QModelIndex &index) const
-{
-    int value = index.model()->data(index, Qt::EditRole).toInt();
 
-    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    spinBox->setValue(value);
-}
-
-void BarDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                   const QModelIndex &index) const
-{
-    QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-    spinBox->interpretText();
-    int value = spinBox->value();
-
-    model->setData(index, value, Qt::EditRole);
-}
-*/
 
 void BarDelegate::updateEditorGeometry(QWidget *editor,
     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
