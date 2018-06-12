@@ -8,7 +8,6 @@ BarDelegatePept::BarDelegatePept(QObject *parent)
 {
 }
 
-
 //paint function from QItemDelegate
 void BarDelegatePept::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
