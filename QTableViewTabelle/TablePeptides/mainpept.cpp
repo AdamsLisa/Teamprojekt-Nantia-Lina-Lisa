@@ -1,4 +1,3 @@
-
 #include "tablepeptides.h"
 
 #include <QApplication>

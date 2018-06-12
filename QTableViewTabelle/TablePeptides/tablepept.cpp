@@ -1,10 +1,10 @@
-#include "table.h"
-#include "ui_table.h"
-#include "BarDelegate.h"
+#include "tablepept.h"
+#include "ui_tablepept.h"
+#include "bardelegatepept.h"
 
-table::table(QWidget *parent) :
+tablepept::tablepept(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::table)
+    ui(new Ui::tablepept)
 {
         ui->setupUi(this);
         //number of rows+columns of table
@@ -12,10 +12,7 @@ table::table(QWidget *parent) :
         const int tableColumn=12;
         //column in which to display checkboxes
         const int checkboxColumn=11;
-   /*   //column and row for green bars
-        const int maxCol=2;
-        const int maxRow=20;
-   */
+
         //create a list with all the needed strings
         QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
                            "MS Quant", "MW","Confidence","Checkbox"};
@@ -25,7 +22,7 @@ table::table(QWidget *parent) :
 
         ui->tableView->setModel(model);
 
-        BarDelegate* bardelegate = new BarDelegate();
+        BarDelegatePept* bardelegate = new BarDelegatePept();
         ui->tableView->setItemDelegate(bardelegate);
 
 
@@ -47,20 +44,11 @@ table::table(QWidget *parent) :
                 model->setItem(row,checkboxColumn, item);
              }
 
- /*       //for SpinBox(feature/Bars)
-        for (int row = 0; row < maxRow; ++row)
-            {
-                    for (int column = 1; column < maxCol; ++column)
-                    {
-                         QModelIndex index = model->index(row, column, QModelIndex());
-                         model->setData(index, QVariant((row + 1) * (column + 1)));
-                     }
-            }
- */
 
 }
 
-table::~table()
+
+tablepept::~tablepept()
 {
     delete ui;
 }

@@ -30,12 +30,28 @@ DEFINES += "_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1"
 SOURCES += \
         main.cpp \
         table.cpp \
-    bardelegate.cpp
+    bardelegate.cpp \
+    TablePeptides/bardelegatepept.cpp \
+    TablePeptides/tablepept.cpp \
+    TablePeptides/tablepeptides.cpp \
+    TablePeptides/mainpept.cpp
 
 HEADERS += \
         table.h \
-    bardelegate.h
+    bardelegate.h \
+    TablePeptides/tablepept.h \
+    TablePeptides/tablepeptides.h \
+    TablePeptides/bardelegatepept.h
 
 FORMS += \
-        table.ui
+        table.ui \
+    TablePeptides/tablepeptides.ui \
+    TablePeptides/tablepept.ui
+
+SUBDIRS += \
+    TablePeptides/QTableViewTabelle.pro
+
+DISTFILES += \
+    TablePeptides/QTableViewTabelle.pro.user.40a289f \
+    TablePeptides/QTableViewTabelle.pro.user
 

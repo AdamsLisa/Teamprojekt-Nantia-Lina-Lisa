@@ -1,16 +1,16 @@
-#include "BarDelegate.h"
+#include "bardelegatepept.h"
 #include <QtWidgets>
 #include <QSpinBox>
 #include <iostream>
 
-BarDelegate::BarDelegate(QObject *parent)
+BarDelegatePept::BarDelegatePept(QObject *parent)
     : QStyledItemDelegate(parent)
 {
 }
 
 
 //paint function from QItemDelegate
-void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+void BarDelegatePept::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
     //saves the current painter state
     painter->save();
@@ -42,8 +42,6 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 
     }
 
-
-
     if (index.column() == 1 || index.column() == 5)
     {
     QRect rect = option.rect;
@@ -62,7 +60,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 }
 
 
-void BarDelegate::updateEditorGeometry(QWidget *editor,
+void BarDelegatePept::updateEditorGeometry(QWidget *editor,
     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
 {
     editor->setGeometry(option.rect);

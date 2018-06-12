@@ -1,6 +1,6 @@
 #include "tablepeptides.h"
 #include "ui_tablepeptides.h"
-#include "BarDelegate.h"
+#include "bardelegatepept.h"
 
 tablepeptides::tablepeptides(QWidget *parent) :
     QMainWindow(parent),
@@ -21,7 +21,7 @@ tablepeptides::tablepeptides(QWidget *parent) :
 
         ui->tableView->setModel(model);
 
-        BarDelegate* bardelegate = new BarDelegate();
+        BarDelegatePept* bardelegate = new BarDelegatePept();
         ui->tableView->setItemDelegate(bardelegate);
 
 
@@ -43,7 +43,7 @@ tablepeptides::tablepeptides(QWidget *parent) :
                 model->setItem(row,checkboxColumn, item);
              }
 
-int columnstart = 3;
+        int columnstart = 3;
         //Testdaten
         for(int row = 0; row <= tableRow; row++)
             {
@@ -69,6 +69,7 @@ int columnstart = 3;
 
 
 }
+
 tablepeptides::~tablepeptides()
 {
     delete ui;
