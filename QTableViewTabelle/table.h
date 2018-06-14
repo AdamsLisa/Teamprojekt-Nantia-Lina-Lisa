@@ -22,7 +22,9 @@ public:
 private:
     Ui::table *ui;
     QStandardItemModel *model;
+    QStandardItemModel *modelpep;
     QStandardItem *item;
+    QStandardItem *itempep;
 
 
 };
