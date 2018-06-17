@@ -43,7 +43,6 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
     }
 
 
-
     if (index.column() == 1 || index.column() == 5)
     {
     QRect rect = option.rect;

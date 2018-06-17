@@ -21,7 +21,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     painter->setBrush(QBrush(Qt::green));
 
     //creates an array with numbers from 1 to 10
-    int numbers[] = { 0,1,2,3,4,5,6,7,8,9,10};
+    int numbers[] = {0,1,2,3,4,5,6,7,8,9,10};
 
     float v=index.data().toFloat();
     QRect rect = option.rect;
