@@ -37,6 +37,8 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     if (index.column() == numbers[5] )
     {
         rect.setWidth(rect.width()*(0.001*v));
+        //sets the color
+        painter->setBrush(QBrush(Qt::yellow));
         painter->drawRect(rect);
     }
 
