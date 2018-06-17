@@ -3,6 +3,7 @@
 #include "BarDelegate.h"
 #include "bardelegatepep.h"
 #include <array>
+#include <QGridLayout>
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
