@@ -65,7 +65,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     }
 
     //MWQuant
-    if (index.column() == numbers[10])
+    if (index.column() == numbers[9])
     {
         rect.setWidth(rect.width()*(v*0.001));
         painter->drawRect(rect);
