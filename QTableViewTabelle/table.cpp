@@ -118,7 +118,7 @@ table::table(QWidget *parent) :
     //Sets the horizontal header item for each column
     for (int i=0; i<=tableColumnPep; i++)
     {
-        model->setHorizontalHeaderItem(i, new QStandardItem(QString (listpep.at(i))));
+        modelpep->setHorizontalHeaderItem(i, new QStandardItem(QString (listpep.at(i))));
     }
 
     for(int row = 0; row < tableRowPep; row++)
