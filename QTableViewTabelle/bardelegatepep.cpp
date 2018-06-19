@@ -20,22 +20,30 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
     //sets the color
     painter->setBrush(QBrush(Qt::green));
 
+    float v=index.data().toFloat();
+    QRect rect = option.rect;
+
+
     //sets in which columns the green bars should be drawn
     if (index.column() == 3)
     {
-    float v=(index.data().toFloat())/40;
-    QRect rect = option.rect;
-    rect.setLeft(rect.left() + v);
-    float rectanglesize = 10;
-    rect.setWidth(rectanglesize);
-    painter->drawRect(rect);
+        float v=(index.data().toFloat())/40;
+        QRect rect = option.rect;
+        rect.setLeft(rect.left() + v);
+        float rectanglesize = 10;
+        rect.setWidth(rectanglesize);
+     /*   if(rect.width()>2000)
+      * {
+            painter->setBrush(QBrush(Qt::yellow));
 
+        }
+        */
+        painter->drawRect(rect);
     }
 
     if (index.column() == 4 )
     {
-    float v=index.data().toFloat();
-    QRect rect = option.rect;
+
     if (v == 1.0) rect.setWidth(rect.width()*0.5);
 
     painter->drawRect(rect);
@@ -45,7 +53,6 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
 
     if (index.column() == 1 || index.column() == 5)
     {
-    QRect rect = option.rect;
 
     painter->drawRect(rect);
 

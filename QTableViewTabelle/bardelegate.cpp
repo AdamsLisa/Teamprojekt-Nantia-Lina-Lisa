@@ -30,7 +30,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //sets in which columns the green bars should be drawn
     if (index.column() == numbers[1] || index.column() == numbers[10])
     {
-        QRect rect = option.rect;
+
         painter->drawRect(rect);
     }
 
