@@ -30,8 +30,13 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
         float v=(index.data().toFloat())/40;
         QRect rect = option.rect;
         rect.setLeft(rect.left() + v);
+<<<<<<< HEAD
         float rectanglesize = 10;
         rect.setWidth(rectanglesize);
+=======
+       //float rectanglesize = 10;
+       // rect.setWidth(rectanglesize);
+>>>>>>> cfe71ea5184e805771b868a7b1552c544803f378
      /*   if(rect.width()>2000)
       * {
             painter->setBrush(QBrush(Qt::yellow));
