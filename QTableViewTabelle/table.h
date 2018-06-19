@@ -5,6 +5,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QWidget>
+#include <QItemSelectionModel>
 
 
 namespace Ui {
@@ -19,12 +20,21 @@ public:
     explicit table(QWidget *parent = 0);
     ~table();
 
+public slots:
+    void slotSelectionChange(const QItemSelection &, const QItemSelection &);
+
+signals:
+    selectionChanged(const QItemSelection &, const QItemSelection &);
+
+
 private:
     Ui::table *ui;
     QStandardItemModel *model;
     QStandardItemModel *modelpep;
     QStandardItem *item;
     QStandardItem *itempep;
+    QItemSelectionModel *select;
+
 
 
 };
