@@ -29,6 +29,10 @@ table::table(QWidget *parent) :
         ui->tableView->setItemDelegate(bardelegate);
 
 
+        //Signal Slot Connection für Zeilenselektion
+        connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+                     SLOT(slotSelectionChange(const QItemSelection &, const QItemSelection &)));
+        
         //Sets the horizontal header item for each column
         for (int i=0; i<tableColumn; i++)
          {
@@ -150,6 +154,23 @@ table::table(QWidget *parent) :
             int r = rand() % 2 +1;
             modelpep->setData(index,r);
         }
+
+}
+
+//Slot: noch wird die Reihe, die oben ausgewählt wird, unten nicht mehr angezeigt. Hier muss noch basierend auf den Daten geändert werden,
+//was bei Auswahl einer Reihe passieren soll
+void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
+
+{
+
+            select = new QItemSelectionModel;
+            QModelIndexList selection = ui->tableView->selectionModel()->selectedRows();
+            for(int i=0; i< selection.count(); i++)
+            {
+
+                ui->tableView_2->hideRow(selection.at(i).row());
+
+            }
 
 }
 
