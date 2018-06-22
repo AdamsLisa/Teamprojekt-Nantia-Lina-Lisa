@@ -71,14 +71,14 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     {
 
         painter->setBrush(QBrush(Qt::red));
-        rect2.setWidth(rect.width()*(v*0.1));
+        rect2.setWidth(rect.width()*(v*0.005));
         painter->drawRect(rect);
         painter->setBrush(QBrush(Qt::yellow));
-        rect3.setWidth(rect.width()*(v*0.01));
+        rect3.setWidth(rect.width()*(v*0.004));
         painter->drawRect(rect3);
 
         painter->setBrush(QBrush(Qt::green));
-        rect2.setWidth(rect.width()*(0.005*v));
+        rect2.setWidth(rect.width()*(0.003*v));
         rect2.united(rect);
         rect2.united(rect3);
         painter->drawRect(rect2);
