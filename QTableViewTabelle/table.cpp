@@ -1,10 +1,14 @@
 #include "table.h"
 #include "ui_table.h"
-#include "BarDelegate.h"
-#include "bardelegatepep.h"
+#include "bardelegate.h"
+#include "BarDelegatepep.h"
 #include <array>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QSortFilterProxyModel>
+#include <QObject>
+#include <QAbstractItemModel>
+
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
@@ -24,7 +28,34 @@ table::table(QWidget *parent) :
         //create model with columns and rows
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
-        ui->tableView->setModel(model);
+
+        QStandardItemModel *sourceModel = model; //new QStandardItemModel(this);
+        QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+
+        proxyModel->setSourceModel(sourceModel);
+        ui->tableView->setModel(proxyModel);
+
+
+
+        proxyModel->setFilterFixedString("drei");
+        //proxyModel->setFilterFixedString(proxyModel->index(1,3).data().toString());
+
+        proxyModel->setFilterKeyColumn(3);
+
+        //proxyModel->sort(5, Qt::AscendingOrder);
+
+
+        QStringList test = {"eins", "zwei", "drei", "vier", "fünf"};
+
+        for(int row = 0; row <= 4; row++)
+         {
+            QModelIndex index = model->index(row,3,QModelIndex());
+            QString s = test[row];
+            model->setData(index,s);
+
+         }
+
+        //ui->tableView->setModel(model);
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);

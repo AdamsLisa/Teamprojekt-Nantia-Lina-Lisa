@@ -7,6 +7,9 @@
 #include <QWidget>
 #include <QItemSelectionModel>
 #include <QPushButton>
+#include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 
 
 namespace Ui {
@@ -25,14 +28,9 @@ public slots:
     void slotSelectionChange(const QItemSelection &, const QItemSelection &);
     void handleButton();
 
-
-//signals:
-//    selectionChanged(const QItemSelection &, const QItemSelection &);
-
 signals:
-    selectionChanged(const QItemSelection &, const QItemSelection &);
-    clicked();
-
+    //selectionChanged(const QItemSelection &, const QItemSelection &);
+    //clicked();
 
 
 private:
@@ -45,6 +43,8 @@ private:
     int TableRowPep;
     int TableColumnPep;
 
+    QStandardItemModel *sourceModel;
+    QSortFilterProxyModel *proxyModel;
 
 
 };
