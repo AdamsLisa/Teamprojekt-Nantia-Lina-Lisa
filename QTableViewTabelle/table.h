@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QWidget>
 #include <QItemSelectionModel>
+#include <QPushButton>
 
 
 namespace Ui {
@@ -22,9 +23,11 @@ public:
 
 public slots:
     void slotSelectionChange(const QItemSelection &, const QItemSelection &);
+    void handleButton();
 
 signals:
     selectionChanged(const QItemSelection &, const QItemSelection &);
+    clicked();
 
 
 private:
@@ -34,6 +37,8 @@ private:
     QStandardItem *item;
     QStandardItem *itempep;
     QItemSelectionModel *select;
+    int TableRowPep;
+    int TableColumnPep;
 
 
 

@@ -4,6 +4,7 @@
 #include "bardelegatepep.h"
 #include <array>
 #include <QGridLayout>
+#include <QPushButton>
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
@@ -28,10 +29,13 @@ table::table(QWidget *parent) :
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
 
-
+// SIGNALS UND SLOTS
         //Signal Slot Connection für Zeilenselektion
         connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
                      SLOT(slotSelectionChange(const QItemSelection &, const QItemSelection &)));
+
+        //Signal Slot Connection für Deselect Button
+        connect(ui->pushButton, SIGNAL (clicked()),this, SLOT (handleButton()));
         
         //Sets the horizontal header item for each column
         for (int i=0; i<tableColumn; i++)
@@ -103,8 +107,8 @@ table::table(QWidget *parent) :
  *
  *
 */
-    const int tableRowPep=5;
-    const int tableColumnPep=6;
+    TableRowPep=5;
+    TableColumnPep=6;
     //column in which to display checkboxes
     const int checkboxColumnPep=6;
 
@@ -112,7 +116,7 @@ table::table(QWidget *parent) :
     QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
 
     //Model wird erstellt mit rows and columns number
-    modelpep = new QStandardItemModel(tableRowPep,tableColumnPep,this);
+    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
 
     ui->tableView_2->setModel(modelpep);
 
@@ -120,12 +124,12 @@ table::table(QWidget *parent) :
     ui->tableView_2->setItemDelegate(bardelegatepe);
 
     //Sets the horizontal header item for each column
-    for (int i=0; i<=tableColumnPep; i++)
+    for (int i=0; i<=TableColumnPep; i++)
     {
         modelpep->setHorizontalHeaderItem(i, new QStandardItem(QString (listpep.at(i))));
     }
 
-    for(int row = 0; row < tableRowPep; row++)
+    for(int row = 0; row < TableRowPep; row++)
         {
             //instance of item
             QStandardItem* itempep;
@@ -140,7 +144,7 @@ table::table(QWidget *parent) :
 
     int columnstart = 3;
     //Testdata
-    for(int row = 0; row <= tableRowPep; row++)
+    for(int row = 0; row <= TableRowPep; row++)
         {
             QModelIndex index = modelpep->index(row,columnstart,QModelIndex());
             int r = rand() %4000;
@@ -148,17 +152,22 @@ table::table(QWidget *parent) :
         }
 
     int columnspectra = 4;
-    for(int row = 0; row <= tableRowPep; row++)
+    for(int row = 0; row <= TableRowPep; row++)
         {
             QModelIndex index = model->index(row,columnspectra,QModelIndex());
             int r = rand() % 2 +1;
             modelpep->setData(index,r);
         }
 
+    //--------------------------------------------------------------------------------
+    // Push Button für Deselect
+    //--------------------------------------------------------------------------------
+
+    ui->pushButton->setText("DESELECT");
+
 }
 
-//Slot: noch wird die Reihe, die oben ausgewählt wird, unten nicht mehr angezeigt. Hier muss noch basierend auf den Daten geändert werden,
-//was bei Auswahl einer Reihe passieren soll
+//Slot: die Reihe, die oben angezeigt wird, wird auch unten angezeigt.
 void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
 
 {
@@ -168,10 +177,21 @@ void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
             for(int i=0; i< selection.count(); i++)
             {
 
-                ui->tableView_2->hideRow(selection.at(i).row());
+
+                for (int j=0; j<TableRowPep; j++){
+                    if (j != selection.at(i).row()) ui->tableView_2->hideRow(j);
+                    else ui->tableView_2->showRow(j);
+                }
 
             }
 
+}
+
+void table::handleButton()
+{
+    for (int j=0; j<TableRowPep; j++){
+        ui->tableView_2->showRow(j);
+    }
 }
 
 table::~table()

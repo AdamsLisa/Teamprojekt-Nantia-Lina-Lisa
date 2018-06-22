@@ -14,6 +14,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
@@ -27,6 +28,7 @@ public:
     QWidget *centralWidget;
     QTableView *tableView;
     QTableView *tableView_2;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -44,6 +46,9 @@ public:
         tableView_2 = new QTableView(centralWidget);
         tableView_2->setObjectName(QStringLiteral("tableView_2"));
         tableView_2->setGeometry(QRect(0, 320, 971, 461));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(990, 340, 181, 71));
         table->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(table);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -64,6 +69,7 @@ public:
     void retranslateUi(QMainWindow *table)
     {
         table->setWindowTitle(QApplication::translate("table", "table", nullptr));
+        pushButton->setText(QApplication::translate("table", "PushButton", nullptr));
     } // retranslateUi
 
 };
