@@ -23,9 +23,8 @@ public:
 public slots:
     void slotSelectionChange(const QItemSelection &, const QItemSelection &);
 
-signals:
-    selectionChanged(const QItemSelection &, const QItemSelection &);
-
+//signals:
+//    selectionChanged(const QItemSelection &, const QItemSelection &);
 
 private:
     Ui::table *ui;

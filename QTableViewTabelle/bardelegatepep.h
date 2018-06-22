@@ -2,6 +2,7 @@
 #define BARDELEGATEPEP_H
 
 #include <QStyledItemDelegate>
+#include <QDialog>
 
 class bardelegatepep : public QStyledItemDelegate
 {
@@ -12,6 +13,7 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
 
 };
 

@@ -32,12 +32,6 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
         rect.setLeft(rect.left() + v);
         float rectanglesize = 10;
         rect.setWidth(rectanglesize);
-     /*   if(rect.width()>2000)
-      * {
-            painter->setBrush(QBrush(Qt::yellow));
-
-        }
-        */
         painter->drawRect(rect);
     }
 
@@ -65,8 +59,10 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
 
     //restores the current painter state
     painter->restore();
-}
 
+
+
+}
 
 void bardelegatepep::updateEditorGeometry(QWidget *editor,
     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
