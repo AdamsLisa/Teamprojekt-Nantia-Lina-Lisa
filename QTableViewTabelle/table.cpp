@@ -6,8 +6,10 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QSortFilterProxyModel>
-#include <QObject>
-#include <QAbstractItemModel>
+//#include <QObject>
+//#include <QAbstractItemModel>
+//#include <QLineEdit>
+#include "filterdelegate.h"
 
 
 table::table(QWidget *parent) :
@@ -37,7 +39,12 @@ table::table(QWidget *parent) :
 
 
 
-        proxyModel->setFilterFixedString("drei");
+    //    QString search = ui->tableView->model()->data(ui->tableView->model()->index(1,3)).toString();
+   //     QString search = "drei";
+ //         QString search = model->index(3,1).data(Qt::DisplayRole).toString();
+
+        proxyModel->setDynamicSortFilter(true);
+       // proxyModel->setFilterFixedString(search);
         //proxyModel->setFilterFixedString(proxyModel->index(1,3).data().toString());
 
         proxyModel->setFilterKeyColumn(3);
@@ -45,9 +52,14 @@ table::table(QWidget *parent) :
         //proxyModel->sort(5, Qt::AscendingOrder);
 
 
-        QStringList test = {"eins", "zwei", "drei", "vier", "fünf"};
 
-        for(int row = 0; row <= 4; row++)
+
+ //       model->setHorizontalHeaderItem(3, description);
+
+
+        QStringList test = {"eins", "zwei", "drei", "vier", "fünf", "drei"};
+
+        for(int row = 0; row <= 5; row++)
          {
             QModelIndex index = model->index(row,3,QModelIndex());
             QString s = test[row];
@@ -56,6 +68,14 @@ table::table(QWidget *parent) :
          }
 
         //ui->tableView->setModel(model);
+
+        filterdelegate* filter = new filterdelegate;
+//        ui->tableView->setItemDelegate(filter);
+
+        proxyModel->insertRow(0);
+        ui->tableView->setItemDelegateForRow(0,filter);
+
+        connect(filter, SIGNAL(textChanged()), this, SLOT(textFilterChanged()));
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
@@ -223,6 +243,13 @@ void table::handleButton()
     for (int j=0; j<TableRowPep; j++){
         ui->tableView_2->showRow(j);
     }
+}
+
+void table::textFilterChanged(){
+
+    QString search = editor->text();
+    proxyModel->setFilterFixedString(search);
+    proxyModel->setFilterKeyColumn(3);
 }
 
 table::~table()

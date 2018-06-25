@@ -10,6 +10,7 @@
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
+#include <QLineEdit>
 
 
 namespace Ui {
@@ -27,6 +28,7 @@ public:
 public slots:
     void slotSelectionChange(const QItemSelection &, const QItemSelection &);
     void handleButton();
+    void textFilterChanged();
 
 signals:
     //selectionChanged(const QItemSelection &, const QItemSelection &);
@@ -45,6 +47,9 @@ private:
 
     QStandardItemModel *sourceModel;
     QSortFilterProxyModel *proxyModel;
+
+
+    QLineEdit *editor;
 
 
 };
