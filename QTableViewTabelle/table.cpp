@@ -28,6 +28,23 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
         ui->tableView->setModel(model);
+        
+        //Model für Peptidtabelle
+        TableRowPep=1;
+    TableColumnPep=6;
+    //column in which to display checkboxes
+    const int checkboxColumnPep=6;
+
+    //create a list with all the needed strings
+    QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
+
+    //Model wird erstellt mit rows and columns number
+    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
+
+    ui->tableView_2->setModel(modelpep);
+
+    bardelegatepep* bardelegatepe = new bardelegatepep();
+    ui->tableView_2->setItemDelegate(bardelegatepe);
 
         //--------------------------------------------------------------
                 // PARSER
@@ -54,6 +71,10 @@ table::table(QWidget *parent) :
                           //Zeigt nur Reihen des Proteinteils an  
                         if (line.indexOf("PRT") >= 0){
                          model->insertRow(model->rowCount(), standardItemsList);}
+                        //Zeigt nur Reihen der Proteintabelle an
+                        if (line.startsWith("PSM")) {
+                          modelpep->insertRow(modelpep->rowCount(), standardItemsList);
+                    }
                         
                     file.close();
                 }
@@ -97,22 +118,7 @@ table::table(QWidget *parent) :
  *
  *
 */
-    TableRowPep=5;
-    TableColumnPep=6;
-    //column in which to display checkboxes
-    const int checkboxColumnPep=6;
-
-    //create a list with all the needed strings
-    QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
-
-    //Model wird erstellt mit rows and columns number
-    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
-
-    ui->tableView_2->setModel(modelpep);
-
-    bardelegatepep* bardelegatepe = new bardelegatepep();
-    ui->tableView_2->setItemDelegate(bardelegatepe);
-
+    
     //Sets the horizontal header item for each column
     for (int i=0; i<=TableColumnPep; i++)
     {
@@ -132,22 +138,7 @@ table::table(QWidget *parent) :
             modelpep->setItem(row,checkboxColumnPep, itempep);
          }
 
-    int columnstart = 3;
-    //Testdata
-    for(int row = 0; row <= TableRowPep; row++)
-        {
-            QModelIndex index = modelpep->index(row,columnstart,QModelIndex());
-            int r = rand() %4000;
-            modelpep->setData(index,r);
-        }
-
-    int columnspectra = 4;
-    for(int row = 0; row <= TableRowPep; row++)
-        {
-            QModelIndex index = model->index(row,columnspectra,QModelIndex());
-            int r = rand() % 2 +1;
-            modelpep->setData(index,r);
-        }
+   
 
     //--------------------------------------------------------------------------------
     // Push Button für Deselect
