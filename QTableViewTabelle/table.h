@@ -26,15 +26,6 @@ public slots:
     void handleButton();
 
 
-//signals:
-//    selectionChanged(const QItemSelection &, const QItemSelection &);
-
-signals:
-    selectionChanged(const QItemSelection &, const QItemSelection &);
-    clicked();
-
-
-
 private:
     Ui::table *ui;
     QStandardItemModel *model;

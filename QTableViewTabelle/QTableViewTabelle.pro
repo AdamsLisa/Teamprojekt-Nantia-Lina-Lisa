@@ -31,18 +31,15 @@ SOURCES += \
         main.cpp \
         table.cpp \
         bardelegate.cpp \
-        bardelegatepep.cpp \
-    mainwindow.cpp
+        bardelegatepep.cpp
 
 HEADERS += \
         table.h \
         bardelegate.h \
-        bardelegatepep.h \
-    mainwindow.h
+        bardelegatepep.h
 
 FORMS += \
         table.ui \
-    mainwindow.ui
 
 
 SUBDIRS += \

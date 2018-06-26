@@ -5,6 +5,9 @@
 #include <array>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 table::table(QWidget *parent) :
     QMainWindow(parent),
@@ -12,7 +15,7 @@ table::table(QWidget *parent) :
 {
         ui->setupUi(this);
         //number of rows+columns of table
-        const int tableRow=20;
+        const int tableRow=1;
         const int tableColumn=12;
         //column in which to display checkboxes
         const int checkboxColumn=11;
@@ -25,6 +28,36 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
         ui->tableView->setModel(model);
+
+        //--------------------------------------------------------------
+                // PARSER
+                model->setColumnCount(1);
+                model->setHorizontalHeaderLabels(QStringList() << "Column");
+
+                //open file
+                QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+                if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
+                    qDebug() << "File does not exist";
+                } else {
+                    // Create a thread to retrieve data from a file
+                    QTextStream in(&file);
+                    //Reads the data up to the end of file
+                    while (!in.atEnd())
+                    {
+                        QString line = in.readLine();
+                        // Adding to the model in line with the elements
+                        QList<QStandardItem *> standardItemsList;
+                        // consider that the line separated by semicolons into columns
+                        for (QString item : line.split("\t")) {
+                            standardItemsList.append(new QStandardItem(item));
+                        }
+                        model->insertRow(model->rowCount(), standardItemsList);
+                    }
+                    file.close();
+                }
+
+        //------------------------------------------------------------------------------------------------------------
+
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
@@ -55,7 +88,7 @@ table::table(QWidget *parent) :
             //put checkbox into each row of checkboxcolumn
             model->setItem(row,checkboxColumn, item);
           }
-
+/*
         //creates an array
         int numArray[] = {5,6,7,8,9};
 
@@ -101,6 +134,7 @@ table::table(QWidget *parent) :
             model->setData(index,r);
           }
 
+          */
 /*
  *
  *   Peptide Table
