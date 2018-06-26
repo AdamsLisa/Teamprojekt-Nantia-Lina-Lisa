@@ -51,8 +51,10 @@ table::table(QWidget *parent) :
                         for (QString item : line.split("\t")) {
                             standardItemsList.append(new QStandardItem(item));
                         }
-                        model->insertRow(model->rowCount(), standardItemsList);
-                    }
+                          //Zeigt nur Reihen des Proteinteils an  
+                        if (line.indexOf("PRT") >= 0){
+                         model->insertRow(model->rowCount(), standardItemsList);}
+                        
                     file.close();
                 }
 
@@ -88,53 +90,7 @@ table::table(QWidget *parent) :
             //put checkbox into each row of checkboxcolumn
             model->setItem(row,checkboxColumn, item);
           }
-/*
-        //creates an array
-        int numArray[] = {5,6,7,8,9};
 
-
-        //Testdata for #Peptides
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[1],QModelIndex());
-            int r = rand() % 20 +20;
-            model->setData(index,r);
-         }
-
-        //Testdata for Coverage
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[0],QModelIndex());
-            int r = rand() % 60 *10;
-            model->setData(index,r);
-         }
-
-        //Testdata for #Spectra
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[2],QModelIndex());
-            int r = rand() % 160 +40;
-            model->setData(index,r);
-         }
-
-        //Testdata for MS2Quant
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[3],QModelIndex());
-            float r = rand() % 3 * 0.01;
-            model->setData(index,r);
-
-         }
-
-        //Testdata for MW
-        for(int row = 0; row <= tableRow; row++)
-          {
-            QModelIndex index = model->index(row,numArray[4],QModelIndex());
-            int r = rand() % 560 +40;
-            model->setData(index,r);
-          }
-
-          */
 /*
  *
  *   Peptide Table
