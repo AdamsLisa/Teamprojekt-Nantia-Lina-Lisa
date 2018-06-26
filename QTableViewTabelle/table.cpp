@@ -81,6 +81,9 @@ table::table(QWidget *parent) :
 
         //------------------------------------------------------------------------------------------------------------
 
+//aktualisiere Reihenzahl
+      TableRow = TableRow + model->rowCount();
+     TableRowPep = TableRowPep + modelpep->rowCount();
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
