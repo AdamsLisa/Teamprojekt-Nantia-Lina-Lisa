@@ -14,9 +14,7 @@ table::table(QWidget *parent) :
     ui(new Ui::table)
 {
         ui->setupUi(this);
-        //number of rows+columns of table
-        const int tableRow=1;
-        const int tableColumn=12;
+
         //column in which to display checkboxes
         const int checkboxColumn=11;
 
@@ -25,21 +23,19 @@ table::table(QWidget *parent) :
                            "MS Quant", "MW","Confidence","Checkbox"};
 
         //create model with columns and rows
-        model = new QStandardItemModel(tableRow,tableColumn,this);
+        model = new QStandardItemModel(this);
 
         ui->tableView->setModel(model);
         
-        //Model für Peptidtabelle
-        TableRowPep=1;
-    TableColumnPep=6;
-    //column in which to display checkboxes
-    const int checkboxColumnPep=6;
+
+        //column in which to display checkboxes
+        const int checkboxColumnPep=6;
 
     //create a list with all the needed strings
     QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
 
     //Model wird erstellt mit rows and columns number
-    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
+    modelpep = new QStandardItemModel(this);
 
     ui->tableView_2->setModel(modelpep);
 
@@ -51,8 +47,14 @@ table::table(QWidget *parent) :
                 model->setColumnCount(1);
                 model->setHorizontalHeaderLabels(QStringList() << "Column");
 
+                //Extra Zeile für Suche:
+                model->insertRow(model->rowCount());
+
                 //open file
-                QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+                //File Nantia
+                //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+                //File Lisa
+                QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
                 if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
                     qDebug() << "File does not exist";
                 } else {
@@ -69,21 +71,25 @@ table::table(QWidget *parent) :
                             standardItemsList.append(new QStandardItem(item));
                         }
                           //Zeigt nur Reihen des Proteinteils an  
-                        if (line.indexOf("PRT") >= 0){
+                        if (line.startsWith("PRT")){
                          model->insertRow(model->rowCount(), standardItemsList);}
                         //Zeigt nur Reihen der Proteintabelle an
                         if (line.startsWith("PSM")) {
                           modelpep->insertRow(modelpep->rowCount(), standardItemsList);
                     }
-                        
+                    }
                     file.close();
                 }
 
         //------------------------------------------------------------------------------------------------------------
 
 //aktualisiere Reihenzahl
-      TableRow = TableRow + model->rowCount();
-     TableRowPep = TableRowPep + modelpep->rowCount();
+     TableRow = model->rowCount();
+     TableRowPep = modelpep->rowCount();
+
+     //Aktualisierte Spaltenzahl
+     TableColumn = model->columnCount();
+     TableColumnPep = modelpep->columnCount();
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
@@ -97,12 +103,12 @@ table::table(QWidget *parent) :
         connect(ui->pushButton, SIGNAL (clicked()),this, SLOT (handleButton()));
         
         //Sets the horizontal header item for each column
-        for (int i=0; i<tableColumn; i++)
+        for (int i=0; i<TableColumn; i++)
          {
             model->setHorizontalHeaderItem(i, new QStandardItem(QString (list.at(i))));
          }
 
-        for(int row = 0; row < tableRow; row++)
+        for(int row = 0; row < TableRow; row++)
          {
             //instance of item
             QStandardItem* item;
@@ -121,7 +127,7 @@ table::table(QWidget *parent) :
  *
  *
 */
-    
+
     //Sets the horizontal header item for each column
     for (int i=0; i<=TableColumnPep; i++)
     {
@@ -141,7 +147,7 @@ table::table(QWidget *parent) :
             modelpep->setItem(row,checkboxColumnPep, itempep);
          }
 
-   
+
 
     //--------------------------------------------------------------------------------
     // Push Button für Deselect
@@ -150,9 +156,10 @@ table::table(QWidget *parent) :
     ui->pushButton->setText("DESELECT");
 
 }
+}
 
 //Slot: die Reihe, die oben angezeigt wird, wird auch unten angezeigt.
-void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
+    void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
 
 {
 

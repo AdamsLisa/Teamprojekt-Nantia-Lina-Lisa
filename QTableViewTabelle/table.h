@@ -33,6 +33,8 @@ private:
     QStandardItem *item;
     QStandardItem *itempep;
     QItemSelectionModel *select;
+    int TableRow;
+    int TableColumn;
     int TableRowPep;
     int TableColumnPep;
 

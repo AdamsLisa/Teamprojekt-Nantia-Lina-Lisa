@@ -241,6 +241,9 @@ debug/moc_table.cpp: C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QMainWindow \
 		C:/Qt/5.11.0/mingw53_32/include/QtGui/qstandarditemmodel.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/QItemSelectionModel \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		../QTableViewTabelle/table.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.11.0/mingw53_32/bin/moc.exe
@@ -485,6 +488,8 @@ debug/moc_bardelegatepep.cpp: C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QStyledI
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qrubberband.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qframe.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdialog.h \
 		../QTableViewTabelle/bardelegatepep.h \
 		debug/moc_predefs.h \
 		C:/Qt/5.11.0/mingw53_32/bin/moc.exe
@@ -640,6 +645,9 @@ debug/main.o: ../QTableViewTabelle/main.cpp ../QTableViewTabelle/table.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtGui/qstandarditemmodel.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/QItemSelectionModel \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QApplication \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qapplication.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -776,16 +784,43 @@ debug/table.o: ../QTableViewTabelle/table.cpp ../QTableViewTabelle/table.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtGui/qstandarditemmodel.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/QItemSelectionModel \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QPushButton \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qpushbutton.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		ui_table.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/QVariant \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QApplication \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qapplication.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/qeventloop.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtGui/qguiapplication.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtGui/qinputmethod.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QHeaderView \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qheaderview.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QMenuBar \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qmenubar.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qmenu.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qaction.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qactiongroup.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QStatusBar \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qstatusbar.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QToolBar \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qtoolbar.h \
 		../QTableViewTabelle/BarDelegate.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QStyledItemDelegate \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qstyleditemdelegate.h \
 		../QTableViewTabelle/bardelegatepep.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdialog.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QGridLayout \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qgridlayout.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qlayout.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qboxlayout.h
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qboxlayout.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/QFile \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/QTextStream \
+		C:/Qt/5.11.0/mingw53_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\table.o ..\QTableViewTabelle\table.cpp
 
 debug/bardelegate.o: ../QTableViewTabelle/bardelegate.cpp ../QTableViewTabelle/BarDelegate.h \
@@ -1367,6 +1402,8 @@ debug/bardelegatepep.o: ../QTableViewTabelle/bardelegatepep.cpp ../QTableViewTab
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qrubberband.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qframe.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdialog.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QtWidgets \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QtWidgetsDepends \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/QtCore \
@@ -1601,7 +1638,6 @@ debug/bardelegatepep.o: ../QTableViewTabelle/bardelegatepep.cpp ../QTableViewTab
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcalendarwidget.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcheckbox.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcolordialog.h \
-		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdialog.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcolormap.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcolumnview.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qcombobox.h \
