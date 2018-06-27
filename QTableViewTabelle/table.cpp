@@ -121,19 +121,15 @@ table::table(QWidget *parent) :
             model->setItem(row,checkboxColumn, item);
           }
 
-/*
- *
- *   Peptide Table
- *
- *
-*/
 
-    //Sets the horizontal header item for each column
+
+    //Sets the horizontal header item for each column in peptide table
     for (int i=0; i<=TableColumnPep; i++)
     {
         modelpep->setHorizontalHeaderItem(i, new QStandardItem(QString (listpep.at(i))));
     }
 
+    //checkboxen für Peptidtabelle
     for(int row = 0; row < TableRowPep; row++)
         {
             //instance of item
