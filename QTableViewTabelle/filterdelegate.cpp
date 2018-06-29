@@ -46,6 +46,7 @@ void filterdelegate::setModelData(QWidget* editor, QAbstractItemModel* model, QM
 {
     QLineEdit *lineEdit = qobject_cast<QLineEdit*>(editor);
     model->setData(index, lineEdit->text(), Qt::EditRole);
+
 }
 
 
@@ -54,4 +55,7 @@ void filterdelegate::updateEditorGeometry(QWidget* editor, QStyleOptionViewItem 
 {
     editor->setGeometry(option.rect);
 }
+
+
+
 

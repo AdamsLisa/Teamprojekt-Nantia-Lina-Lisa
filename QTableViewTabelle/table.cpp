@@ -70,12 +70,24 @@ table::table(QWidget *parent) :
         //ui->tableView->setModel(model);
 
         filterdelegate* filter = new filterdelegate;
-//        ui->tableView->setItemDelegate(filter);
+        ui->tableView->setItemDelegate(filter);
 
         proxyModel->insertRow(0);
         ui->tableView->setItemDelegateForRow(0,filter);
 
-        connect(filter, SIGNAL(textChanged()), this, SLOT(textFilterChanged()));
+        connect(editor, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
+
+
+
+
+
+
+
+//        QString search = model->index(0,3).data().toString();
+//        proxyModel->setFilterFixedString(search);
+
+
+
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
@@ -245,9 +257,10 @@ void table::handleButton()
     }
 }
 
-void table::textFilterChanged(){
+void table::textFilterChanged(const QString &newValue){
 
-    QString search = editor->text();
+    //QString search = editor->text();
+    QString search = newValue;
     proxyModel->setFilterFixedString(search);
     proxyModel->setFilterKeyColumn(3);
 }
