@@ -14,7 +14,9 @@ table::table(QWidget *parent) :
     ui(new Ui::table)
 {
         ui->setupUi(this);
-
+        //number of rows+columns of table
+        const int tableRow=1;
+        const int tableColumn=12;
         //column in which to display checkboxes
         const int checkboxColumn=11;
 
@@ -23,37 +25,17 @@ table::table(QWidget *parent) :
                            "MS Quant", "MW","Confidence","Checkbox"};
 
         //create model with columns and rows
-        model = new QStandardItemModel(this);
+        model = new QStandardItemModel(tableRow,tableColumn,this);
 
         ui->tableView->setModel(model);
-        
-
-        //column in which to display checkboxes
-        const int checkboxColumnPep=6;
-
-    //create a list with all the needed strings
-    QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
-
-    //Model wird erstellt mit rows and columns number
-    modelpep = new QStandardItemModel(this);
-
-    ui->tableView_2->setModel(modelpep);
-
-    bardelegatepep* bardelegatepe = new bardelegatepep();
-    ui->tableView_2->setItemDelegate(bardelegatepe);
 
         //--------------------------------------------------------------
                 // PARSER
                 model->setColumnCount(1);
                 model->setHorizontalHeaderLabels(QStringList() << "Column");
 
-                //Extra Zeile für Suche:
-                model->insertRow(model->rowCount());
-
                 //open file
-                //File Nantia
                 //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-                //File Lisa
                 QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
                 if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
                     qDebug() << "File does not exist";
@@ -70,26 +52,13 @@ table::table(QWidget *parent) :
                         for (QString item : line.split("\t")) {
                             standardItemsList.append(new QStandardItem(item));
                         }
-                          //Zeigt nur Reihen des Proteinteils an  
-                        if (line.startsWith("PRT")){
-                         model->insertRow(model->rowCount(), standardItemsList);}
-                        //Zeigt nur Reihen der Proteintabelle an
-                        if (line.startsWith("PSM")) {
-                          modelpep->insertRow(modelpep->rowCount(), standardItemsList);
-                    }
+                        if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
                     }
                     file.close();
                 }
 
         //------------------------------------------------------------------------------------------------------------
 
-//aktualisiere Reihenzahl
-     TableRow = model->rowCount();
-     TableRowPep = modelpep->rowCount();
-
-     //Aktualisierte Spaltenzahl
-     TableColumn = model->columnCount();
-     TableColumnPep = modelpep->columnCount();
 
         BarDelegate* bardelegate = new BarDelegate();
         ui->tableView->setItemDelegate(bardelegate);
@@ -103,12 +72,12 @@ table::table(QWidget *parent) :
         connect(ui->pushButton, SIGNAL (clicked()),this, SLOT (handleButton()));
         
         //Sets the horizontal header item for each column
-        for (int i=0; i<TableColumn; i++)
+        for (int i=0; i<tableColumn; i++)
          {
             model->setHorizontalHeaderItem(i, new QStandardItem(QString (list.at(i))));
          }
 
-        for(int row = 0; row < TableRow; row++)
+        for(int row = 0; row < tableRow; row++)
          {
             //instance of item
             QStandardItem* item;
@@ -120,16 +89,81 @@ table::table(QWidget *parent) :
             //put checkbox into each row of checkboxcolumn
             model->setItem(row,checkboxColumn, item);
           }
+/*
+        //creates an array
+        int numArray[] = {5,6,7,8,9};
 
 
+        //Testdata for #Peptides
+        for(int row = 0; row <= tableRow; row++)
+         {
+            QModelIndex index = model->index(row,numArray[1],QModelIndex());
+            int r = rand() % 20 +20;
+            model->setData(index,r);
+         }
 
-    //Sets the horizontal header item for each column in peptide table
+        //Testdata for Coverage
+        for(int row = 0; row <= tableRow; row++)
+         {
+            QModelIndex index = model->index(row,numArray[0],QModelIndex());
+            int r = rand() % 60 *10;
+            model->setData(index,r);
+         }
+
+        //Testdata for #Spectra
+        for(int row = 0; row <= tableRow; row++)
+         {
+            QModelIndex index = model->index(row,numArray[2],QModelIndex());
+            int r = rand() % 160 +40;
+            model->setData(index,r);
+         }
+
+        //Testdata for MS2Quant
+        for(int row = 0; row <= tableRow; row++)
+         {
+            QModelIndex index = model->index(row,numArray[3],QModelIndex());
+            float r = rand() % 3 * 0.01;
+            model->setData(index,r);
+
+         }
+
+        //Testdata for MW
+        for(int row = 0; row <= tableRow; row++)
+          {
+            QModelIndex index = model->index(row,numArray[4],QModelIndex());
+            int r = rand() % 560 +40;
+            model->setData(index,r);
+          }
+
+          */
+/*
+ *
+ *   Peptide Table
+ *
+ *
+*/
+    TableRowPep=5;
+    TableColumnPep=6;
+    //column in which to display checkboxes
+    const int checkboxColumnPep=6;
+
+    //create a list with all the needed strings
+    QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
+
+    //Model wird erstellt mit rows and columns number
+    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
+
+    ui->tableView_2->setModel(modelpep);
+
+    bardelegatepep* bardelegatepe = new bardelegatepep();
+    ui->tableView_2->setItemDelegate(bardelegatepe);
+
+    //Sets the horizontal header item for each column
     for (int i=0; i<=TableColumnPep; i++)
     {
         modelpep->setHorizontalHeaderItem(i, new QStandardItem(QString (listpep.at(i))));
     }
 
-    //checkboxen für Peptidtabelle
     for(int row = 0; row < TableRowPep; row++)
         {
             //instance of item
@@ -143,7 +177,22 @@ table::table(QWidget *parent) :
             modelpep->setItem(row,checkboxColumnPep, itempep);
          }
 
+    int columnstart = 3;
+    //Testdata
+    for(int row = 0; row <= TableRowPep; row++)
+        {
+            QModelIndex index = modelpep->index(row,columnstart,QModelIndex());
+            int r = rand() %4000;
+            modelpep->setData(index,r);
+        }
 
+    int columnspectra = 4;
+    for(int row = 0; row <= TableRowPep; row++)
+        {
+            QModelIndex index = model->index(row,columnspectra,QModelIndex());
+            int r = rand() % 2 +1;
+            modelpep->setData(index,r);
+        }
 
     //--------------------------------------------------------------------------------
     // Push Button für Deselect
@@ -152,10 +201,9 @@ table::table(QWidget *parent) :
     ui->pushButton->setText("DESELECT");
 
 }
-}
 
 //Slot: die Reihe, die oben angezeigt wird, wird auch unten angezeigt.
-    void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
+void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
 
 {
 
