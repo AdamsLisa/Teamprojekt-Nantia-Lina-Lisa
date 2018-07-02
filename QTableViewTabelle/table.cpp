@@ -28,6 +28,9 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
         ui->tableView->setModel(model);
+        //Model wird erstellt mit rows and columns number
+        modelpep = new QStandardItemModel(this);
+
 
         //--------------------------------------------------------------
                 // PARSER
@@ -53,6 +56,7 @@ table::table(QWidget *parent) :
                             standardItemsList.append(new QStandardItem(item));
                         }
                         if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
+                        if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
                     }
                     file.close();
                 }
@@ -150,8 +154,6 @@ table::table(QWidget *parent) :
     //create a list with all the needed strings
     QStringList listpep = { "", "Pl" , "Sequence", "Start", "#Spectra", "Confidence","Checkbox"};
 
-    //Model wird erstellt mit rows and columns number
-    modelpep = new QStandardItemModel(TableRowPep,TableColumnPep,this);
 
     ui->tableView_2->setModel(modelpep);
 
