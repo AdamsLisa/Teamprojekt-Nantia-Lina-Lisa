@@ -15,22 +15,34 @@ table::table(QWidget *parent) :
 {
         ui->setupUi(this);
         //number of rows+columns of table
-        const int tableRow=1;
-        const int tableColumn=12;
+        int tableRow=0;
+        //const int tableColumn=12;
         //column in which to display checkboxes
         const int checkboxColumn=11;
 
         //create a list with all the needed strings
-        QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
-                           "MS Quant", "MW","Confidence","Checkbox"};
+        /*QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
+                           "MS Quant", "MW","Confidence","Checkbox"};*/
 
         //create model with columns and rows
-        model = new QStandardItemModel(tableRow,tableColumn,this);
+        model = new QStandardItemModel(this);
 
         ui->tableView->setModel(model);
         //Model wird erstellt mit rows and columns number
         modelpep = new QStandardItemModel(this);
 
+        int indexofproteincoverage;
+        int indexofnumberofpeptides;
+        int indexofnumberofspectra;
+        int indexofms2quant;
+        int indexofconfidence;
+        int indexofaccession;
+        int indexofdescription;
+       /* int worter[50];
+        int indexworter=1;
+        int laufindex=0;
+        worter[0]=0;
+        int leerzeichencount=0; */
 
         //--------------------------------------------------------------
                 // PARSER
@@ -54,9 +66,29 @@ table::table(QWidget *parent) :
                         // consider that the line separated by semicolons into columns
                         for (QString item : line.split("\t")) {
                             standardItemsList.append(new QStandardItem(item));
+                            //if (item == " ") leerzeichencount++;
                         }
-                        if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
+                        if (line.startsWith("PRH")) {
+                           /* QString line2 = in.readLine();
+                            QList<QStandardItem *> standardItemsList2;
+                            for (QString item2 : line2.split("\t")){
+                                if (item2 == " ") {worter[indexworter]=laufindex+1; indexworter++;}
+                                laufindex++;
+                            }*/
+
+                            indexofproteincoverage=line.indexOf("protein_coverage");
+                            indexofnumberofpeptides=line.indexOf("num_peptides_distinct_ms_run[1]");
+                            indexofnumberofspectra=line.indexOf("num_psms_ms_run[1]");
+                            indexofms2quant=line.indexOf("protein_abundance_assay[1]");
+                            indexofconfidence=line.indexOf("best_search_engine_score[1]");
+                            indexofaccession=line.indexOf("accession");
+                            indexofdescription=line.indexOf("description");
+                            model->insertRow(model->rowCount(), standardItemsList);
+}
+
+                        if (line.startsWith("PRT")) {model->insertRow(model->rowCount(), standardItemsList); tableRow++;}
                         if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
+
                     }
                     file.close();
                 }
@@ -75,11 +107,17 @@ table::table(QWidget *parent) :
         //Signal Slot Connection für Deselect Button
         connect(ui->pushButton, SIGNAL (clicked()),this, SLOT (handleButton()));
         
-        //Sets the horizontal header item for each column
-        for (int i=0; i<tableColumn; i++)
-         {
-            model->setHorizontalHeaderItem(i, new QStandardItem(QString (list.at(i))));
-         }
+       /* for (int i=0; i<30; i++){
+        if(worter[i]==indexofaccession){*/
+         model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
+         model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
+         model->setHorizontalHeaderItem(indexofdescription, new QStandardItem(QString ("Description")));
+         model->setHorizontalHeaderItem(indexofms2quant, new QStandardItem(QString ("MS2Quant")));
+         model->setHorizontalHeaderItem(indexofnumberofpeptides, new QStandardItem(QString ("# Peptides")));
+         model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
+         model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
+
+
 
         for(int row = 0; row < tableRow; row++)
          {
@@ -93,60 +131,14 @@ table::table(QWidget *parent) :
             //put checkbox into each row of checkboxcolumn
             model->setItem(row,checkboxColumn, item);
           }
-/*
-        //creates an array
-        int numArray[] = {5,6,7,8,9};
 
-
-        //Testdata for #Peptides
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[1],QModelIndex());
-            int r = rand() % 20 +20;
-            model->setData(index,r);
-         }
-
-        //Testdata for Coverage
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[0],QModelIndex());
-            int r = rand() % 60 *10;
-            model->setData(index,r);
-         }
-
-        //Testdata for #Spectra
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[2],QModelIndex());
-            int r = rand() % 160 +40;
-            model->setData(index,r);
-         }
-
-        //Testdata for MS2Quant
-        for(int row = 0; row <= tableRow; row++)
-         {
-            QModelIndex index = model->index(row,numArray[3],QModelIndex());
-            float r = rand() % 3 * 0.01;
-            model->setData(index,r);
-
-         }
-
-        //Testdata for MW
-        for(int row = 0; row <= tableRow; row++)
-          {
-            QModelIndex index = model->index(row,numArray[4],QModelIndex());
-            int r = rand() % 560 +40;
-            model->setData(index,r);
-          }
-
-          */
 /*
  *
  *   Peptide Table
  *
  *
 */
-    TableRowPep=5;
+    TableRowPep=1;
     TableColumnPep=6;
     //column in which to display checkboxes
     const int checkboxColumnPep=6;
@@ -156,6 +148,7 @@ table::table(QWidget *parent) :
 
 
     ui->tableView_2->setModel(modelpep);
+    TableRowPep=modelpep->rowCount();
 
     bardelegatepep* bardelegatepe = new bardelegatepep();
     ui->tableView_2->setItemDelegate(bardelegatepe);
@@ -179,22 +172,8 @@ table::table(QWidget *parent) :
             modelpep->setItem(row,checkboxColumnPep, itempep);
          }
 
-    int columnstart = 3;
-    //Testdata
-    for(int row = 0; row <= TableRowPep; row++)
-        {
-            QModelIndex index = modelpep->index(row,columnstart,QModelIndex());
-            int r = rand() %4000;
-            modelpep->setData(index,r);
-        }
 
-    int columnspectra = 4;
-    for(int row = 0; row <= TableRowPep; row++)
-        {
-            QModelIndex index = model->index(row,columnspectra,QModelIndex());
-            int r = rand() % 2 +1;
-            modelpep->setData(index,r);
-        }
+
 
     //--------------------------------------------------------------------------------
     // Push Button für Deselect
@@ -211,16 +190,17 @@ void table::slotSelectionChange(const QItemSelection &, const QItemSelection &)
 
             select = new QItemSelectionModel;
             QModelIndexList selection = ui->tableView->selectionModel()->selectedRows();
-            for(int i=0; i< selection.count(); i++)
-            {
-
-
+           // for(int i=0; i< selection.count(); i++)
+           // {
+                QString Code = model->data(selection.at(1)).toString();
                 for (int j=0; j<TableRowPep; j++){
-                    if (j != selection.at(i).row()) ui->tableView_2->hideRow(j);
+                    QModelIndex index = modelpep->index(j,3, QModelIndex());
+
+                    if (modelpep->data(index).toString() != Code) ui->tableView_2->hideRow(j);
                     else ui->tableView_2->showRow(j);
                 }
 
-            }
+           // }
 
 }
 
