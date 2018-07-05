@@ -32,13 +32,15 @@ SOURCES += \
         table.cpp \
         bardelegate.cpp \
         bardelegatepep.cpp \
-    proteintabelle.cpp
+    proteintabelle.cpp \
+    peptidtabelle.cpp
 
 HEADERS += \
         table.h \
         bardelegate.h \
         bardelegatepep.h \
-    proteintabelle.h
+    proteintabelle.h \
+    peptidtabelle.h
 
 FORMS += \
         table.ui \

@@ -3,11 +3,11 @@ INPUT(
 ./debug\table.o
 ./debug\bardelegate.o
 ./debug\bardelegatepep.o
-./debug\button.o
 ./debug\proteintabelle.o
-./debug\mainwindow.o
+./debug\peptidtabelle.o
 ./debug\moc_table.o
 ./debug\moc_bardelegate.o
 ./debug\moc_bardelegatepep.o
 ./debug\moc_proteintabelle.o
+./debug\moc_peptidtabelle.o
 );

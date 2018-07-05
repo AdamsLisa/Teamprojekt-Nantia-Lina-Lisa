@@ -9,5 +9,7 @@ Proteintabelle::Proteintabelle(QWidget *parent)
 
 void Proteintabelle::handleButton()
 {
-   this->hideRow(1);
+    for (int i= 0; i<this->model()->rowCount(); i++){
+       this->showRow(i);
+    }
 }
