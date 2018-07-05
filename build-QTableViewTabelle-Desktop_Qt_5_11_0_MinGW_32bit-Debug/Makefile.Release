@@ -654,7 +654,10 @@ release/main.o: ../QTableViewTabelle/main.cpp ../QTableViewTabelle/table.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtCore/qeventloop.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qdesktopwidget.h \
 		C:/Qt/5.11.0/mingw53_32/include/QtGui/qguiapplication.h \
-		C:/Qt/5.11.0/mingw53_32/include/QtGui/qinputmethod.h
+		C:/Qt/5.11.0/mingw53_32/include/QtGui/qinputmethod.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QSplitter \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/qsplitter.h \
+		C:/Qt/5.11.0/mingw53_32/include/QtWidgets/QSplitterHandle
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\QTableViewTabelle\main.cpp
 
 release/table.o: ../QTableViewTabelle/table.cpp ../QTableViewTabelle/table.h \
