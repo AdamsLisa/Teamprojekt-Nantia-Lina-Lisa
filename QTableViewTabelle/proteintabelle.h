@@ -1,16 +1,17 @@
 #ifndef PROTEINTABELLE_H
 #define PROTEINTABELLE_H
-#include <QWidget>
 #include <QTableView>
-
 
 
 class Proteintabelle : public QTableView
 {
-
     Q_OBJECT
 public:
-    Proteintabelle(QObject *parent = 0);
+    Proteintabelle(QWidget *parent = 0);
+
+public slots:
+    void handleButton();
 };
 
 #endif // PROTEINTABELLE_H
+

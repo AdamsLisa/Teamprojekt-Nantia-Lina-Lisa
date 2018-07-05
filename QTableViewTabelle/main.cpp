@@ -1,6 +1,7 @@
-#include "table.h"
+//#include "table.h"
 #include "bardelegate.h"
 #include "bardelegatepep.h"
+#include "proteintabelle.h"
 #include <QApplication>
 #include <QSplitter>
 #include <QSplitterHandle>
@@ -8,6 +9,29 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QStandardItemModel>
+#include <QTableView>
+#include <QPushButton>
+
+/*void slotSelectionChange(const QItemSelection &, const QItemSelection &)
+
+{
+
+
+            QModelIndexList selection = Proteintabelle->selectionModel();
+           // for(int i=0; i< selection.count(); i++)
+           // {
+                QString Code = model->data(selection.at(1)).toString();
+                for (int j=0; j<modelpep->rowcount(); j++){
+                    QModelIndex index = modelpep->index(j,3, QModelIndex());
+
+                    if (modelpep->data(index).toString() != Code) Peptidtabelle->hideRow(j);
+                    else Peptidtabelle->showRow(j);
+                }
+
+           // }
+
+}*/
 
 int main(int argc, char *argv[])
 {
@@ -15,19 +39,22 @@ int main(int argc, char *argv[])
     QSplitter *splitter = new QSplitter;
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItemModel *modelpep = new QStandardItemModel;
-    QTableView *Proteintabelle = new QTableView(splitter);
+    QTableView *Proteintabelle2 = new Proteintabelle;
     QTableView *Peptidtabelle = new QTableView(splitter);
-    Proteintabelle->setModel(model);
+    Proteintabelle2->setModel(model);
     Peptidtabelle->setModel(modelpep);
+    splitter->addWidget(Proteintabelle2);
 
     QPushButton *deselectbutton = new QPushButton(splitter);
     deselectbutton->setText("DESELECT");
 
     BarDelegate* bardelegate = new BarDelegate();
-    Proteintabelle->setItemDelegate(bardelegate);
+    Proteintabelle2->setItemDelegate(bardelegate);
 
     bardelegatepep* Bardelegatepep = new bardelegatepep();
     Peptidtabelle->setItemDelegate(Bardelegatepep);
+
+    QItemSelectionModel *selectionModel = Proteintabelle2->selectionModel();
 
 
     QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
@@ -74,15 +101,15 @@ int main(int argc, char *argv[])
 
     // SIGNALS UND SLOTS
             //Signal Slot Connection für Zeilenselektion
-           /* QObject::connect(Proteintabelle->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-                         SLOT(slotSelectionChange(const QItemSelection &, const QItemSelection &)));*/
+           // QObject::connect(Proteintabelle->selectionModel(), &QItemSelectionModel::selectionChanged(QItemSelection &, QItemSelection &), this ,slotSelectionChange(const QItemSelection &, const QItemSelection &));
 
             //Signal Slot Connection für Deselect Button
-            QObject::connect(deselectbutton, SIGNAL (clicked()),deselectbutton, SLOT (handleButton()));
+            QObject::connect(deselectbutton, SIGNAL (clicked()), Proteintabelle2, SLOT (handleButton()));
 
 
 
     splitter->show();
     return a.exec();
 }
+
 

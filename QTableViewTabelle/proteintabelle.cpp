@@ -1,8 +1,13 @@
 #include "proteintabelle.h"
 #include <QTableView>
 
-Proteintabelle::Proteintabelle(QObject *parent)
-    :QTableView(parent)
+Proteintabelle::Proteintabelle(QWidget *parent)
+    : QTableView(parent)
 {
 
+}
+
+void Proteintabelle::handleButton()
+{
+   this->hideRow(1);
 }
