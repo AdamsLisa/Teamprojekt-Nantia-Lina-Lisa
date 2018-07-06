@@ -41,14 +41,20 @@ int main(int argc, char *argv[])
 
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
 
-    int indexofproteincoverage;
-    int indexofnumberofpeptides;
-    int indexofnumberofspectra;
-    int indexofms2quant;
-    int indexofconfidence;
-    int indexofaccession;
-    int indexofdescription;
-    int checkboxColumn;
+    int indexofproteincoverage=0;
+    int indexofnumberofpeptides=0;
+    int indexofnumberofspectra=0;
+    int indexofms2quant=0;
+    int indexofconfidence=0;
+    int indexofaccession=0;
+    int indexofdescription=0;
+    int checkboxColumn=0;
+
+    int indexofsequencepep=0;
+    int indexofstartpep=0;
+    int indexofnumberofspectrapep=0;
+    int indexofconfidencepep=0;
+    int checkboxColumnPep=0;
 
 
     QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
@@ -88,13 +94,33 @@ int main(int argc, char *argv[])
                 }
 }
 
-            if (line.startsWith("PRT")) {model->insertRow(model->rowCount(), standardItemsList);}
+            if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
+
+            if (line.startsWith("PSH")){
+                modelpep->insertRow(modelpep->rowCount(),standardItemsList);
+                QStringList Worter=line.split("\t");
+                indexofsequencepep=Worter.indexOf("sequence");
+                indexofconfidencepep=Worter.indexOf("search_engine_score[1]");
+                indexofstartpep=Worter.indexOf("start");
+                //spectraref
+
+                for (int i = 0; i<modelpep->columnCount(); i++){
+                    if ((i != indexofsequencepep) && (i != indexofconfidencepep) && (i != indexofstartpep) && (i != checkboxColumnPep))
+                        Peptidtabelle1->hideColumn(i);
+                }
+
+            }
             if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
+
 
         }
         //Füge Spalte für Checkbox hinzu
         model->insertColumn(model->columnCount());
+        modelpep->insertColumn(modelpep->columnCount());
+
+
         checkboxColumn=model->columnCount()-1;
+        checkboxColumnPep=modelpep->columnCount()-1;
 
         file.close();
     }
@@ -116,7 +142,6 @@ int main(int argc, char *argv[])
         model->setItem(row,checkboxColumn, item);
       }
 
-    int checkboxColumnPep = 2;
     for(int row = 0; row < modelpep->rowCount(); row++)
      {
         //instance of item
@@ -130,7 +155,7 @@ int main(int argc, char *argv[])
         modelpep->setItem(row,checkboxColumnPep, item);
       }
 
-//Überschriften
+//Überschriften Proteintabelle
     model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
     model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
     model->setHorizontalHeaderItem(indexofdescription, new QStandardItem(QString ("Description")));
@@ -139,6 +164,12 @@ int main(int argc, char *argv[])
     model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
     model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
     model->setHorizontalHeaderItem(checkboxColumn, new QStandardItem(QString("Checkbox")));
+
+//Überschriften Peptidtabelle
+    modelpep->setHorizontalHeaderItem(indexofconfidencepep, new QStandardItem(QString ("Confidence")));
+    modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
+    modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
+    modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
     // SIGNALS UND SLOTS
             //Signal Slot Connection für Zeilenselektion

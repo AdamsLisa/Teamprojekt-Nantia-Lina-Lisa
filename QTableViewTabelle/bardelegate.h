@@ -2,6 +2,7 @@
 #define BARDELEGATE_H
 
 #include <QStyledItemDelegate>
+#include <QStandardItemModel>
 
 class BarDelegate : public QStyledItemDelegate
 {

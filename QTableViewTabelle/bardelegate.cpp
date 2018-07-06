@@ -28,8 +28,9 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect2 = option.rect;
     QRect rect3 = option.rect;
 
+
     //sets in which columns the green bars should be drawn
-    if (index.column() == numbers[1] || index.column() == numbers[10])
+    if (index.column() == 1)
     {
 
         painter->drawRect(rect);
