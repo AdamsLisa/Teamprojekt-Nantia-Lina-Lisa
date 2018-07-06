@@ -208,6 +208,7 @@ void table::handleButton()
 {
     for (int j=0; j<TableRowPep; j++){
         ui->tableView_2->showRow(j);
+
     }
 }
 
