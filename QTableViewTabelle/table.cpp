@@ -9,7 +9,7 @@
 //#include <QObject>
 //#include <QAbstractItemModel>
 //#include <QLineEdit>
-#include "filterdelegate.h"
+#include "lineEditdelegate.h"
 
 
 table::table(QWidget *parent) :
@@ -31,27 +31,27 @@ table::table(QWidget *parent) :
         model = new QStandardItemModel(tableRow,tableColumn,this);
 
 
-        QStandardItemModel *sourceModel = model; //new QStandardItemModel(this);
+
+      //Filter
+
+
+        QStandardItemModel *sourceModel = model;
         QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
 
         proxyModel->setSourceModel(sourceModel);
         ui->tableView->setModel(proxyModel);
 
 
-
     //    QString search = ui->tableView->model()->data(ui->tableView->model()->index(1,3)).toString();
    //     QString search = "drei";
  //         QString search = model->index(3,1).data(Qt::DisplayRole).toString();
 
-        proxyModel->setDynamicSortFilter(true);
+       // proxyModel->setDynamicSortFilter(true);
        // proxyModel->setFilterFixedString(search);
         //proxyModel->setFilterFixedString(proxyModel->index(1,3).data().toString());
 
-        proxyModel->setFilterKeyColumn(3);
 
         //proxyModel->sort(5, Qt::AscendingOrder);
-
-
 
 
  //       model->setHorizontalHeaderItem(3, description);
@@ -67,24 +67,41 @@ table::table(QWidget *parent) :
 
          }
 
-        //ui->tableView->setModel(model);
 
-        filterdelegate* filter = new filterdelegate;
-        ui->tableView->setItemDelegate(filter);
+
+//        for(int column = 0; column <= 3; column++)
+//         {
+//            QLineEdit *lineEd = new QLineEdit;
+//            lineEd->setPlaceholderText("suche");
+//            QModelIndex index = model->index(0,column,QModelIndex());
+//            ui->tableView->setIndexWidget(index, lineEd);
+//            connect(lineEd, SIGNAL(textChanged(const QString &)),SLOT(textFilterChanged(const QString &)));
+
+//         }
+
+
+
 
         proxyModel->insertRow(0);
-        ui->tableView->setItemDelegateForRow(0,filter);
 
-        connect(editor, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
+        lineEditdelegate* lineEdit = new lineEditdelegate;
+        ui->tableView->setItemDelegate(lineEdit);
 
+        proxyModel->insertRow(0);
+        ui->tableView->setItemDelegateForRow(0,lineEdit);
 
+        QModelIndex index = model->index(0,3,QModelIndex());
+        connect(this->~QObject(),SIGNAL (itemChanged(QStandardItem *item)),this, SLOT(textFilterChanged()));
+//        proxyModel->setFilterKeyColumn(3);
 
-
-
+       //connect(lineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
 
 
 //        QString search = model->index(0,3).data().toString();
 //        proxyModel->setFilterFixedString(search);
+
+
+
 
 
 
@@ -257,13 +274,22 @@ void table::handleButton()
     }
 }
 
-void table::textFilterChanged(const QString &newValue){
+void table::textFilterChanged(){
 
-    //QString search = editor->text();
-    QString search = newValue;
-    proxyModel->setFilterFixedString(search);
+    newValue = lineEd->text();
     proxyModel->setFilterKeyColumn(3);
+    proxyModel->setFilterFixedString(newValue);
+
 }
+
+//void table::textFilterChanged2(const QString &newValue){
+
+
+//    proxyModel->setFilterRegExp(newValue);
+//    //proxyModel->setFilterKeyColumn(3);
+//}
+
+
 
 table::~table()
 {

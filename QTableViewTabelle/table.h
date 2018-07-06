@@ -28,7 +28,8 @@ public:
 public slots:
     void slotSelectionChange(const QItemSelection &, const QItemSelection &);
     void handleButton();
-    void textFilterChanged();
+     void textFilterChanged();
+//     void setFilterFixedString( const QString &);
 
 signals:
     //selectionChanged(const QItemSelection &, const QItemSelection &);
@@ -47,9 +48,13 @@ private:
 
     QStandardItemModel *sourceModel;
     QSortFilterProxyModel *proxyModel;
+    QLineEdit *lineEd;
+    QString newValue;
 
 
-    QLineEdit *editor;
+   // QLineEdit *editor;
+   // QLineEdit *lineEdit;
+
 
 
 };
