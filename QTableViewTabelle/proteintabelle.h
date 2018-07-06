@@ -9,8 +9,7 @@ class Proteintabelle : public QTableView
 public:
     Proteintabelle(QWidget *parent = 0);
 
-public slots:
-    void handleButton();
+
 };
 
 #endif // PROTEINTABELLE_H
