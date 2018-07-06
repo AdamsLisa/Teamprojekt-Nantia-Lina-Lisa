@@ -92,6 +92,37 @@ int main(int argc, char *argv[])
         file.close();
     }
 
+    int checkboxColumn = 7;
+    //Checkboxen
+    for(int row = 0; row < model->rowCount(); row++)
+     {
+        //instance of item
+        QStandardItem* item;
+        item = new QStandardItem(true);
+        //set the box checkable
+        item->setCheckable(true);
+        //Sets the checkbox's check state to unchecked
+        item->setCheckState(Qt::Unchecked);
+        //put checkbox into each row of checkboxcolumn
+        model->setItem(row,checkboxColumn, item);
+      }
+
+    int checkboxColumnPep = 2;
+    for(int row = 0; row < modelpep->rowCount(); row++)
+     {
+        //instance of item
+        QStandardItem* item;
+        item = new QStandardItem(true);
+        //set the box checkable
+        item->setCheckable(true);
+        //Sets the checkbox's check state to unchecked
+        item->setCheckState(Qt::Unchecked);
+        //put checkbox into each row of checkboxcolumn
+        modelpep->setItem(row,checkboxColumnPep, item);
+      }
+
+
+
     // SIGNALS UND SLOTS
             //Signal Slot Connection für Zeilenselektion
            QObject::connect(selectionModel, SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
