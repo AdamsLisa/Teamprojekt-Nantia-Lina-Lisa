@@ -8,8 +8,10 @@ class Peptidtabelle : public QTableView
     Q_OBJECT
 public:
     Peptidtabelle(QWidget *parent = 0);
+
 public slots:
-    void slotSelectionChange(const QItemSelection &, const QItemSelection &);
+    void handleButton();
+    void slotSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 };
 
 #endif // PEPTIDTABELLE_H

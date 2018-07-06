@@ -16,6 +16,7 @@
 #include <QItemSelectionModel>
 
 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -23,10 +24,11 @@ int main(int argc, char *argv[])
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItemModel *modelpep = new QStandardItemModel;
     QTableView *Proteintabelle1 = new Proteintabelle;
-    QTableView *Peptidtabelle1 = new QTableView(splitter);
+    QTableView *Peptidtabelle1 = new Peptidtabelle;
     Proteintabelle1->setModel(model);
     Peptidtabelle1->setModel(modelpep);
     splitter->addWidget(Proteintabelle1);
+    splitter->addWidget(Peptidtabelle1);
 
     QPushButton *deselectbutton = new QPushButton(splitter);
     deselectbutton->setText("DESELECT");
@@ -38,6 +40,14 @@ int main(int argc, char *argv[])
     Peptidtabelle1->setItemDelegate(Bardelegatepep);
 
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
+
+    int indexofproteincoverage;
+    int indexofnumberofpeptides;
+    int indexofnumberofspectra;
+    int indexofms2quant;
+    int indexofconfidence;
+    int indexofaccession;
+    int indexofdescription;
 
 
     QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
@@ -58,13 +68,13 @@ int main(int argc, char *argv[])
                 //if (item == " ") leerzeichencount++;
             }
             if (line.startsWith("PRH")) {
-               /* QString line2 = in.readLine();
+               /*QString line2 = in.readLine();
                 QList<QStandardItem *> standardItemsList2;
                 for (QString item2 : line2.split("\t")){
                     if (item2 == " ") {worter[indexworter]=laufindex+1; indexworter++;}
                     laufindex++;
                 }*/
-/*
+
                 indexofproteincoverage=line.indexOf("protein_coverage");
                 indexofnumberofpeptides=line.indexOf("num_peptides_distinct_ms_run[1]");
                 indexofnumberofspectra=line.indexOf("num_psms_ms_run[1]");
@@ -72,7 +82,7 @@ int main(int argc, char *argv[])
                 indexofconfidence=line.indexOf("best_search_engine_score[1]");
                 indexofaccession=line.indexOf("accession");
                 indexofdescription=line.indexOf("description");
-                model->insertRow(model->rowCount(), standardItemsList);*/
+                model->insertRow(model->rowCount(), standardItemsList);
 }
 
             if (line.startsWith("PRT")) {model->insertRow(model->rowCount(), standardItemsList);}
@@ -84,11 +94,11 @@ int main(int argc, char *argv[])
 
     // SIGNALS UND SLOTS
             //Signal Slot Connection für Zeilenselektion
-           QObject::connect(Proteintabelle1->selectionModel(), SIGNAL (selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)),
-                            Peptidtabelle1 , SLOT (slotSelectionChange(const QItemSelection &, const QItemSelection &)));
+           QObject::connect(selectionModel, SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
+                            Peptidtabelle1 , SLOT (slotSelectionChanged(const QItemSelection &, const QItemSelection &)));
 
             //Signal Slot Connection für Deselect Button
-            QObject::connect(deselectbutton, SIGNAL (clicked()), Proteintabelle1, SLOT (handleButton()));
+            QObject::connect(deselectbutton, SIGNAL (clicked()), Peptidtabelle1, SLOT (handleButton()));
 
 
 
