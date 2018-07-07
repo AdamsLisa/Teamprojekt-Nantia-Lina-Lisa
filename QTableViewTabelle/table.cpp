@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QDebug>
 
+
 table::table(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::table)
@@ -19,10 +20,6 @@ table::table(QWidget *parent) :
         //const int tableColumn=12;
         //column in which to display checkboxes
         const int checkboxColumn=11;
-
-        //create a list with all the needed strings
-        /*QStringList list = { "", "Pl" , "Accession", "Description", "Chr" ,"Coverage","#Peptides","#Spectra",
-                           "MS Quant", "MW","Confidence","Checkbox"};*/
 
         //create model with columns and rows
         model = new QStandardItemModel(this);
@@ -50,8 +47,8 @@ table::table(QWidget *parent) :
                 model->setHorizontalHeaderLabels(QStringList() << "Column");
 
                 //open file
-                //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-                QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+                QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+               // QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
                 if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
                     qDebug() << "File does not exist";
                 } else {
@@ -68,7 +65,9 @@ table::table(QWidget *parent) :
                             standardItemsList.append(new QStandardItem(item));
                             //if (item == " ") leerzeichencount++;
                         }
-                        if (line.startsWith("PRH")) {
+                        if (line.startsWith("PRH"))
+
+                            {
                            /* QString line2 = in.readLine();
                             QList<QStandardItem *> standardItemsList2;
                             for (QString item2 : line2.split("\t")){
@@ -84,7 +83,7 @@ table::table(QWidget *parent) :
                             indexofaccession=line.indexOf("accession");
                             indexofdescription=line.indexOf("description");
                             model->insertRow(model->rowCount(), standardItemsList);
-}
+                             }
 
                         if (line.startsWith("PRT")) {model->insertRow(model->rowCount(), standardItemsList); tableRow++;}
                         if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
@@ -109,6 +108,11 @@ table::table(QWidget *parent) :
         
        /* for (int i=0; i<30; i++){
         if(worter[i]==indexofaccession){*/
+
+        //create a list with all the needed strings
+        QStringList list = { "Accession", "Confidence ","Description", "MS Quant", "#Peptides","#Spectra",
+                            "Protein Coverage"};
+        /*
          model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
          model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
          model->setHorizontalHeaderItem(indexofdescription, new QStandardItem(QString ("Description")));
@@ -116,6 +120,7 @@ table::table(QWidget *parent) :
          model->setHorizontalHeaderItem(indexofnumberofpeptides, new QStandardItem(QString ("# Peptides")));
          model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
          model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
+         */
 
 
 
@@ -138,6 +143,7 @@ table::table(QWidget *parent) :
  *
  *
 */
+
     TableRowPep=1;
     TableColumnPep=6;
     //column in which to display checkboxes
@@ -171,8 +177,6 @@ table::table(QWidget *parent) :
             //put checkbox into each row of checkboxcolumn
             modelpep->setItem(row,checkboxColumnPep, itempep);
          }
-
-
 
 
     //--------------------------------------------------------------------------------

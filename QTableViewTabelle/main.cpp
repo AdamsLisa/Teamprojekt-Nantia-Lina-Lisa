@@ -19,7 +19,10 @@
 
 int main(int argc, char *argv[])
 {
+    //Instance for managing the GUI application
     QApplication a(argc, argv);
+
+    //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItemModel *modelpep = new QStandardItemModel;
@@ -27,15 +30,21 @@ int main(int argc, char *argv[])
     QTableView *Peptidtabelle1 = new Peptidtabelle;
     Proteintabelle1->setModel(model);
     Peptidtabelle1->setModel(modelpep);
+    //add the two tables
     splitter->addWidget(Proteintabelle1);
     splitter->addWidget(Peptidtabelle1);
+    //set the orientation
+    splitter->setOrientation(Qt::Vertical);
 
+    //add deselect button
     QPushButton *deselectbutton = new QPushButton(splitter);
     deselectbutton->setText("DESELECT");
 
+    //instance for protein table
     BarDelegate* bardelegate = new BarDelegate();
     Proteintabelle1->setItemDelegate(bardelegate);
 
+    //instance for peptide table
     bardelegatepep* Bardelegatepep = new bardelegatepep();
     Peptidtabelle1->setItemDelegate(Bardelegatepep);
 
@@ -56,8 +65,9 @@ int main(int argc, char *argv[])
     int indexofconfidencepep=0;
     int checkboxColumnPep=0;
 
-
-    QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+    //mzTab file parser
+    QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+    //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -74,7 +84,6 @@ int main(int argc, char *argv[])
                 standardItemsList.append(new QStandardItem(item));
                 //if (item == " ") leerzeichencount++;
             }
-
 
             if (line.startsWith("PRH")) {
                 QStringList Worter=line.split("\t");
@@ -125,9 +134,6 @@ int main(int argc, char *argv[])
         file.close();
     }
 
-
-
-
     //Checkboxen
     for(int row = 0; row < model->rowCount(); row++)
      {
@@ -155,6 +161,15 @@ int main(int argc, char *argv[])
         modelpep->setItem(row,checkboxColumnPep, item);
       }
 
+
+//create a list for protein table
+QStringList protList = {"Accession","Confidence", "Description","MS Quant" ,"#Peptides","#Spectra",
+                           "Protein Coverage", "Checkbox"};
+  for(int i=0;i<=7;i++){
+      model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(protList.at(i)));
+ }
+
+/*
 //Überschriften Proteintabelle
     model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
     model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
@@ -164,7 +179,7 @@ int main(int argc, char *argv[])
     model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
     model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
     model->setHorizontalHeaderItem(checkboxColumn, new QStandardItem(QString("Checkbox")));
-
+*/
 //Überschriften Peptidtabelle
     modelpep->setHorizontalHeaderItem(indexofconfidencepep, new QStandardItem(QString ("Confidence")));
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
