@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
                             && (i != checkboxColumn))
                         Proteintabelle1->hideColumn(i);
                 }
-}
+            }
 
             if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
 
@@ -161,15 +161,6 @@ int main(int argc, char *argv[])
         modelpep->setItem(row,checkboxColumnPep, item);
       }
 
-
-//create a list for protein table
-QStringList protList = {"Accession","Confidence", "Description","MS Quant" ,"#Peptides","#Spectra",
-                           "Protein Coverage", "Checkbox"};
-  for(int i=0;i<=7;i++){
-      model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(protList.at(i)));
- }
-
-/*
 //Überschriften Proteintabelle
     model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
     model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
@@ -179,7 +170,8 @@ QStringList protList = {"Accession","Confidence", "Description","MS Quant" ,"#Pe
     model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
     model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
     model->setHorizontalHeaderItem(checkboxColumn, new QStandardItem(QString("Checkbox")));
-*/
+
+
 //Überschriften Peptidtabelle
     modelpep->setHorizontalHeaderItem(indexofconfidencepep, new QStandardItem(QString ("Confidence")));
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));

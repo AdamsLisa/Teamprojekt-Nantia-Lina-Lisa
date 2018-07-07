@@ -35,14 +35,12 @@ SOURCES += \
     peptidtabelle.cpp
 
 HEADERS += \
-        table.h \
         bardelegate.h \
         bardelegatepep.h \
     proteintabelle.h \
     peptidtabelle.h
 
 FORMS += \
-        table.ui \
 
 
 SUBDIRS += \
