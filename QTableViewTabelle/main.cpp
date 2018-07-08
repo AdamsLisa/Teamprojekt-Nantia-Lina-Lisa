@@ -14,11 +14,17 @@
 #include <QPushButton>
 #include <QItemSelection>
 #include <QItemSelectionModel>
+#include <QSortFilterProxyModel>
 
 
 
 int main(int argc, char *argv[])
 {
+
+//---------------------------------------------------------------
+// Definition von Model, View, ...
+//---------------------------------------------------------------
+
     //Instance for managing the GUI application
     QApplication a(argc, argv);
 
@@ -38,7 +44,7 @@ int main(int argc, char *argv[])
 
     //add deselect button
     QPushButton *deselectbutton = new QPushButton(splitter);
-    deselectbutton->setText("DESELECT");
+    deselectbutton->setText("SHOW ALL");
 
     //instance for protein table
     BarDelegate* bardelegate = new BarDelegate();
@@ -50,6 +56,13 @@ int main(int argc, char *argv[])
 
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
 
+
+//-------------------------------------------------------------------------------
+//mzTab file parser
+//--------------------------------------------------------------------------------
+
+
+    //Variablen für Spalten
     int indexofproteincoverage=0;
     int indexofnumberofpeptides=0;
     int indexofnumberofspectra=0;
@@ -66,7 +79,7 @@ int main(int argc, char *argv[])
     int checkboxColumnPep=0;
     int indexofaccessionpep=0;
 
-    //mzTab file parser
+
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
     QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
@@ -86,6 +99,7 @@ int main(int argc, char *argv[])
                 //if (item == " ") leerzeichencount++;
             }
 
+            //Proteinheader; suche Spalten
             if (line.startsWith("PRH")) {
                 QStringList Worter=line.split("\t");
                 indexofproteincoverage=Worter.indexOf("protein_coverage");
@@ -99,8 +113,10 @@ int main(int argc, char *argv[])
 
             }
 
+            //Proteine: werden eingelesen
             if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
 
+            //Peptidheader; suche Spalten
             if (line.startsWith("PSH")){
                 QStringList Worter=line.split("\t");
                 indexofsequencepep=Worter.indexOf("sequence");
@@ -111,10 +127,17 @@ int main(int argc, char *argv[])
 
 
             }
+
+            //Peptide: werden eingelesen
             if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
 
 
         }
+
+//--------------------------------------------------------------------------------------------------------
+// CHECKBOXEN
+//--------------------------------------------------------------------------------------------------------
+
         //Füge Spalte für Checkbox hinzu
         model->insertColumn(model->columnCount());
         modelpep->insertColumn(modelpep->columnCount());
@@ -153,6 +176,11 @@ int main(int argc, char *argv[])
         modelpep->setItem(row,checkboxColumnPep, item);
       }
 
+
+//-----------------------------------------------------------------------------------------------------------
+//ÜBERSCHRIFTEN
+//-----------------------------------------------------------------------------------------------------------
+
 //Überschriften Proteintabelle
     model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
     model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
@@ -172,20 +200,33 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
 
+//----------------------------------------------------------------------------------------------------------------
+// "mappen" von Proteinen und Peptiden
+//----------------------------------------------------------------------------------------------------------------
+
     //füge Spalte für Proteinreferenz hinzu
     modelpep->insertColumn(modelpep->columnCount());
 
+    //gehe Accessions der Peptide durch
     for (int i=0; i<modelpep->rowCount(); i++){
         QModelIndex index = modelpep->index(i, indexofaccessionpep, QModelIndex());
         QString data = modelpep->data(index).toString();
         QList<QVariant> indexlist;
+        //suche nach zugehörigen Proteinen
         for (int j=0; j<model->rowCount(); j++){
             QModelIndex indexpro = model->index(j, indexofaccession,QModelIndex());
+            //wenn Protein gefunden, merke Index
             if (model->data(indexpro) == data) indexlist.append(indexpro);
         }
+        //speichere Indexe der Proteine in letzter Spalte des Peptidmodels
         QModelIndex datenindex = modelpep->index(i, modelpep->columnCount()-1, QModelIndex());
         modelpep->setData(datenindex, indexlist);
     }
+
+
+//-----------------------------------------------------------------------------------------------------------------
+//Zeige nur gewünschte Spalten an
+//-----------------------------------------------------------------------------------------------------------------
 
     for (int i=0; i<model->columnCount(); i++){
         if ((i != indexofaccession) && (i != indexofconfidence) && (i != indexofdescription) && (i != indexofms2quant)
@@ -200,7 +241,10 @@ int main(int argc, char *argv[])
             Peptidtabelle1->hideColumn(i);
     }
 
-    // SIGNALS UND SLOTS
+//-------------------------------------------------------------------------------------------------------------------------
+// SIGNALS UND SLOTS
+//-------------------------------------------------------------------------------------------------------------------------
+
             //Signal Slot Connection für Zeilenselektion
            QObject::connect(selectionModel, SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
                             Peptidtabelle1 , SLOT (slotSelectionChanged(const QItemSelection &, const QItemSelection &)));
