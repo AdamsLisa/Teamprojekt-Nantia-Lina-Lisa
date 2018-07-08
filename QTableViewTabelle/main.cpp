@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     int indexofnumberofspectrapep=0;
     int indexofconfidencepep=0;
     int checkboxColumnPep=0;
+    int indexofaccessionpep=0;
 
     //mzTab file parser
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
@@ -101,11 +102,11 @@ int main(int argc, char *argv[])
             if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
 
             if (line.startsWith("PSH")){
-                modelpep->insertRow(modelpep->rowCount(),standardItemsList);
                 QStringList Worter=line.split("\t");
                 indexofsequencepep=Worter.indexOf("sequence");
                 indexofconfidencepep=Worter.indexOf("search_engine_score[1]");
                 indexofstartpep=Worter.indexOf("start");
+                indexofaccessionpep=Worter.indexOf("accession");
                 //spectraref
 
 
@@ -167,7 +168,24 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(indexofconfidencepep, new QStandardItem(QString ("Confidence")));
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
     modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
+    modelpep->setHorizontalHeaderItem(indexofaccessionpep, new QStandardItem(QString("Accession")));
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
+
+
+    //füge Spalte für Proteinreferenz hinzu
+    modelpep->insertColumn(modelpep->columnCount());
+
+    for (int i=0; i<modelpep->rowCount(); i++){
+        QModelIndex index = modelpep->index(i, indexofaccessionpep, QModelIndex());
+        QString data = modelpep->data(index).toString();
+        QList<QVariant> indexlist;
+        for (int j=0; j<model->rowCount(); j++){
+            QModelIndex indexpro = model->index(j, indexofaccession,QModelIndex());
+            if (model->data(indexpro) == data) indexlist.append(indexpro);
+        }
+        QModelIndex datenindex = modelpep->index(i, modelpep->columnCount()-1, QModelIndex());
+        modelpep->setData(datenindex, indexlist);
+    }
 
     for (int i=0; i<model->columnCount(); i++){
         if ((i != indexofaccession) && (i != indexofconfidence) && (i != indexofdescription) && (i != indexofms2quant)
@@ -177,7 +195,8 @@ int main(int argc, char *argv[])
     }
 
     for (int i = 0; i<modelpep->columnCount(); i++){
-        if ((i != indexofsequencepep) && (i != indexofconfidencepep) && (i != indexofstartpep) && (i != checkboxColumnPep))
+        if ((i != indexofsequencepep) && (i != indexofconfidencepep) && (i != indexofstartpep) && (i != checkboxColumnPep)
+                && (i != indexofaccessionpep))
             Peptidtabelle1->hideColumn(i);
     }
 
