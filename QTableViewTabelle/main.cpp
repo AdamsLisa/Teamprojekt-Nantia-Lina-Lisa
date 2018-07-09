@@ -57,7 +57,6 @@ int main(int argc, char *argv[])
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
 
 
-
 //-------------------------------------------------------------------------------
 //mzTab file parser
 //--------------------------------------------------------------------------------

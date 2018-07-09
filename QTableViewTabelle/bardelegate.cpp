@@ -31,23 +31,25 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 //********************************************************************
 // getting the maximum value of a column
 
+    //model instance
     QStandardItemModel *model = new QStandardItemModel;
     model->insertRow(model->rowCount());
-    //search the whole column for max value
 
     int dataColumn = 2; // The column with the data
 
-
+    //current value
+    QVariant content = index.data().toFloat();
+    //last value
     QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+    //maximum value
     float maximum = index.model()->data(last).toFloat();
+
 
       for (int j=0; j<model->columnCount(); j++)
         {
-            float maximum =0;
                 for (int i=0; i<(model->rowCount())-1; i++)
                     {
-                        QModelIndex index =  model->index(i,j,QModelIndex());
-                        QVariant content = index.data().toFloat();
+                        //QModelIndex index =  model->index(i,j,QModelIndex());
                         //QModelIndex idx = model->index(model->rowCount(), dataColumn);
                         //QVariant nextData = idx.data().toFloat();
                         // Comparison
@@ -66,7 +68,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 //**************************************************************************
 
     //sets in which columns the green bars should be drawn
-    if (index.column() == 3)
+    if (index.column() == 1)
       {
           rect.setWidth(rect.width()*(v/maximum));
           painter->drawRect(rect);
@@ -76,7 +78,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     if (index.column() == numbers[5] )
     {
 
-        rect.setWidth(rect.width()*(0.001*v));
+        rect.setWidth(rect.width()*(0.001*(v/maximum)));
         painter->drawRect(rect);
     }
 
