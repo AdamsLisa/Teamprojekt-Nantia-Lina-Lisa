@@ -223,6 +223,23 @@ int main(int argc, char *argv[])
         modelpep->setData(datenindex, indexlist);
     }
 
+    //-----------------------------------------
+
+    model->insertRow(model->rowCount());
+
+    for (int j=0; j<model->columnCount(); j++){
+        float maximum =0;
+        QModelIndex index;
+    for (int i=0; i<(model->rowCount())-1; i++){
+        index = model->index(i,j,QModelIndex());
+        if (index.data().canConvert<float>()){
+            float wert = index.data().toFloat();
+            if (wert > maximum) maximum = wert;
+        }
+
+    }
+    model->setData(index, maximum);
+}
 
 //-----------------------------------------------------------------------------------------------------------------
 //Zeige nur gewünschte Spalten an

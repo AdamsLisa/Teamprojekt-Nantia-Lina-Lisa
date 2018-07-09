@@ -29,13 +29,17 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect3 = option.rect;
 
 
-    //sets in which columns the green bars should be drawn
-    if (index.column() == 1)
-    {
+    if (index.data().canConvert<float>()){
+     QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+    float maximum = index.model()->data(last).toFloat();
 
+    //sets in which columns the green bars should be drawn
+   // if (index.column() == 1)
+    //{
+        rect.setWidth(rect.width()*(v/maximum));
         painter->drawRect(rect);
     }
-
+/*
     //Coverage
     if (index.column() == numbers[5] )
     {
@@ -46,7 +50,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //#Peptides
     if (index.column() == numbers[6] )
     {
-    /*    painter->setBrush(QBrush(Qt::red));
+        painter->setBrush(QBrush(Qt::red));
         rect2.setWidth(rect.width()*(v*0.1));
         painter->drawRect(rect);
         painter->setBrush(QBrush(Qt::yellow));
@@ -60,7 +64,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
         rect2.united(rect3);
 
         painter->drawRect(rect3);
-        */
+
         rect.setWidth(rect.width()*(0.01*v));
         painter->drawRect(rect);
 
@@ -103,7 +107,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
         rect.setWidth(rect.width()*(v*0.001));
         painter->drawRect(rect);
     }
-
+*/
     else
     {
       QStyledItemDelegate::paint(painter, option, index);
