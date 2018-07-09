@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
 
 
+
 //-------------------------------------------------------------------------------
 //mzTab file parser
 //--------------------------------------------------------------------------------
@@ -80,8 +81,8 @@ int main(int argc, char *argv[])
     int indexofaccessionpep=0;
 
 
-    //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-    QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+    QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+    //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {

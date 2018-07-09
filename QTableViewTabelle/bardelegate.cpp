@@ -1,4 +1,4 @@
-#include "BarDelegate.h"
+#include "bardelegate.h"
 #include <QtWidgets>
 #include <QSpinBox>
 #include <iostream>
@@ -28,17 +28,54 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect2 = option.rect;
     QRect rect3 = option.rect;
 
+//********************************************************************
+// getting the maximum value of a column
+
+    QStandardItemModel *model = new QStandardItemModel;
+    model->insertRow(model->rowCount());
+    //search the whole column for max value
+
+    int dataColumn = 2; // The column with the data
+
+
+    QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+    float maximum = index.model()->data(last).toFloat();
+
+      for (int j=0; j<model->columnCount(); j++)
+        {
+            float maximum =0;
+                for (int i=0; i<(model->rowCount())-1; i++)
+                    {
+                        QModelIndex index =  model->index(i,j,QModelIndex());
+                        QVariant content = index.data().toFloat();
+                        //QModelIndex idx = model->index(model->rowCount(), dataColumn);
+                        //QVariant nextData = idx.data().toFloat();
+                        // Comparison
+
+                            if (content > maximum)
+                            {
+                                maximum == content;
+
+                            }
+
+
+                    }
+            model->setData(index, maximum);
+      }
+
+//**************************************************************************
 
     //sets in which columns the green bars should be drawn
-    if (index.column() == 1)
-    {
-
-        painter->drawRect(rect);
-    }
+    if (index.column() == 3)
+      {
+          rect.setWidth(rect.width()*(v/maximum));
+          painter->drawRect(rect);
+      }
 
     //Coverage
     if (index.column() == numbers[5] )
     {
+
         rect.setWidth(rect.width()*(0.001*v));
         painter->drawRect(rect);
     }
@@ -46,7 +83,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //#Peptides
     if (index.column() == numbers[6] )
     {
-    /*    painter->setBrush(QBrush(Qt::red));
+    /*  painter->setBrush(QBrush(Qt::red));
         rect2.setWidth(rect.width()*(v*0.1));
         painter->drawRect(rect);
         painter->setBrush(QBrush(Qt::yellow));
@@ -65,7 +102,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
         painter->drawRect(rect);
 
     }
-
+/*
     //#Spectra
     if (index.column() == numbers[7])
     {
@@ -103,7 +140,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
         rect.setWidth(rect.width()*(v*0.001));
         painter->drawRect(rect);
     }
-
+*/
     else
     {
       QStyledItemDelegate::paint(painter, option, index);
