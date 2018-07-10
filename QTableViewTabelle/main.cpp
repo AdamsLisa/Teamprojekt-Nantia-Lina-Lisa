@@ -15,6 +15,7 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
+#include <QFileDialog>
 
 
 
@@ -25,8 +26,15 @@ int main(int argc, char *argv[])
 // Definition von Model, View, ...
 //---------------------------------------------------------------
 
+
+
+
     //Instance for managing the GUI application
     QApplication a(argc, argv);
+
+
+    //Open QFileDialog to select files
+     QFile file(QFileDialog::getOpenFileName());
 
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
@@ -80,7 +88,7 @@ int main(int argc, char *argv[])
     int indexofaccessionpep=0;
 
 
-    QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
+    //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
     //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
