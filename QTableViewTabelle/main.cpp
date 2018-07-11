@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
     model->insertRow(model->rowCount());
 
     for (int j=0; j<model->columnCount(); j++){
-        float maximum =0;
+        float maximum =1;
         QModelIndex index;
     for (int i=0; i<(model->rowCount())-1; i++){
         index = model->index(i,j,QModelIndex());
@@ -238,6 +238,7 @@ int main(int argc, char *argv[])
         }
 
     }
+    index = model->index((model->rowCount())-1, j, QModelIndex());
     model->setData(index, maximum);
 }
 

@@ -28,8 +28,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect2 = option.rect;
     QRect rect3 = option.rect;
 
-
-    if (index.data().canConvert<float>()){
+        // if (index.data().canConvert<float>()){
      QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
     float maximum = index.model()->data(last).toFloat();
 
@@ -38,7 +37,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //{
         rect.setWidth(rect.width()*(v/maximum));
         painter->drawRect(rect);
-    }
+
 /*
     //Coverage
     if (index.column() == numbers[5] )
@@ -108,10 +107,10 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
         painter->drawRect(rect);
     }
 */
-    else
+ /*   else
     {
       QStyledItemDelegate::paint(painter, option, index);
-    }
+    }*/
 
     //restores the current painter state
     painter->restore();
