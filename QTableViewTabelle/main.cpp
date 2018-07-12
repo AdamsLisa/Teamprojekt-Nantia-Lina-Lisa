@@ -205,6 +205,7 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
     modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
     modelpep->setHorizontalHeaderItem(indexofaccessionpep, new QStandardItem(QString("Accession")));
+    modelpep->setHorizontalHeaderItem(indexofstartpep, new QStandardItem(QString("Start")));
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
 
