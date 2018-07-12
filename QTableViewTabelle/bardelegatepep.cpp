@@ -24,8 +24,27 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
     QRect rect = option.rect;
 
 
-    //sets in which columns the green bars should be drawn
-    if (index.column() == 5)
+    QString dataalsstring = index.data().toString();
+
+    //da Qt anscheinend alle QStandarditems zu float konvertieren kann, hier nun die Abfrage, ob wir tatsächlich eine Zahl vorliegen haben
+    if (dataalsstring.startsWith("0") || dataalsstring.startsWith("1") || dataalsstring.startsWith("2") || dataalsstring.startsWith("3")
+            || dataalsstring.startsWith("4") || dataalsstring.startsWith("5") || dataalsstring.startsWith("6") || dataalsstring.startsWith("7")
+            || dataalsstring.startsWith("8") || dataalsstring.startsWith("9")){
+
+
+     //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
+     QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+     //denn hier steht das Maximum
+    float maximum = index.model()->data(last).toFloat();
+
+  //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten, damit der Balken im Tabellenfeld gut dargestellt wird
+        rect.setWidth(rect.width()*(v/maximum));
+        painter->drawRect(rect);
+    }
+
+//NOCH TO DO: kleinerer Balken bei Start Column
+    /*
+     if (index.column() == 5)
     {
         float v=(index.data().toFloat())/40;
         QRect rect = option.rect;
@@ -34,23 +53,9 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
         rect.setWidth(rectanglesize);
         painter->drawRect(rect);
     }
-
-    if (index.column() == 5 )
-    {
-
-    if (v == 1.0) rect.setWidth(rect.width()*0.5);
-
-    painter->drawRect(rect);
-
-    }
+*/
 
 
-    if (index.column() == 5 || index.column() == 5)
-    {
-
-    painter->drawRect(rect);
-
-    }
 
     else
     {
