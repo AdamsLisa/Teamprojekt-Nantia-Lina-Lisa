@@ -15,8 +15,8 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
-#include <QFileDialog>
-
+#include <lineeditdelegate.h>
+#include <QLineEdit>
 
 
 int main(int argc, char *argv[])
@@ -26,15 +26,8 @@ int main(int argc, char *argv[])
 // Definition von Model, View, ...
 //---------------------------------------------------------------
 
-
-
-
     //Instance for managing the GUI application
     QApplication a(argc, argv);
-
-
-    //Open QFileDialog to select files
-     QFile file(QFileDialog::getOpenFileName());
 
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
@@ -65,6 +58,29 @@ int main(int argc, char *argv[])
     QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
 
 
+//    //line edit
+//    model->insertRow(0);
+//    QLineEdit *lineEd = new QLineEdit;
+//    lineEd->setPlaceholderText("suche");
+//    QModelIndex index = model->index(0,1,QModelIndex());
+//    Proteintabelle1->setIndexWidget(index,lineEd);
+
+
+    //ProxyModel
+    QStandardItemModel *sourceModel = model;
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+
+    proxyModel->setSourceModel(sourceModel);
+
+    //LineEdit
+    proxyModel->insertRow(0);
+    lineEditdelegate* lineEdit = new lineEditdelegate;
+    Proteintabelle1->setItemDelegateForRow(0,lineEdit);
+
+    lineEdit->connect(lineEdit,SIGNAL(QLineEdit::textChanged(QString)),proxyModel,SLOT(QSortFilterProxyModel::setFilterFixedString(QString)));
+
+
+
 //-------------------------------------------------------------------------------
 //mzTab file parser
 //--------------------------------------------------------------------------------
@@ -90,6 +106,7 @@ int main(int argc, char *argv[])
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
     //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+    QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -205,7 +222,6 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
     modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
     modelpep->setHorizontalHeaderItem(indexofaccessionpep, new QStandardItem(QString("Accession")));
-    modelpep->setHorizontalHeaderItem(indexofstartpep, new QStandardItem(QString("Start")));
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
 
@@ -249,60 +265,6 @@ int main(int argc, char *argv[])
                 && (i != indexofaccessionpep))
             Peptidtabelle1->hideColumn(i);
     }
-    
-//-----------------------------------------------------------------------------------------
-//Maximumsbestimmung
-//-----------------------------------------------------------------------------------------
-
-// FÜR PROTEINTABELLE
-
-    //Füge Zeile ein zum Merken der Maxima
-    model->insertRow(model->rowCount());
-
-    //gehe jede Spalte durch und suche jeweils das Maximum
-    for (int j=0; j<model->columnCount(); j++){
-        float maximum =1;
-        QModelIndex index;
-    for (int i=0; i<(model->rowCount())-1; i++){
-        index = model->index(i,j,QModelIndex());
-        if (index.data().canConvert<float>()){
-            float wert = index.data().toFloat();
-            if (wert > maximum) maximum = wert;
-        }
-
-    }
-    //schreibe das Maximum in die letzte Zeile
-    index = model->index((model->rowCount())-1, j, QModelIndex());
-    model->setData(index, maximum);
-}
-
-    //zeige Maximumszeile nicht an
-    Proteintabelle1->hideRow((model->rowCount())-1);
-
-// FÜR PEPTIDTABELLE
-    //Füge Zeile ein zum Merken der Maxima
-    modelpep->insertRow(modelpep->rowCount());
-
-    //gehe jede Spalte durch und suche jeweils das Maximum
-    for (int j=0; j<modelpep->columnCount(); j++){
-        float maximum =1;
-        QModelIndex index;
-    for (int i=0; i<(modelpep->rowCount())-1; i++){
-        index = modelpep->index(i,j,QModelIndex());
-        if (index.data().canConvert<float>()){
-            float wert = index.data().toFloat();
-            if (wert > maximum) maximum = wert;
-        }
-
-    }
-    //schreibe das Maximum in die letzte Zeile
-    index = modelpep->index((modelpep->rowCount())-1, j, QModelIndex());
-    modelpep->setData(index, maximum);
-}
-
-    //zeige Maximumszeile nicht an
-    Peptidtabelle1->hideRow((modelpep->rowCount())-1);
-    
 
 //-------------------------------------------------------------------------------------------------------------------------
 // SIGNALS UND SLOTS
@@ -314,6 +276,9 @@ int main(int argc, char *argv[])
 
             //Signal Slot Connection für Deselect Button
             QObject::connect(deselectbutton, SIGNAL (clicked()), Peptidtabelle1, SLOT (handleButton()));
+
+
+           // QObject::connect(lineEdit, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 
