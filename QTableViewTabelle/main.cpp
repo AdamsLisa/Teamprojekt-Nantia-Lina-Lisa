@@ -17,6 +17,7 @@
 #include <QSortFilterProxyModel>
 #include <lineeditdelegate.h>
 #include <QLineEdit>
+#include <QFile>
 
 
 int main(int argc, char *argv[])
@@ -110,7 +111,7 @@ int main(int argc, char *argv[])
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
     //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
-    QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
+    //QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
