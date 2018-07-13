@@ -29,6 +29,10 @@ int main(int argc, char *argv[])
     //Instance for managing the GUI application
     QApplication a(argc, argv);
 
+    
+    //Open QFileDialog to select files
+     QFile file(QFileDialog::getOpenFileName());
+    
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
     QStandardItemModel *model = new QStandardItemModel;
@@ -222,6 +226,7 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
     modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
     modelpep->setHorizontalHeaderItem(indexofaccessionpep, new QStandardItem(QString("Accession")));
+    modelpep->setHorizontalHeaderItem(indexofstartpep, new QStandardItem(QString("Start")));
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
 
@@ -266,6 +271,60 @@ int main(int argc, char *argv[])
             Peptidtabelle1->hideColumn(i);
     }
 
+    //-----------------------------------------------------------------------------------------
+//Maximumsbestimmung
+//-----------------------------------------------------------------------------------------
+
+// FÜR PROTEINTABELLE
+
+    //Füge Zeile ein zum Merken der Maxima
+    model->insertRow(model->rowCount());
+
+    //gehe jede Spalte durch und suche jeweils das Maximum
+    for (int j=0; j<model->columnCount(); j++){
+        float maximum =1;
+        QModelIndex index;
+    for (int i=0; i<(model->rowCount())-1; i++){
+        index = model->index(i,j,QModelIndex());
+        if (index.data().canConvert<float>()){
+            float wert = index.data().toFloat();
+            if (wert > maximum) maximum = wert;
+        }
+
+    }
+    //schreibe das Maximum in die letzte Zeile
+    index = model->index((model->rowCount())-1, j, QModelIndex());
+    model->setData(index, maximum);
+}
+
+    //zeige Maximumszeile nicht an
+    Proteintabelle1->hideRow((model->rowCount())-1);
+
+// FÜR PEPTIDTABELLE
+    //Füge Zeile ein zum Merken der Maxima
+    modelpep->insertRow(modelpep->rowCount());
+
+    //gehe jede Spalte durch und suche jeweils das Maximum
+    for (int j=0; j<modelpep->columnCount(); j++){
+        float maximum =1;
+        QModelIndex index;
+    for (int i=0; i<(modelpep->rowCount())-1; i++){
+        index = modelpep->index(i,j,QModelIndex());
+        if (index.data().canConvert<float>()){
+            float wert = index.data().toFloat();
+            if (wert > maximum) maximum = wert;
+        }
+
+    }
+    //schreibe das Maximum in die letzte Zeile
+    index = modelpep->index((modelpep->rowCount())-1, j, QModelIndex());
+    modelpep->setData(index, maximum);
+}
+
+    //zeige Maximumszeile nicht an
+    Peptidtabelle1->hideRow((modelpep->rowCount())-1);
+    
+    
 //-------------------------------------------------------------------------------------------------------------------------
 // SIGNALS UND SLOTS
 //-------------------------------------------------------------------------------------------------------------------------
