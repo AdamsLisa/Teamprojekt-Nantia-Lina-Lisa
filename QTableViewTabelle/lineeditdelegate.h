@@ -31,7 +31,7 @@ public slots:
       //void textFilterChanged(QString);
 
 signals:
-       //textChanged(const QString &newValue);
+       textChanged(const QString &newValue);
 
     };
 

@@ -7,6 +7,7 @@
 #include <QSplitterHandle>
 #include <array>
 #include <QFile>
+#include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
 #include <QStandardItemModel>
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
 
     
     //Open QFileDialog to select files
-     QFile file(QFileDialog::getOpenFileName());
+     //QFile file(QFileDialog::getOpenFileName());
     
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
@@ -71,18 +72,18 @@ int main(int argc, char *argv[])
 
 
     //ProxyModel
-    QStandardItemModel *sourceModel = model;
+    //QStandardItemModel *sourceModel = model;
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
 
-    proxyModel->setSourceModel(sourceModel);
+    proxyModel->setSourceModel(model);
+
 
     //LineEdit
     proxyModel->insertRow(0);
     lineEditdelegate* lineEdit = new lineEditdelegate;
     Proteintabelle1->setItemDelegateForRow(0,lineEdit);
 
-    lineEdit->connect(lineEdit,SIGNAL(QLineEdit::textChanged(QString)),proxyModel,SLOT(QSortFilterProxyModel::setFilterFixedString(QString)));
-
+    lineEdit->connect(lineEdit,SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 //-------------------------------------------------------------------------------
@@ -109,8 +110,8 @@ int main(int argc, char *argv[])
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-    //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
-    QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
+    QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+   // QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
@@ -337,7 +338,7 @@ int main(int argc, char *argv[])
             QObject::connect(deselectbutton, SIGNAL (clicked()), Peptidtabelle1, SLOT (handleButton()));
 
 
-           // QObject::connect(lineEdit, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+           //QObject::connect(lineEdit, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 

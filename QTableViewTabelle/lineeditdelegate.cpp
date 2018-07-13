@@ -23,7 +23,7 @@ QWidget* lineEditdelegate::createEditor(QWidget* parent, QStyleOptionViewItem co
 //    completer->setModelSorting(QCompleter::UnsortedModel);
 //    editor->setCompleter(completer);
 
-    editor->setPlaceholderText("suche");
+    editor->setPlaceholderText("Suche");
 
 
    //connect(editor, SIGNAL(textChanged(QString)), this, SLOT(textFilterChanged(QString &newValue)));

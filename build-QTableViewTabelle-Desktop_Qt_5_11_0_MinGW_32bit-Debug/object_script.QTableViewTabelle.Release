@@ -1,13 +1,13 @@
 INPUT(
 ./release\main.o
-./release\table.o
 ./release\bardelegate.o
 ./release\bardelegatepep.o
 ./release\proteintabelle.o
 ./release\peptidtabelle.o
-./release\moc_table.o
+./release\lineeditdelegate.o
 ./release\moc_bardelegate.o
 ./release\moc_bardelegatepep.o
 ./release\moc_proteintabelle.o
 ./release\moc_peptidtabelle.o
+./release\moc_lineeditdelegate.o
 );

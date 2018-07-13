@@ -1,13 +1,13 @@
 INPUT(
 ./debug\main.o
-./debug\table.o
 ./debug\bardelegate.o
 ./debug\bardelegatepep.o
 ./debug\proteintabelle.o
 ./debug\peptidtabelle.o
-./debug\moc_table.o
+./debug\lineeditdelegate.o
 ./debug\moc_bardelegate.o
 ./debug\moc_bardelegatepep.o
 ./debug\moc_proteintabelle.o
 ./debug\moc_peptidtabelle.o
+./debug\moc_lineeditdelegate.o
 );
