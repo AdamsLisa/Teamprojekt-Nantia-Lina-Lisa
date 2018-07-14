@@ -30,48 +30,29 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
             || dataalsstring.startsWith("4") || dataalsstring.startsWith("5") || dataalsstring.startsWith("6") || dataalsstring.startsWith("7")
             || dataalsstring.startsWith("8") || dataalsstring.startsWith("9")){
 
+        //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
+        QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+        //denn hier steht das Maximum
+       float maximum = index.model()->data(last).toFloat();
 
-     //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
-     QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
-     //denn hier steht das Maximum
-    float maximum = index.model()->data(last).toFloat();
+        if ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Start"){
+            float s=(index.data().toFloat())/10;
+            QRect rect = option.rect;
+            rect.setLeft(rect.left() + s);
+            float rectanglesize = 10;
+            rect.setWidth(rectanglesize);
+            painter->drawRect(rect);
+        }
+
+        else{
+
 
   //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten, damit der Balken im Tabellenfeld gut dargestellt wird
         rect.setWidth(rect.width()*(v/maximum));
-        painter->drawRect(rect);
-    }
-
-//NOCH TO DO: kleinerer Balken bei Start Column
-    
-    /*
-    //sets in which columns the green bars should be drawn
-    if (index.column() == 5)
-    {
-        float v=(index.data().toFloat())/40;
-        QRect rect = option.rect;
-        rect.setLeft(rect.left() + v);
-        float rectanglesize = 10;
-        rect.setWidth(rectanglesize);
-        painter->drawRect(rect);
-    }
-
-    if (index.column() == 5 )
-    {
-
-    if (v == 1.0) rect.setWidth(rect.width()*0.5);
-
-    painter->drawRect(rect);
-
+        painter->drawRect(rect);}
     }
 
 
-    if (index.column() == 5 || index.column() == 5)
-    {
-
-    painter->drawRect(rect);
-
-    }
-*/
     else
     {
       QStyledItemDelegate::paint(painter, option, index);

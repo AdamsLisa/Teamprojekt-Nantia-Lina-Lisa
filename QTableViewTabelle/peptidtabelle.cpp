@@ -23,6 +23,8 @@ void Peptidtabelle::slotSelectionChanged(const QItemSelection &selected, const Q
     for (int l=0; l<this->model()->rowCount(); l++){
         this->hideRow(l);
     }
+
+    /*
     for (int i=0; i<selection.count(); i++){
         for (int j=0; j<this->model()->rowCount(); j++){
             QModelIndex index = this->model()->index(j, (this->model()->columnCount())-1, QModelIndex());
@@ -34,7 +36,21 @@ void Peptidtabelle::slotSelectionChanged(const QItemSelection &selected, const Q
             }
         }
 
-    }
+    }*/
+int Accessionspalte = 0;
+for (int i=0; i<this->model()->columnCount(); i++){
+    QString headerdata = this->model()->headerData(i,Qt::Horizontal).toString();
+    if (headerdata == new QString("Accession")) Accessionspalte=i;
+}
 
+
+    for (int i=0; i<selection.count(); i++){
+        for (int j=0; j<this->model()->rowCount(); j++){
+            QVariant daten = selection.at(i).data();
+            QModelIndex index = this->model()->index(j,Accessionspalte,QModelIndex());
+            QVariant datenpep= this->model()->data(index);
+            if (daten.toString() == datenpep.toString() && j != this->model()->rowCount()-1) this->showRow(j);
+        }
+    }
 }
 

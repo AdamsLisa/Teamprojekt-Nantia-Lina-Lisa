@@ -111,13 +111,13 @@ int main(int argc, char *argv[])
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-<<<<<<< HEAD
+
     QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
    // QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
-=======
+
     //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     //QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
->>>>>>> 7886d178f91cbdfd73cafc6c6e6fe33b7cd33f27
+
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
         qDebug() << "File does not exist";
     } else {
