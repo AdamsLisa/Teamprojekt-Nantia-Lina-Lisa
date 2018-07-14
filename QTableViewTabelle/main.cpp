@@ -84,7 +84,9 @@ int main(int argc, char *argv[])
     lineEditdelegate* lineEdit = new lineEditdelegate;
     Proteintabelle1->setItemDelegateForRow(0,lineEdit);
 
-    lineEdit->connect(lineEdit,SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+    Proteintabelle1->setSortingEnabled(true);
+
+  lineEdit->connect(lineEdit,SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 //-------------------------------------------------------------------------------
@@ -298,7 +300,7 @@ int main(int argc, char *argv[])
         }
 
     }
-    //schreibe das Maximum in die letzte Zeile
+    //schreibe das Maximum in den Header
 
     model->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
@@ -318,7 +320,7 @@ int main(int argc, char *argv[])
         }
 
     }
-    //schreibe das Maximum in die letzte Zeile
+    //schreibe das Maximum in den Header
     index = modelpep->index((modelpep->rowCount())-1, j, QModelIndex());
     modelpep->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }

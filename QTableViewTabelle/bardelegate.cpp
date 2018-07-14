@@ -157,6 +157,8 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
      //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
      //QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
      //denn hier steht das Maximum
+
+        //Maximum im Header
      float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
     //float maximum = index.model()->data(last).toFloat();
 
