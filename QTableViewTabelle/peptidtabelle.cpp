@@ -11,7 +11,7 @@ void Peptidtabelle::handleButton()
 {
 
     //zeige alle Reihen der Peptidtabelle an
-    for (int i= 0; i<this->model()->rowCount()-1; i++){
+    for (int i= 0; i<this->model()->rowCount(); i++){
        this->showRow(i);
     }
 }

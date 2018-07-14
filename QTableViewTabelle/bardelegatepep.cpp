@@ -31,9 +31,11 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
             || dataalsstring.startsWith("8") || dataalsstring.startsWith("9")){
 
         //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
-        QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+        //QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
         //denn hier steht das Maximum
-       float maximum = index.model()->data(last).toFloat();
+       //float maximum = index.model()->data(last).toFloat();
+
+        float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
 
         if ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Start"){
             float s=(index.data().toFloat())/10;

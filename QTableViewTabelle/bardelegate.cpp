@@ -155,9 +155,10 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 
 
      //in last holen wir uns den Index der letzten Zeile der aktuellen Spalte
-     QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
+     //QModelIndex last = index.model()->index((index.model()->rowCount())-1, index.column(), QModelIndex());
      //denn hier steht das Maximum
-    float maximum = index.model()->data(last).toFloat();
+     float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
+    //float maximum = index.model()->data(last).toFloat();
 
   //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten, damit der Balken im Tabellenfeld gut dargestellt wird
         rect.setWidth(rect.width()*(v/maximum));

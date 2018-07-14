@@ -284,8 +284,7 @@ int main(int argc, char *argv[])
 
 // FÜR PROTEINTABELLE
 
-    //Füge Zeile ein zum Merken der Maxima
-    model->insertRow(model->rowCount());
+
 
     //gehe jede Spalte durch und suche jeweils das Maximum
     for (int j=0; j<model->columnCount(); j++){
@@ -300,16 +299,12 @@ int main(int argc, char *argv[])
 
     }
     //schreibe das Maximum in die letzte Zeile
-    index = model->index((model->rowCount())-1, j, QModelIndex());
-    model->setData(index, maximum);
+
+    model->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 
-    //zeige Maximumszeile nicht an
-    Proteintabelle1->hideRow((model->rowCount())-1);
 
 // FÜR PEPTIDTABELLE
-    //Füge Zeile ein zum Merken der Maxima
-    modelpep->insertRow(modelpep->rowCount());
 
     //gehe jede Spalte durch und suche jeweils das Maximum
     for (int j=0; j<modelpep->columnCount(); j++){
@@ -325,11 +320,10 @@ int main(int argc, char *argv[])
     }
     //schreibe das Maximum in die letzte Zeile
     index = modelpep->index((modelpep->rowCount())-1, j, QModelIndex());
-    modelpep->setData(index, maximum);
+    modelpep->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 
-    //zeige Maximumszeile nicht an
-    Peptidtabelle1->hideRow((modelpep->rowCount())-1);
+
     
     
 //-------------------------------------------------------------------------------------------------------------------------
