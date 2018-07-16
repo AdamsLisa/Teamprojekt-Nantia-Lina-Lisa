@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     
     //Open QFileDialog to select files
-     //QFile file(QFileDialog::getOpenFileName());
+    QFile file(QFileDialog::getOpenFileName());
     
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
@@ -59,10 +59,6 @@ int main(int argc, char *argv[])
     //instance for peptide table
     bardelegatepep* Bardelegatepep = new bardelegatepep();
     Peptidtabelle1->setItemDelegate(Bardelegatepep);
-
-    // QSortFilterProxyModel
-   // QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
-    //proxyModel->setSourceModel(model);
 
 
 
@@ -91,10 +87,6 @@ int main(int argc, char *argv[])
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-
-    QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
-   // QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
-
     //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     //QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
 
@@ -268,29 +260,6 @@ int main(int argc, char *argv[])
     modelpep->setHorizontalHeaderItem(indexofstartpep, new QStandardItem(QString("Start")));
     modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
-
-//----------------------------------------------------------------------------------------------------------------
-// "mappen" von Proteinen und Peptiden
-//----------------------------------------------------------------------------------------------------------------
-
-    //füge Spalte für Proteinreferenz hinzu
-    modelpep->insertColumn(modelpep->columnCount());
-
-    //gehe Accessions der Peptide durch
-    for (int i=0; i<modelpep->rowCount(); i++){
-        QModelIndex index = modelpep->index(i, indexofaccessionpep, QModelIndex());
-        QString data = modelpep->data(index).toString();
-        QList<QVariant> indexlist;
-        //suche nach zugehörigen Proteinen
-        for (int j=0; j<model->rowCount(); j++){
-            QModelIndex indexpro = model->index(j, indexofaccession,QModelIndex());
-            //wenn Protein gefunden, merke Index
-            if (model->data(indexpro) == data) indexlist.append(indexpro);
-        }
-        //speichere Indexe der Proteine in letzter Spalte des Peptidmodels
-        QModelIndex datenindex = modelpep->index(i, modelpep->columnCount()-1, QModelIndex());
-        modelpep->setData(datenindex, indexlist);
-    }
 
 
 //-----------------------------------------------------------------------------------------------------------------
