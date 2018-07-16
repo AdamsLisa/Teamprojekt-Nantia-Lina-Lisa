@@ -33,15 +33,13 @@ SOURCES += \
         bardelegatepep.cpp \
     proteintabelle.cpp \
     peptidtabelle.cpp \
-    lineeditdelegate.cpp \
 
 
 HEADERS += \
         bardelegate.h \
         bardelegatepep.h \
     proteintabelle.h \
-    peptidtabelle.h \
-lineeditdelegate.h
+    peptidtabelle.h
 
 FORMS += \
 

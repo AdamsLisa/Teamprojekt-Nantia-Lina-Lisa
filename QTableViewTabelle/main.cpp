@@ -41,8 +41,7 @@ int main(int argc, char *argv[])
     QStandardItemModel *modelpep = new QStandardItemModel;
     QTableView *Proteintabelle1 = new Proteintabelle;
     QTableView *Peptidtabelle1 = new Peptidtabelle;
-    Proteintabelle1->setModel(model);
-    Peptidtabelle1->setModel(modelpep);
+
     //add the two tables
     splitter->addWidget(Proteintabelle1);
     splitter->addWidget(Peptidtabelle1);
@@ -61,32 +60,11 @@ int main(int argc, char *argv[])
     bardelegatepep* Bardelegatepep = new bardelegatepep();
     Peptidtabelle1->setItemDelegate(Bardelegatepep);
 
-    QItemSelectionModel *selectionModel = Proteintabelle1->selectionModel();
+    // QSortFilterProxyModel
+   // QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
+    //proxyModel->setSourceModel(model);
 
 
-//    //line edit
-//    model->insertRow(0);
-//    QLineEdit *lineEd = new QLineEdit;
-//    lineEd->setPlaceholderText("suche");
-//    QModelIndex index = model->index(0,1,QModelIndex());
-//    Proteintabelle1->setIndexWidget(index,lineEd);
-
-
-    //ProxyModel
-    //QStandardItemModel *sourceModel = model;
-    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
-
-    proxyModel->setSourceModel(model);
-
-
-    //LineEdit
-    proxyModel->insertRow(0);
-    lineEditdelegate* lineEdit = new lineEditdelegate;
-    Proteintabelle1->setItemDelegateForRow(0,lineEdit);
-
-    Proteintabelle1->setSortingEnabled(true);
-
-  lineEdit->connect(lineEdit,SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 //-------------------------------------------------------------------------------
@@ -171,6 +149,58 @@ int main(int argc, char *argv[])
 
 
         }
+
+//------------------------------------------------------------------------------------------------------------------------
+// FILTER
+//-----------------------------------------------------------------------------------------------------------------------
+
+//PROTEINTABELLE
+
+
+        //Accession
+            QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
+            proxyModel->setSourceModel(model);
+              QLineEdit *lineEditAccession = new QLineEdit;
+              Proteintabelle1->setSortingEnabled(true);
+              proxyModel->setFilterKeyColumn(indexofaccession);
+              lineEditAccession->setText("Proteintabelle: Accession");
+              splitter->addWidget(lineEditAccession);
+              //Signal Slot Connection für Filter
+             QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+
+         //Description
+              QLineEdit *lineEditDescription = new QLineEdit;
+              QSortFilterProxyModel *proxyModelDescription = new QSortFilterProxyModel;
+              proxyModelDescription->setSourceModel(proxyModel);
+              proxyModelDescription->setFilterKeyColumn(indexofdescription);
+              QObject::connect(lineEditDescription, SIGNAL(textEdited(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
+              lineEditDescription->setText("Proteintabelle: Description");
+              splitter->addWidget(lineEditDescription);
+
+              Proteintabelle1->setModel(proxyModelDescription);
+//PEPTIDTABELLE
+
+              //Accession
+                    QSortFilterProxyModel *proxyModelAccessionPep = new QSortFilterProxyModel;
+                    proxyModelAccessionPep->setSourceModel(modelpep);
+                    QLineEdit *lineEditAccessionPep = new QLineEdit;
+                    Peptidtabelle1->setSortingEnabled(true);
+                    proxyModelAccessionPep->setFilterKeyColumn(indexofaccessionpep);
+                    lineEditAccessionPep->setText("Peptidtabelle: Accession");
+                    splitter->addWidget(lineEditAccessionPep);
+                    //Signal Slot Connection für Filter
+                   QObject::connect(lineEditAccessionPep, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
+               //Sequence
+                    QLineEdit *lineEditSequencePep = new QLineEdit;
+                    QSortFilterProxyModel *proxyModelSequencePep = new QSortFilterProxyModel;
+                    proxyModelSequencePep->setSourceModel(proxyModelAccessionPep);
+                    proxyModelSequencePep->setFilterKeyColumn(indexofsequencepep);
+                    QObject::connect(lineEditSequencePep, SIGNAL(textEdited(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+                    lineEditSequencePep->setText("Peptidtabelle: Sequence");
+                    splitter->addWidget(lineEditSequencePep);
+
+                    Peptidtabelle1->setModel(proxyModelSequencePep);
 
 //--------------------------------------------------------------------------------------------------------
 // CHECKBOXEN
@@ -327,20 +357,18 @@ int main(int argc, char *argv[])
 
 
     
-    
 //-------------------------------------------------------------------------------------------------------------------------
 // SIGNALS UND SLOTS
 //-------------------------------------------------------------------------------------------------------------------------
 
             //Signal Slot Connection für Zeilenselektion
-           QObject::connect(selectionModel, SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
+           QObject::connect(Proteintabelle1->selectionModel(), SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
                             Peptidtabelle1 , SLOT (slotSelectionChanged(const QItemSelection &, const QItemSelection &)));
 
             //Signal Slot Connection für Deselect Button
             QObject::connect(deselectbutton, SIGNAL (clicked()), Peptidtabelle1, SLOT (handleButton()));
 
 
-           //QObject::connect(lineEdit, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
 
 
