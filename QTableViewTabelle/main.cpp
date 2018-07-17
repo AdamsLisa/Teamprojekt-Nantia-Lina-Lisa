@@ -38,29 +38,27 @@ int main(int argc, char *argv[])
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
     QStandardItemModel *model = new QStandardItemModel;
-    QStandardItemModel *modelpep = new QStandardItemModel;
-    QTableView *Proteintabelle1 = new Proteintabelle;
-    QTableView *Peptidtabelle1 = new Peptidtabelle;
+    QStandardItemModel *modelPep = new QStandardItemModel;
+    QTableView *ProteinTable = new Proteintabelle;
+    QTableView *PeptideTable = new Peptidtabelle;
 
     //add the two tables
-    splitter->addWidget(Proteintabelle1);
-    splitter->addWidget(Peptidtabelle1);
+    splitter->addWidget(ProteinTable);
+    splitter->addWidget(PeptideTable);
     //set the orientation
     splitter->setOrientation(Qt::Vertical);
 
     //add deselect button
-    QPushButton *deselectbutton = new QPushButton(splitter);
-    deselectbutton->setText("SHOW ALL");
+    QPushButton *deselectButton = new QPushButton(splitter);
+    deselectButton->setText("SHOW ALL");
 
     //instance for protein table
-    BarDelegate* bardelegate = new BarDelegate();
-    Proteintabelle1->setItemDelegate(bardelegate);
+    BarDelegate* barDelegate = new BarDelegate();
+    ProteinTable->setItemDelegate(barDelegate);
 
     //instance for peptide table
-    bardelegatepep* Bardelegatepep = new bardelegatepep();
-    Peptidtabelle1->setItemDelegate(Bardelegatepep);
-
-
+    bardelegatepep* BarDelegatePep = new bardelegatepep();
+    PeptideTable->setItemDelegate(BarDelegatePep);
 
 
 //-------------------------------------------------------------------------------
@@ -69,21 +67,21 @@ int main(int argc, char *argv[])
 
 
     //Variablen für Spalten
-    int indexofproteincoverage=0;
-    int indexofnumberofpeptides=0;
-    int indexofnumberofspectra=0;
-    int indexofms2quant=0;
-    int indexofconfidence=0;
-    int indexofaccession=0;
-    int indexofdescription=0;
+    int ProtCovIndex=0;
+    int NumOfPept=0;
+    int NumOfSpectra=0;
+    int ms2Quant=0;
+    int ConfidenceIndex=0;
+    int AccessionIndex=0;
+    int DescriptionIndex=0;
     int checkboxColumn=0;
 
-    int indexofsequencepep=0;
-    int indexofstartpep=0;
-    int indexofnumberofspectrapep=0;
-    int indexofconfidencepep=0;
+    int SeqPepIndex=0;
+    int StartPepIndex=0;
+    int NumOfSpectrapep=0;
+    int ConfidenceIndexpep=0;
     int checkboxColumnPep=0;
-    int indexofaccessionpep=0;
+    int AccessionIndexpep=0;
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
@@ -110,13 +108,13 @@ int main(int argc, char *argv[])
             //Proteinheader; suche Spalten
             if (line.startsWith("PRH")) {
                 QStringList Worter=line.split("\t");
-                indexofproteincoverage=Worter.indexOf("protein_coverage");
-                indexofnumberofpeptides=Worter.indexOf("num_peptides_distinct_ms_run[1]");
-                indexofnumberofspectra=Worter.indexOf("num_psms_ms_run[1]");
-                indexofms2quant=Worter.indexOf("protein_abundance_assay[1]");
-                indexofconfidence=Worter.indexOf("best_search_engine_score[1]");
-                indexofaccession=Worter.indexOf("accession");
-                indexofdescription=Worter.indexOf("description");
+                ProtCovIndex=Worter.indexOf("protein_coverage");
+                NumOfPept=Worter.indexOf("num_peptides_distinct_ms_run[1]");
+                NumOfSpectra=Worter.indexOf("num_psms_ms_run[1]");
+                ms2Quant=Worter.indexOf("protein_abundance_assay[1]");
+                ConfidenceIndex=Worter.indexOf("best_search_engine_score[1]");
+                AccessionIndex=Worter.indexOf("accession");
+                DescriptionIndex=Worter.indexOf("description");
 
 
             }
@@ -127,17 +125,17 @@ int main(int argc, char *argv[])
             //Peptidheader; suche Spalten
             if (line.startsWith("PSH")){
                 QStringList Worter=line.split("\t");
-                indexofsequencepep=Worter.indexOf("sequence");
-                indexofconfidencepep=Worter.indexOf("search_engine_score[1]");
-                indexofstartpep=Worter.indexOf("start");
-                indexofaccessionpep=Worter.indexOf("accession");
+                SeqPepIndex=Worter.indexOf("sequence");
+                ConfidenceIndexpep=Worter.indexOf("search_engine_score[1]");
+                StartPepIndex=Worter.indexOf("start");
+                AccessionIndexpep=Worter.indexOf("accession");
                 //spectraref
 
 
             }
 
             //Peptide: werden eingelesen
-            if (line.startsWith("PSM")) modelpep->insertRow(modelpep->rowCount(), standardItemsList);
+            if (line.startsWith("PSM")) modelPep->insertRow(modelPep->rowCount(), standardItemsList);
 
 
         }
@@ -147,66 +145,65 @@ int main(int argc, char *argv[])
 //-----------------------------------------------------------------------------------------------------------------------
 
 //PROTEINTABELLE
+//Accession
+  QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
+  proxyModel->setSourceModel(model);
+  QLineEdit *lineEditAccession = new QLineEdit;
+  ProteinTable->setSortingEnabled(true);
+  proxyModel->setFilterKeyColumn(AccessionIndex);
+  lineEditAccession->setText("Proteintabelle: Accession");
+  splitter->addWidget(lineEditAccession);
+  //Signal Slot Connection für Filter
+   QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
 
+   //Description
+   QLineEdit *lineEditDescription = new QLineEdit;
+   QSortFilterProxyModel *proxyModelDescription = new QSortFilterProxyModel;
+   proxyModelDescription->setSourceModel(proxyModel);
+   proxyModelDescription->setFilterKeyColumn(DescriptionIndex);
+   QObject::connect(lineEditDescription, SIGNAL(textEdited(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
+   lineEditDescription->setText("Proteintabelle: Description");
+   splitter->addWidget(lineEditDescription);
 
-        //Accession
-            QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
-            proxyModel->setSourceModel(model);
-              QLineEdit *lineEditAccession = new QLineEdit;
-              Proteintabelle1->setSortingEnabled(true);
-              proxyModel->setFilterKeyColumn(indexofaccession);
-              lineEditAccession->setText("Proteintabelle: Accession");
-              splitter->addWidget(lineEditAccession);
-              //Signal Slot Connection für Filter
-             QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+   ProteinTable->setModel(proxyModelDescription);
 
-         //Description
-              QLineEdit *lineEditDescription = new QLineEdit;
-              QSortFilterProxyModel *proxyModelDescription = new QSortFilterProxyModel;
-              proxyModelDescription->setSourceModel(proxyModel);
-              proxyModelDescription->setFilterKeyColumn(indexofdescription);
-              QObject::connect(lineEditDescription, SIGNAL(textEdited(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
-              lineEditDescription->setText("Proteintabelle: Description");
-              splitter->addWidget(lineEditDescription);
-
-              Proteintabelle1->setModel(proxyModelDescription);
 //PEPTIDTABELLE
+//Accession
+   QSortFilterProxyModel *proxyModelAccessionPep = new QSortFilterProxyModel;
+   proxyModelAccessionPep->setSourceModel(modelPep);
+   QLineEdit *lineEditAccessionPep = new QLineEdit;
+   PeptideTable->setSortingEnabled(true);
+   proxyModelAccessionPep->setFilterKeyColumn(AccessionIndexpep);
+   lineEditAccessionPep->setText("Peptidtabelle: Accession");
+   splitter->addWidget(lineEditAccessionPep);
+   //Signal Slot Connection für Filter
+   QObject::connect(lineEditAccessionPep, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
 
-              //Accession
-                    QSortFilterProxyModel *proxyModelAccessionPep = new QSortFilterProxyModel;
-                    proxyModelAccessionPep->setSourceModel(modelpep);
-                    QLineEdit *lineEditAccessionPep = new QLineEdit;
-                    Peptidtabelle1->setSortingEnabled(true);
-                    proxyModelAccessionPep->setFilterKeyColumn(indexofaccessionpep);
-                    lineEditAccessionPep->setText("Peptidtabelle: Accession");
-                    splitter->addWidget(lineEditAccessionPep);
-                    //Signal Slot Connection für Filter
-                   QObject::connect(lineEditAccessionPep, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+//Sequence
+   QLineEdit *lineEditSequencePep = new QLineEdit;
+   QSortFilterProxyModel *proxyModelSequencePep = new QSortFilterProxyModel;
+   proxyModelSequencePep->setSourceModel(proxyModelAccessionPep);
+   proxyModelSequencePep->setFilterKeyColumn(SeqPepIndex);
+   QObject::connect(lineEditSequencePep, SIGNAL(textEdited(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+   lineEditSequencePep->setText("Peptidtabelle: Sequence");
+   splitter->addWidget(lineEditSequencePep);
 
-               //Sequence
-                    QLineEdit *lineEditSequencePep = new QLineEdit;
-                    QSortFilterProxyModel *proxyModelSequencePep = new QSortFilterProxyModel;
-                    proxyModelSequencePep->setSourceModel(proxyModelAccessionPep);
-                    proxyModelSequencePep->setFilterKeyColumn(indexofsequencepep);
-                    QObject::connect(lineEditSequencePep, SIGNAL(textEdited(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
-                    lineEditSequencePep->setText("Peptidtabelle: Sequence");
-                    splitter->addWidget(lineEditSequencePep);
+   PeptideTable->setModel(proxyModelSequencePep);
 
-                    Peptidtabelle1->setModel(proxyModelSequencePep);
 
 //--------------------------------------------------------------------------------------------------------
 // CHECKBOXEN
 //--------------------------------------------------------------------------------------------------------
+   //Füge Spalte für Checkbox hinzu
+   model->insertColumn(model->columnCount());
+   modelPep->insertColumn(modelPep->columnCount());
 
-        //Füge Spalte für Checkbox hinzu
-        model->insertColumn(model->columnCount());
-        modelpep->insertColumn(modelpep->columnCount());
 
+   checkboxColumn=model->columnCount()-1;
+   checkboxColumnPep=modelPep->columnCount()-1;
 
-        checkboxColumn=model->columnCount()-1;
-        checkboxColumnPep=modelpep->columnCount()-1;
+   file.close();
 
-        file.close();
     }
 
     //Checkboxen
@@ -223,7 +220,7 @@ int main(int argc, char *argv[])
         model->setItem(row,checkboxColumn, item);
       }
 
-    for(int row = 0; row < modelpep->rowCount(); row++)
+    for(int row = 0; row < modelPep->rowCount(); row++)
      {
         //instance of item
         QStandardItem* item;
@@ -233,7 +230,7 @@ int main(int argc, char *argv[])
         //Sets the checkbox's check state to unchecked
         item->setCheckState(Qt::Unchecked);
         //put checkbox into each row of checkboxcolumn
-        modelpep->setItem(row,checkboxColumnPep, item);
+        modelPep->setItem(row,checkboxColumnPep, item);
       }
 
 
@@ -242,23 +239,23 @@ int main(int argc, char *argv[])
 //-----------------------------------------------------------------------------------------------------------
 
 //Überschriften Proteintabelle
-    model->setHorizontalHeaderItem(indexofaccession, new QStandardItem(QString ("Accession")));
-    model->setHorizontalHeaderItem(indexofconfidence, new QStandardItem(QString ("Confidence")));
-    model->setHorizontalHeaderItem(indexofdescription, new QStandardItem(QString ("Description")));
-    model->setHorizontalHeaderItem(indexofms2quant, new QStandardItem(QString ("MS2Quant")));
-    model->setHorizontalHeaderItem(indexofnumberofpeptides, new QStandardItem(QString ("# Peptides")));
-    model->setHorizontalHeaderItem(indexofnumberofspectra, new QStandardItem(QString ("# Spectra")));
-    model->setHorizontalHeaderItem(indexofproteincoverage, new QStandardItem(QString ("Protein Coverage")));
+    model->setHorizontalHeaderItem(AccessionIndex, new QStandardItem(QString ("Accession")));
+    model->setHorizontalHeaderItem(ConfidenceIndex, new QStandardItem(QString ("Confidence")));
+    model->setHorizontalHeaderItem(DescriptionIndex, new QStandardItem(QString ("Description")));
+    model->setHorizontalHeaderItem(ms2Quant, new QStandardItem(QString ("MS2Quant")));
+    model->setHorizontalHeaderItem(NumOfPept, new QStandardItem(QString ("# Peptides")));
+    model->setHorizontalHeaderItem(NumOfSpectra, new QStandardItem(QString ("# Spectra")));
+    model->setHorizontalHeaderItem(ProtCovIndex, new QStandardItem(QString ("Protein Coverage")));
     model->setHorizontalHeaderItem(checkboxColumn, new QStandardItem(QString("Checkbox")));
 
 
 //Überschriften Peptidtabelle
-    modelpep->setHorizontalHeaderItem(indexofconfidencepep, new QStandardItem(QString ("Confidence")));
-    modelpep->setHorizontalHeaderItem(indexofnumberofspectrapep, new QStandardItem(QString("# Spectra")));
-    modelpep->setHorizontalHeaderItem(indexofsequencepep, new QStandardItem(QString("Sequence")));
-    modelpep->setHorizontalHeaderItem(indexofaccessionpep, new QStandardItem(QString("Accession")));
-    modelpep->setHorizontalHeaderItem(indexofstartpep, new QStandardItem(QString("Start")));
-    modelpep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
+    modelPep->setHorizontalHeaderItem(ConfidenceIndexpep, new QStandardItem(QString ("Confidence")));
+    modelPep->setHorizontalHeaderItem(NumOfSpectrapep, new QStandardItem(QString("# Spectra")));
+    modelPep->setHorizontalHeaderItem(SeqPepIndex, new QStandardItem(QString("Sequence")));
+    modelPep->setHorizontalHeaderItem(AccessionIndexpep, new QStandardItem(QString("Accession")));
+    modelPep->setHorizontalHeaderItem(StartPepIndex, new QStandardItem(QString("Start")));
+    modelPep->setHorizontalHeaderItem(checkboxColumnPep, new QStandardItem(QString("Checkbox")));
 
 
 
@@ -266,20 +263,23 @@ int main(int argc, char *argv[])
 //Zeige nur gewünschte Spalten an
 //-----------------------------------------------------------------------------------------------------------------
 
-    for (int i=0; i<model->columnCount(); i++){
-        if ((i != indexofaccession) && (i != indexofconfidence) && (i != indexofdescription) && (i != indexofms2quant)
-                && (i != indexofnumberofpeptides) && (i != indexofnumberofspectra) && (i != indexofproteincoverage)
+    for (int i=0; i<model->columnCount(); i++)
+    {
+        if ((i != AccessionIndex) && (i != ConfidenceIndex) && (i != DescriptionIndex) && (i != ms2Quant)
+                && (i != NumOfPept) && (i != NumOfSpectra) && (i != ProtCovIndex)
                 && (i != checkboxColumn))
-            Proteintabelle1->hideColumn(i);
+        ProteinTable->hideColumn(i);
     }
 
-    for (int i = 0; i<modelpep->columnCount(); i++){
-        if ((i != indexofsequencepep) && (i != indexofconfidencepep) && (i != indexofstartpep) && (i != checkboxColumnPep)
-                && (i != indexofaccessionpep))
-            Peptidtabelle1->hideColumn(i);
+    for (int i = 0; i<modelPep->columnCount(); i++)
+    {
+        if ((i != SeqPepIndex) && (i != ConfidenceIndexpep) && (i != StartPepIndex) && (i != checkboxColumnPep)
+                && (i != AccessionIndexpep))
+        PeptideTable->hideColumn(i);
     }
 
-    //-----------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------
 //Maximumsbestimmung
 //-----------------------------------------------------------------------------------------
 
@@ -288,19 +288,23 @@ int main(int argc, char *argv[])
 
 
     //gehe jede Spalte durch und suche jeweils das Maximum
-    for (int j=0; j<model->columnCount(); j++){
+    for (int j=0; j<model->columnCount(); j++)
+    {
         float maximum =1;
         QModelIndex index;
-    for (int i=0; i<(model->rowCount())-1; i++){
+
+    for (int i=0; i<(model->rowCount())-1; i++)
+    {
         index = model->index(i,j,QModelIndex());
-        if (index.data().canConvert<float>()){
+        if (index.data().canConvert<float>())
+        {
             float wert = index.data().toFloat();
             if (wert > maximum) maximum = wert;
         }
 
     }
-    //schreibe das Maximum in den Header
 
+    //schreibe das Maximum in den Header
     model->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 
@@ -308,20 +312,23 @@ int main(int argc, char *argv[])
 // FÜR PEPTIDTABELLE
 
     //gehe jede Spalte durch und suche jeweils das Maximum
-    for (int j=0; j<modelpep->columnCount(); j++){
+    for (int j=0; j<modelPep->columnCount(); j++)
+    {
         float maximum =1;
         QModelIndex index;
-    for (int i=0; i<(modelpep->rowCount())-1; i++){
-        index = modelpep->index(i,j,QModelIndex());
-        if (index.data().canConvert<float>()){
+    for (int i=0; i<(modelPep->rowCount())-1; i++)
+    {
+        index = modelPep->index(i,j,QModelIndex());
+        if (index.data().canConvert<float>())
+        {
             float wert = index.data().toFloat();
             if (wert > maximum) maximum = wert;
         }
 
     }
     //schreibe das Maximum in den Header
-    index = modelpep->index((modelpep->rowCount())-1, j, QModelIndex());
-    modelpep->setHeaderData(j, Qt::Horizontal, maximum, 12);
+    index = modelPep->index((modelPep->rowCount())-1, j, QModelIndex());
+    modelPep->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 
 
@@ -329,20 +336,20 @@ int main(int argc, char *argv[])
 //-------------------------------------------------------------------------------------------------------------------------
 // SIGNALS UND SLOTS
 //-------------------------------------------------------------------------------------------------------------------------
+//Signal Slot Connection für Zeilenselektion
+QObject::connect(ProteinTable->selectionModel(), SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
+                    PeptideTable , SLOT (slotSelectionChanged(const QItemSelection &, const QItemSelection &)));
 
-            //Signal Slot Connection für Zeilenselektion
-           QObject::connect(Proteintabelle1->selectionModel(), SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)),
-                            Peptidtabelle1 , SLOT (slotSelectionChanged(const QItemSelection &, const QItemSelection &)));
-
-            //Signal Slot Connection für Deselect Button
-            QObject::connect(deselectbutton, SIGNAL (clicked()), Peptidtabelle1, SLOT (handleButton()));
-
+//Signal Slot Connection für Deselect Button
+QObject::connect(deselectButton, SIGNAL (clicked()), PeptideTable, SLOT (handleButton()));
 
 
 
+splitter->show();
+return a.exec();
 
-    splitter->show();
-    return a.exec();
+
+
 }
 
 

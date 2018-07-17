@@ -30,8 +30,8 @@ public:
 public slots:
       //void textFilterChanged(QString);
 
-signals:
-       textChanged(const QString &newValue);
+//signals:
+  //     textChanged(const QString &newValue);
 
     };
 
