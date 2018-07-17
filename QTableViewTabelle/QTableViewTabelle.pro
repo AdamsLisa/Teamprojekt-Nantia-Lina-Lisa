@@ -4,7 +4,6 @@
 # Project created by QtCreator 2018-05-24T13:09:45
 #
 #-------------------------------------------------
-
 QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -48,4 +47,5 @@ SUBDIRS += \
     TablePeptides/QTableViewTabelle.pro
 
 DISTFILES +=
+
 
