@@ -147,6 +147,7 @@ int main(int argc, char *argv[])
 //PROTEINTABELLE
 //Accession
   QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel;
+  QSortFilterProxyModel *proxyModelAccessionPep = new QSortFilterProxyModel;
   proxyModel->setSourceModel(model);
   QLineEdit *lineEditAccession = new QLineEdit;
   ProteinTable->setSortingEnabled(true);
@@ -155,6 +156,7 @@ int main(int argc, char *argv[])
   splitter->addWidget(lineEditAccession);
   //Signal Slot Connection für Filter
    QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+   QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
 
    //Description
    QLineEdit *lineEditDescription = new QLineEdit;
@@ -169,7 +171,7 @@ int main(int argc, char *argv[])
 
 //PEPTIDTABELLE
 //Accession
-   QSortFilterProxyModel *proxyModelAccessionPep = new QSortFilterProxyModel;
+
    proxyModelAccessionPep->setSourceModel(modelPep);
    QLineEdit *lineEditAccessionPep = new QLineEdit;
    PeptideTable->setSortingEnabled(true);
@@ -293,7 +295,7 @@ int main(int argc, char *argv[])
         float maximum =1;
         QModelIndex index;
 
-    for (int i=0; i<(model->rowCount())-1; i++)
+    for (int i=0; i<(model->rowCount()); i++)
     {
         index = model->index(i,j,QModelIndex());
         if (index.data().canConvert<float>())
@@ -305,6 +307,7 @@ int main(int argc, char *argv[])
     }
 
     //schreibe das Maximum in den Header
+    //12: Description Role im Header
     model->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 
@@ -316,7 +319,7 @@ int main(int argc, char *argv[])
     {
         float maximum =1;
         QModelIndex index;
-    for (int i=0; i<(modelPep->rowCount())-1; i++)
+    for (int i=0; i<(modelPep->rowCount()); i++)
     {
         index = modelPep->index(i,j,QModelIndex());
         if (index.data().canConvert<float>())
@@ -327,7 +330,7 @@ int main(int argc, char *argv[])
 
     }
     //schreibe das Maximum in den Header
-    index = modelPep->index((modelPep->rowCount())-1, j, QModelIndex());
+    //12: Description role im Header
     modelPep->setHeaderData(j, Qt::Horizontal, maximum, 12);
 }
 

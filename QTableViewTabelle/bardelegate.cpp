@@ -27,12 +27,13 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //convert data to string
     QString dataToString = index.data().toString();
 
-    //da Qt anscheinend alle QStandarditems zu float konvertieren kann, hier nun die Abfrage, ob wir tatsächlich eine Zahl vorliegen haben
-    if (dataToString.startsWith("0") || dataToString.startsWith("1")
-            || dataToString.startsWith("2") || dataToString.startsWith("3")
-            || dataToString.startsWith("4") || dataToString.startsWith("5")
-            || dataToString.startsWith("6") || dataToString.startsWith("7")
-            || dataToString.startsWith("8") || dataToString.startsWith("9"))
+
+    //If-Bedingung, damit nur bestimmte Spalten Balken anzeigen
+    if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence")||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "MS2Quant") ||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra") ||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Protein Coverage"))
     {
 
 
