@@ -16,7 +16,7 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
-#include <lineeditdelegate.h>
+//#include <lineeditdelegate.h>
 #include <QLineEdit>
 #include <QFile>
 

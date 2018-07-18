@@ -23,6 +23,8 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //convert data to float
     float dataToFloat =index.data().toFloat();
     QRect rect = option.rect;
+    QRect rect2 = option.rect;
+    QRect rect3 = option.rect;
 
     //convert data to string
     QString dataToString = index.data().toString();
@@ -37,15 +39,39 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     {
 
 
-     //Maximum im Header
-     float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
+         //Maximum im Header
+         float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
 
 
-  //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten,
-  //damit der Balken im Tabellenfeld gut dargestellt wird
-        rect.setWidth(rect.width()*(dataToFloat/maximum));
-        painter->drawRect(rect);
+         //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten,
+         //damit der Balken im Tabellenfeld gut dargestellt wird
+         rect.setWidth(rect.width()*(dataToFloat/maximum));
+         painter->drawRect(rect);
+         if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
+              ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra"))
+               {
+
+                   painter->setBrush(QBrush(Qt::green));
+                   //rect2.setWidth(rect.width()*(v*0.1));
+                   rect2.setWidth(rect.width()*(dataToFloat/maximum*0.05));
+                   painter->drawRect(rect);
+                   painter->setBrush(QBrush(Qt::yellow));
+                   //rect3.setWidth(rect.width()*(v*0.01));
+                   rect3.setWidth(rect.width()*(dataToFloat/maximum*0.4));
+                   painter->drawRect(rect3);
+
+                   painter->setBrush(QBrush(Qt::red));
+                   //rect2.setWidth(rect.width()*(0.005*v));
+                   rect2.setWidth(rect.width()*(0.1*dataToFloat/maximum));
+                   rect2.united(rect);
+                   rect2.united(rect3);
+                   painter->drawRect(rect2);
+
+
+
+               }
     }
+
 
     else
     {
