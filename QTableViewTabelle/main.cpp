@@ -52,6 +52,10 @@ int main(int argc, char *argv[])
     QPushButton *deselectButton = new QPushButton(splitter);
     deselectButton->setText("SHOW ALL");
 
+    //reset Filter button
+    QPushButton *resetFilter = new QPushButton(splitter);
+    resetFilter->setText("Reset Filter");
+
     //instance for protein table
     BarDelegate* barDelegate = new BarDelegate();
     ProteinTable->setItemDelegate(barDelegate);
@@ -152,11 +156,18 @@ int main(int argc, char *argv[])
   QLineEdit *lineEditAccession = new QLineEdit;
   ProteinTable->setSortingEnabled(true);
   proxyModel->setFilterKeyColumn(AccessionIndex);
-  lineEditAccession->setText("Proteintabelle: Accession");
+  lineEditAccession->setPlaceholderText("Proteintabelle: Accession");
   splitter->addWidget(lineEditAccession);
   //Signal Slot Connection für Filter
+
    QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
    QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
+   //Reset
+   QObject::connect(resetFilter, SIGNAL (clicked()), lineEditAccession, SLOT(clear()));
+   QObject::connect(lineEditAccession, SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+
+
 
    //Description
    QLineEdit *lineEditDescription = new QLineEdit;
@@ -164,8 +175,12 @@ int main(int argc, char *argv[])
    proxyModelDescription->setSourceModel(proxyModel);
    proxyModelDescription->setFilterKeyColumn(DescriptionIndex);
    QObject::connect(lineEditDescription, SIGNAL(textEdited(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
-   lineEditDescription->setText("Proteintabelle: Description");
+   lineEditDescription->setPlaceholderText("Proteintabelle: Description");
    splitter->addWidget(lineEditDescription);
+
+   //Reset
+   QObject::connect(resetFilter, SIGNAL (clicked()), lineEditDescription, SLOT(clear()));
+   QObject::connect(lineEditDescription, SIGNAL(textChanged(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
 
    ProteinTable->setModel(proxyModelDescription);
 
@@ -176,10 +191,14 @@ int main(int argc, char *argv[])
    QLineEdit *lineEditAccessionPep = new QLineEdit;
    PeptideTable->setSortingEnabled(true);
    proxyModelAccessionPep->setFilterKeyColumn(AccessionIndexpep);
-   lineEditAccessionPep->setText("Peptidtabelle: Accession");
+   lineEditAccessionPep->setPlaceholderText("Peptidtabelle: Accession");
    splitter->addWidget(lineEditAccessionPep);
    //Signal Slot Connection für Filter
    QObject::connect(lineEditAccessionPep, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
+   //Reset
+   QObject::connect(resetFilter, SIGNAL (clicked()), lineEditAccessionPep, SLOT(clear()));
+   QObject::connect(lineEditAccessionPep, SIGNAL(textChanged(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
 
 //Sequence
    QLineEdit *lineEditSequencePep = new QLineEdit;
@@ -187,10 +206,15 @@ int main(int argc, char *argv[])
    proxyModelSequencePep->setSourceModel(proxyModelAccessionPep);
    proxyModelSequencePep->setFilterKeyColumn(SeqPepIndex);
    QObject::connect(lineEditSequencePep, SIGNAL(textEdited(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
-   lineEditSequencePep->setText("Peptidtabelle: Sequence");
+   lineEditSequencePep->setPlaceholderText("Peptidtabelle: Sequence");
    splitter->addWidget(lineEditSequencePep);
 
+    //Reset
+   QObject::connect(resetFilter, SIGNAL (clicked()), lineEditSequencePep, SLOT(clear()));
+   QObject::connect(lineEditSequencePep, SIGNAL(textChanged(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+
    PeptideTable->setModel(proxyModelSequencePep);
+
 
 
 //--------------------------------------------------------------------------------------------------------
@@ -345,6 +369,8 @@ QObject::connect(ProteinTable->selectionModel(), SIGNAL (selectionChanged(const 
 
 //Signal Slot Connection für Deselect Button
 QObject::connect(deselectButton, SIGNAL (clicked()), PeptideTable, SLOT (handleButton()));
+
+
 
 
 
