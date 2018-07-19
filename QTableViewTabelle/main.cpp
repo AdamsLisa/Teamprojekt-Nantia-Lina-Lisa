@@ -71,21 +71,9 @@ int main(int argc, char *argv[])
 
 
     //Variablen für Spalten
-    int ProtCovIndex=0;
-    int NumOfPept=0;
-    int NumOfSpectra=0;
-    int ms2Quant=0;
-    int ConfidenceIndex=0;
-    int AccessionIndex=0;
-    int DescriptionIndex=0;
-    int checkboxColumn=0;
-
-    int SeqPepIndex=0;
-    int StartPepIndex=0;
-    int NumOfSpectrapep=0;
-    int ConfidenceIndexpep=0;
-    int checkboxColumnPep=0;
-    int AccessionIndexpep=0;
+    int PiIndex=0 , ProtCovIndex = 0 ,  NumOfPept = 0 , NumOfSpectra = 0 , ms2Quant = 0 ,  ConfidenceIndex = 0 ,
+    AccessionIndex = 0 , DescriptionIndex = 0 , checkboxColumn = 0 , SeqPepIndex = 0 , StartPepIndex = 0 ,
+    NumOfSpectrapep = 0 ,  ConfidenceIndexpep = 0 , checkboxColumnPep = 0 , AccessionIndexpep = 0;
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
@@ -265,6 +253,7 @@ int main(int argc, char *argv[])
 //-----------------------------------------------------------------------------------------------------------
 
 //Überschriften Proteintabelle
+    model->setHorizontalHeaderItem(PiIndex,new QStandardItem(QString("PI")));
     model->setHorizontalHeaderItem(AccessionIndex, new QStandardItem(QString ("Accession")));
     model->setHorizontalHeaderItem(ConfidenceIndex, new QStandardItem(QString ("Confidence")));
     model->setHorizontalHeaderItem(DescriptionIndex, new QStandardItem(QString ("Description")));
@@ -293,7 +282,7 @@ int main(int argc, char *argv[])
     {
         if ((i != AccessionIndex) && (i != ConfidenceIndex) && (i != DescriptionIndex) && (i != ms2Quant)
                 && (i != NumOfPept) && (i != NumOfSpectra) && (i != ProtCovIndex)
-                && (i != checkboxColumn))
+                && (i != checkboxColumn) && (i != PiIndex))
         ProteinTable->hideColumn(i);
     }
 

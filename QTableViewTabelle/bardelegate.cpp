@@ -31,7 +31,8 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 
 
     //If-Bedingung, damit nur bestimmte Spalten Balken anzeigen
-    if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence")||
+    if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI")||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence")||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "MS2Quant") ||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra") ||
@@ -52,24 +53,24 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
                {
 
                    painter->setBrush(QBrush(Qt::green));
-                   //rect2.setWidth(rect.width()*(v*0.1));
                    rect2.setWidth(rect.width()*(dataToFloat/maximum*0.05));
                    painter->drawRect(rect);
+
                    painter->setBrush(QBrush(Qt::yellow));
-                   //rect3.setWidth(rect.width()*(v*0.01));
                    rect3.setWidth(rect.width()*(dataToFloat/maximum*0.4));
                    painter->drawRect(rect3);
 
                    painter->setBrush(QBrush(Qt::red));
-                   //rect2.setWidth(rect.width()*(0.005*v));
                    rect2.setWidth(rect.width()*(0.1*dataToFloat/maximum));
                    rect2.united(rect);
                    rect2.united(rect3);
                    painter->drawRect(rect2);
-
-
-
-               }
+         }
+         if(((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI"))
+         {
+             rect.setWidth(rect.width()*(dataToFloat/maximum));
+             painter->drawRect(rect);
+         }
     }
 
 
