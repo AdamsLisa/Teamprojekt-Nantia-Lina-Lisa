@@ -25,6 +25,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect = option.rect;
     QRect rect2 = option.rect;
     QRect rect3 = option.rect;
+    QRect rect4 = option.rect;
 
     //convert data to string
     QString dataToString = index.data().toString();
@@ -52,25 +53,23 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
               ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra"))
                {
 
-                   painter->setBrush(QBrush(Qt::green));
+                   painter->setBrush(QBrush(Qt::red));
                    rect2.setWidth(rect.width()*(dataToFloat/maximum*0.05));
+
+
                    painter->drawRect(rect);
 
                    painter->setBrush(QBrush(Qt::yellow));
-                   rect3.setWidth(rect.width()*(dataToFloat/maximum*0.4));
+                   rect3.setWidth(rect3.width()*(dataToFloat/maximum*0.4));
                    painter->drawRect(rect3);
 
-                   painter->setBrush(QBrush(Qt::red));
-                   rect2.setWidth(rect.width()*(0.1*dataToFloat/maximum));
-                   rect2.united(rect);
-                   rect2.united(rect3);
+                   painter->setBrush(QBrush(Qt::green));
+                   rect2.setWidth(rect.width()*0.1);
+                   //rect2.united(rect);
+                   //rect2.united(rect3);
                    painter->drawRect(rect2);
          }
-         if(((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI"))
-         {
-             rect.setWidth(rect.width()*(dataToFloat/maximum));
-             painter->drawRect(rect);
-         }
+
     }
 
 
@@ -81,6 +80,14 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
 
     //restores the current painter state
     painter->restore();
+
+    if((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI")
+    {
+        painter->setBrush(QBrush(Qt::green));
+        QRect rect = option.rect;
+        rect.setWidth(rect.width());
+        painter->drawRect(rect);
+    }
 
 }
 

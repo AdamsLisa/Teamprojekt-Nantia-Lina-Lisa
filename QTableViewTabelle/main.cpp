@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 
     //Variablen für Spalten
     int PiIndex=0 , ProtCovIndex = 0 ,  NumOfPept = 0 , NumOfSpectra = 0 , ms2Quant = 0 ,  ConfidenceIndex = 0 ,
-    AccessionIndex = 0 , DescriptionIndex = 0 , checkboxColumn = 0 , SeqPepIndex = 0 , StartPepIndex = 0 ,
-    NumOfSpectrapep = 0 ,  ConfidenceIndexpep = 0 , checkboxColumnPep = 0 , AccessionIndexpep = 0;
+    AccessionIndex = 0 , DescriptionIndex = 0 , checkboxColumn = 0, SeqPepIndex = 0 , StartPepIndex = 0 ,
+    NumOfSpectrapep = 0 ,  ConfidenceIndexpep = 0 , checkboxColumnPep = 0 , AccessionIndexpep = 0 ;
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
@@ -358,9 +358,6 @@ QObject::connect(ProteinTable->selectionModel(), SIGNAL (selectionChanged(const 
 
 //Signal Slot Connection für Deselect Button
 QObject::connect(deselectButton, SIGNAL (clicked()), PeptideTable, SLOT (handleButton()));
-
-
-
 
 
 splitter->show();

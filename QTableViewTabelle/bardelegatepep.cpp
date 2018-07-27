@@ -30,7 +30,8 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
 
     //If Bedingung, damit nur bestimmte Spalten Balken anzeigen
     if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence") ||
-        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra"))
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra") ||
+        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI"))
 {
 
 
