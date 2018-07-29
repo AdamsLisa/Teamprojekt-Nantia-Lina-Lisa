@@ -16,7 +16,6 @@
 #include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QSortFilterProxyModel>
-//#include <lineeditdelegate.h>
 #include <QLineEdit>
 #include <QFile>
 
@@ -33,28 +32,35 @@ int main(int argc, char *argv[])
 
 
     //Open QFileDialog to select files
-    QFile file(QFileDialog::getOpenFileName());
+   QFile file(QFileDialog::getOpenFileName());
 
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
+    QSplitter *filterareaprotein= new QSplitter;
+    QSplitter *filterareapeptide = new QSplitter;
     QStandardItemModel *model = new QStandardItemModel;
     QStandardItemModel *modelPep = new QStandardItemModel;
     QTableView *ProteinTable = new Proteintabelle;
     QTableView *PeptideTable = new Peptidtabelle;
 
-    //add the two tables
-    splitter->addWidget(ProteinTable);
-    splitter->addWidget(PeptideTable);
     //set the orientation
     splitter->setOrientation(Qt::Vertical);
 
-    //add deselect button
-    QPushButton *deselectButton = new QPushButton(splitter);
-    deselectButton->setText("SHOW ALL");
-
     //reset Filter button
     QPushButton *resetFilter = new QPushButton(splitter);
-    resetFilter->setText("Reset Filter");
+    resetFilter->setText("RESET ALL FILTERS");
+
+
+    splitter->addWidget(filterareaprotein);
+    splitter->addWidget(ProteinTable);
+    splitter->addWidget(filterareapeptide);
+    //add deselect button
+    QPushButton *deselectButton = new QPushButton(splitter);
+    deselectButton->setText("SHOW ALL PEPTIDES");
+
+    splitter->addWidget(PeptideTable);
+
+
 
     //instance for protein table
     BarDelegate* barDelegate = new BarDelegate();
@@ -145,15 +151,20 @@ int main(int argc, char *argv[])
   ProteinTable->setSortingEnabled(true);
   proxyModel->setFilterKeyColumn(AccessionIndex);
   lineEditAccession->setPlaceholderText("Proteintabelle: Accession");
-  splitter->addWidget(lineEditAccession);
+  filterareaprotein->addWidget(lineEditAccession);
   //Signal Slot Connection für Filter
-
    QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
-   QObject::connect(lineEditAccession, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
 
-   //Reset
+   //Reset Filter all Filters
    QObject::connect(resetFilter, SIGNAL (clicked()), lineEditAccession, SLOT(clear()));
    QObject::connect(lineEditAccession, SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+
+   //Reset nur für Accessionfilter
+   QPushButton *resetFilterAccession = new QPushButton(filterareaprotein);
+   resetFilterAccession->setText("Reset Accession Filter");
+   QObject::connect(resetFilterAccession, SIGNAL (clicked()), lineEditAccession, SLOT(clear()));
+   QObject::connect(lineEditAccession, SIGNAL(textChanged(QString)),proxyModel,SLOT(setFilterFixedString(QString)));
+
 
 
 
@@ -164,10 +175,16 @@ int main(int argc, char *argv[])
    proxyModelDescription->setFilterKeyColumn(DescriptionIndex);
    QObject::connect(lineEditDescription, SIGNAL(textEdited(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
    lineEditDescription->setPlaceholderText("Proteintabelle: Description");
-   splitter->addWidget(lineEditDescription);
+   filterareaprotein->addWidget(lineEditDescription);
 
-   //Reset
+   //Reset bei Reset all Filters
    QObject::connect(resetFilter, SIGNAL (clicked()), lineEditDescription, SLOT(clear()));
+   QObject::connect(lineEditDescription, SIGNAL(textChanged(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
+
+   //Reset nur von Description Filter
+   QPushButton *resetFilterDescription = new QPushButton(filterareaprotein);
+   resetFilterDescription->setText("Reset Description Filter");
+   QObject::connect(resetFilterDescription, SIGNAL (clicked()), lineEditDescription, SLOT(clear()));
    QObject::connect(lineEditDescription, SIGNAL(textChanged(QString)),proxyModelDescription,SLOT(setFilterFixedString(QString)));
 
    ProteinTable->setModel(proxyModelDescription);
@@ -180,13 +197,24 @@ int main(int argc, char *argv[])
    PeptideTable->setSortingEnabled(true);
    proxyModelAccessionPep->setFilterKeyColumn(AccessionIndexpep);
    lineEditAccessionPep->setPlaceholderText("Peptidtabelle: Accession");
-   splitter->addWidget(lineEditAccessionPep);
+   filterareapeptide->addWidget(lineEditAccessionPep);
    //Signal Slot Connection für Filter
    QObject::connect(lineEditAccessionPep, SIGNAL(textEdited(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
 
-   //Reset
+   //Reset für Reset All Filters
    QObject::connect(resetFilter, SIGNAL (clicked()), lineEditAccessionPep, SLOT(clear()));
    QObject::connect(lineEditAccessionPep, SIGNAL(textChanged(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
+   //Reset bei Show All Peptides
+   QObject::connect(deselectButton, SIGNAL (clicked()), lineEditAccessionPep, SLOT(clear()));
+   QObject::connect(lineEditAccessionPep, SIGNAL(textChanged(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
+   //Reset für Accession
+   QPushButton *resetFilterAccessionPep = new QPushButton(filterareapeptide);
+   resetFilterAccessionPep->setText("Reset Accession Filter");
+   QObject::connect(resetFilterAccessionPep, SIGNAL (clicked()), lineEditAccessionPep, SLOT(clear()));
+   QObject::connect(lineEditAccessionPep, SIGNAL(textChanged(QString)),proxyModelAccessionPep,SLOT(setFilterFixedString(QString)));
+
 
 //Sequence
    QLineEdit *lineEditSequencePep = new QLineEdit;
@@ -195,11 +223,22 @@ int main(int argc, char *argv[])
    proxyModelSequencePep->setFilterKeyColumn(SeqPepIndex);
    QObject::connect(lineEditSequencePep, SIGNAL(textEdited(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
    lineEditSequencePep->setPlaceholderText("Peptidtabelle: Sequence");
-   splitter->addWidget(lineEditSequencePep);
+   filterareapeptide->addWidget(lineEditSequencePep);
 
-    //Reset
+    //Reset für Reset All Filters
    QObject::connect(resetFilter, SIGNAL (clicked()), lineEditSequencePep, SLOT(clear()));
    QObject::connect(lineEditSequencePep, SIGNAL(textChanged(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+
+   //Reset bei Show ALL Peptides
+   QObject::connect(deselectButton, SIGNAL (clicked()), lineEditSequencePep, SLOT(clear()));
+   QObject::connect(lineEditSequencePep, SIGNAL(textChanged(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+
+   //Reset für Accession
+   QPushButton *resetFilterSequencePep = new QPushButton(filterareapeptide);
+   resetFilterSequencePep->setText("Reset Sequence Filter");
+   QObject::connect(resetFilterSequencePep, SIGNAL (clicked()), lineEditSequencePep, SLOT(clear()));
+   QObject::connect(lineEditSequencePep, SIGNAL(textChanged(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
+
 
    PeptideTable->setModel(proxyModelSequencePep);
 
@@ -358,6 +397,7 @@ QObject::connect(ProteinTable->selectionModel(), SIGNAL (selectionChanged(const 
 
 //Signal Slot Connection für Deselect Button
 QObject::connect(deselectButton, SIGNAL (clicked()), PeptideTable, SLOT (handleButton()));
+
 
 
 splitter->show();
