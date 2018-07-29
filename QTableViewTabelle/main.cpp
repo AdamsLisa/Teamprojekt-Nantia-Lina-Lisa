@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
 
     //Open QFileDialog to select files
-   QFile file(QFileDialog::getOpenFileName());
+   //QFile file(QFileDialog::getOpenFileName());
 
     //Split the window and create 2 tables
     QSplitter *splitter = new QSplitter;
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 
 
     //QFile file("/home/nantia/Teamprojekt 2018/SILAC_mzTab");
-    //QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
+    QFile file("C:\\Users\\Lisa Adams\\Documents\\_Studium\\Teamprojekt\\SILAC_CQI.mzTab");
     //QFile file("/home/lina/Teamprojekt/examples/SILAC_CQI.mzTab");
 
     if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
@@ -239,6 +239,8 @@ int main(int argc, char *argv[])
    QObject::connect(resetFilterSequencePep, SIGNAL (clicked()), lineEditSequencePep, SLOT(clear()));
    QObject::connect(lineEditSequencePep, SIGNAL(textChanged(QString)),proxyModelSequencePep,SLOT(setFilterFixedString(QString)));
 
+   QObject::connect(resetFilterSequencePep, SIGNAL(clicked()), ProteinTable->selectionModel(), SLOT(clearSelection()));
+   QObject::connect(resetFilterSequencePep, SIGNAL(clicked()), PeptideTable, SLOT(handleButton()));
 
    PeptideTable->setModel(proxyModelSequencePep);
 
@@ -397,7 +399,7 @@ QObject::connect(ProteinTable->selectionModel(), SIGNAL (selectionChanged(const 
 
 //Signal Slot Connection für Deselect Button
 QObject::connect(deselectButton, SIGNAL (clicked()), PeptideTable, SLOT (handleButton()));
-
+QObject::connect(deselectButton, SIGNAL(clicked()), ProteinTable->selectionModel(), SLOT(clearSelection()));
 
 
 splitter->show();

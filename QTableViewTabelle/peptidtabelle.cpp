@@ -20,6 +20,7 @@ void Peptidtabelle::slotSelectionChanged(const QItemSelection &selected, const Q
 {
 
     QModelIndexList selection = selected.indexes();
+
     for (int l=0; l<this->model()->rowCount(); l++){
         //hide row
         this->hideRow(l);
@@ -38,8 +39,11 @@ for (int i=0; i<this->model()->columnCount(); i++){
             QVariant daten = selection.at(i).data();
             QModelIndex index = this->model()->index(j,Accessionspalte,QModelIndex());
             QVariant datenpep= this->model()->data(index);
-            if (daten.toString() == datenpep.toString() && j != this->model()->rowCount()-1) this->showRow(j);
+            if (daten.toString() == datenpep.toString()) this->showRow(j);
         }
     }
+
+
+
 }
 

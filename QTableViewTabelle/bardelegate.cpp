@@ -54,19 +54,17 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
                {
 
                    painter->setBrush(QBrush(Qt::red));
-                   rect2.setWidth(rect.width()*(dataToFloat/maximum*0.05));
+                   rect2.setWidth(rect.width()*(dataToFloat/maximum));
 
 
                    painter->drawRect(rect);
 
                    painter->setBrush(QBrush(Qt::yellow));
-                   rect3.setWidth(rect3.width()*(dataToFloat/maximum*0.4));
+                   rect3.setWidth(rect3.width()*(dataToFloat/maximum*0.9));
                    painter->drawRect(rect3);
 
                    painter->setBrush(QBrush(Qt::green));
-                   rect2.setWidth(rect.width()*0.1);
-                   //rect2.united(rect);
-                   //rect2.united(rect3);
+                   rect2.setWidth(rect.width()*0.7);
                    painter->drawRect(rect2);
          }
 
