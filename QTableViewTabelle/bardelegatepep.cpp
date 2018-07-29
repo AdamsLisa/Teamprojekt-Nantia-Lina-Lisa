@@ -28,6 +28,8 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
     QString dataToString = index.data().toString();
 
 
+    //12 ist Description Role, holen uns so Maximum statt Überschrift
+    float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
     //If Bedingung, damit nur bestimmte Spalten Balken anzeigen
     if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence") ||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra") ||
@@ -35,14 +37,13 @@ void bardelegatepep::paint(QPainter *painter, const QStyleOptionViewItem & optio
 {
 
 
-        float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
         //dann zeichnen wir das Rechteck der Länge Datenwert/Maximum, um einen Faktor <= 1 zu erhalten, damit der Balken im Tabellenfeld gut dargestellt wird
               rect.setWidth(rect.width() *(dataToFloat/maximum));
               painter->drawRect(rect);}
 
        else if ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Start")
         {
-            float s=(index.data().toFloat())/10;
+            float s=((index.data().toFloat())/10);
             QRect rect = option.rect;
             rect.setLeft(rect.left() + s);
             float rectanglesize = 10;

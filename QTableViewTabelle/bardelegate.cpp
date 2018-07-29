@@ -20,7 +20,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //sets the color
     painter->setBrush(QBrush(Qt::green));
 
-    //convert data to float
+    //convert data from index to float
     float dataToFloat =index.data().toFloat();
     QRect rect = option.rect;
     QRect rect2 = option.rect;
@@ -33,14 +33,12 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //If-Bedingung, damit nur bestimmte Spalten Balken anzeigen
     if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI")||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Confidence")||
-        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "MS2Quant") ||
-        ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra") ||
         ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "Protein Coverage"))
     {
 
 
-         //Maximum im Header
+         //Maximum im Header als Description, deshalb Role 12
          float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
 
 
@@ -48,28 +46,32 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
          //damit der Balken im Tabellenfeld gut dargestellt wird
          rect.setWidth(rect.width()*(dataToFloat/maximum));
          painter->drawRect(rect);
-
+}
          //bei den Spalten #Peptides und #Spectra werden die Enden der Balken Gelb und Rot durch Layering
-         if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
+         else if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
               ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra"))
                {
 
+        //Maximum im Header als Description, deshalb Role 12
+        float maximum = index.model()->headerData(index.column(), Qt::Horizontal, 12).toFloat();
+
+                    //die letzten 10% des Balkens sind rot
                    painter->setBrush(QBrush(Qt::red));
                    rect2.setWidth(rect.width()*(dataToFloat/maximum));
+                    painter->drawRect(rect2);
 
-
-                   painter->drawRect(rect);
-
+                   //20% des Balkens sind gelb
                    painter->setBrush(QBrush(Qt::yellow));
-                   rect3.setWidth(rect3.width()*(dataToFloat/maximum*0.9));
+                   rect3.setWidth(rect3.width()*(dataToFloat/maximum)*0.9);
                    painter->drawRect(rect3);
 
+                   //70% des Balken sind grün
                    painter->setBrush(QBrush(Qt::green));
-                   rect2.setWidth(rect.width()*0.7);
-                   painter->drawRect(rect2);
+                   rect.setWidth(rect.width()*(dataToFloat/maximum)*0.7);
+                   painter->drawRect(rect);
          }
 
-    }
+
 
 
     else
