@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
                 //if (item == " ") leerzeichencount++;
             }
 
-            //Proteinheader; suche Spalten
+            //Proteinheader; suche Spaltenindizes
             if (line.startsWith("PRH")) {
                 QStringList Worter=line.split("\t");
                 ProtCovIndex=Worter.indexOf("protein_coverage");
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
             //Proteine: werden eingelesen
             if (line.startsWith("PRT")) model->insertRow(model->rowCount(), standardItemsList);
 
-            //Peptidheader; suche Spalten
+            //Peptidheader; suche Spaltenindizes
             if (line.startsWith("PSH")){
                 QStringList Worter=line.split("\t");
                 SeqPepIndex=Worter.indexOf("sequence");

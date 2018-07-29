@@ -25,7 +25,6 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     QRect rect = option.rect;
     QRect rect2 = option.rect;
     QRect rect3 = option.rect;
-    QRect rect4 = option.rect;
 
     //convert data to string
     QString dataToString = index.data().toString();
@@ -49,6 +48,8 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
          //damit der Balken im Tabellenfeld gut dargestellt wird
          rect.setWidth(rect.width()*(dataToFloat/maximum));
          painter->drawRect(rect);
+
+         //bei den Spalten #Peptides und #Spectra werden die Enden der Balken Gelb und Rot durch Layering
          if (((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Peptides") ||
               ((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "# Spectra"))
                {
@@ -79,6 +80,7 @@ void BarDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, 
     //restores the current painter state
     painter->restore();
 
+    //Pl Spalte soll von grünem Balken ausgefüllt sein
     if((index.model()->headerData(index.column(),Qt::Horizontal)).toString() == "PI")
     {
         painter->setBrush(QBrush(Qt::green));
